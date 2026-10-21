@@ -13,6 +13,7 @@ import {
   Mail,
   Globe2,
 } from "lucide-react";
+import { SignOutButton } from "@/components/sign-out-button";
 import { useStudy } from "@/components/study-provider";
 import { PageHeading, Modal } from "@/components/ui";
 export default function Settings() {
@@ -166,9 +167,7 @@ export default function Settings() {
                   Tus datos se guardan en tu cuenta con acceso restringido por
                   usuario.
                 </p>
-                <form action="/auth/signout" method="post">
-                  <button className="button secondary">Cerrar sesión</button>
-                </form>
+                <SignOutButton />
               </>
             ) : (
               <>

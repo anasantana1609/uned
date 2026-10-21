@@ -28,6 +28,7 @@ type StudyContext = {
   error: string;
   notice: string;
   dismiss: () => void;
+  retryLoad: () => void;
   addTask: (t: Omit<Task, "id" | "done">) => Promise<boolean>;
   toggleTask: (id: string) => Promise<void>;
   deleteTask: (id: string) => Promise<void>;
@@ -126,6 +127,7 @@ export function StudyProvider({
     user ? emptyData() : demoData(),
   );
   const [ready, setReady] = useState(false);
+  const [loadAttempt, setLoadAttempt] = useState(0);
   const [busy, setBusy] = useState(false);
   const lock = useRef(false);
   const [error, setError] = useState("");
@@ -135,6 +137,8 @@ export function StudyProvider({
   useEffect(() => {
     let cancelled = false;
     async function load() {
+      setReady(false);
+      setError("");
       try {
         if (!user) {
           const raw = localStorage.getItem(storageKey);
@@ -209,7 +213,7 @@ export function StudyProvider({
     return () => {
       cancelled = true;
     };
-  }, [user]);
+  }, [user, loadAttempt]);
   useEffect(() => {
     if (ready && !user) {
       try {
@@ -254,18 +258,16 @@ export function StudyProvider({
         done: false,
       };
       if (user) {
-        const { error } = await browserClient()!
-          .from("study_tasks")
-          .insert({
-            id: task.id,
-            user_id: user.id,
-            subject_id: task.subjectId,
-            title: task.title,
-            scheduled_date: task.date,
-            minutes: task.minutes,
-            done: false,
-            kind: task.kind,
-          });
+        const { error } = await browserClient()!.from("study_tasks").insert({
+          id: task.id,
+          user_id: user.id,
+          subject_id: task.subjectId,
+          title: task.title,
+          scheduled_date: task.date,
+          minutes: task.minutes,
+          done: false,
+          kind: task.kind,
+        });
         if (error) throw new Error("No se pudo guardar la tarea.");
       }
       setData((d) => ({ ...d, tasks: [...d.tasks, task] }));
@@ -322,16 +324,14 @@ export function StudyProvider({
         id: crypto.randomUUID(),
       };
       if (user) {
-        const { error } = await browserClient()!
-          .from("exam_dates")
-          .insert({
-            id: exam.id,
-            user_id: user.id,
-            subject_id: exam.subjectId,
-            title: exam.title,
-            exam_date: exam.date,
-            confirmed: true,
-          });
+        const { error } = await browserClient()!.from("exam_dates").insert({
+          id: exam.id,
+          user_id: user.id,
+          subject_id: exam.subjectId,
+          title: exam.title,
+          exam_date: exam.date,
+          confirmed: true,
+        });
         if (error) throw new Error("No se pudo guardar la fecha.");
       }
       setData((d) => ({ ...d, exams: [...d.exams, exam] }));
@@ -394,15 +394,13 @@ export function StudyProvider({
         date: dateKey(),
       };
       if (user) {
-        const { error } = await browserClient()!
-          .from("study_sessions")
-          .insert({
-            id: session.id,
-            user_id: user.id,
-            subject_id: subjectId,
-            minutes,
-            study_date: session.date,
-          });
+        const { error } = await browserClient()!.from("study_sessions").insert({
+          id: session.id,
+          user_id: user.id,
+          subject_id: subjectId,
+          minutes,
+          study_date: session.date,
+        });
         if (error) throw new Error("No se pudo guardar la sesión.");
       }
       setData((d) => ({ ...d, sessions: [...d.sessions, session] }));
@@ -514,6 +512,7 @@ export function StudyProvider({
         error,
         notice,
         dismiss,
+        retryLoad: () => setLoadAttempt((n) => n + 1),
         addTask,
         toggleTask,
         deleteTask,

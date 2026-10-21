@@ -10,6 +10,7 @@ import {
   LoaderCircle,
 } from "lucide-react";
 import { browserClient, isConfigured } from "@/lib/supabase/client";
+import { appPath, authReturnUrl, isStaticAuth } from "@/lib/paths";
 export default function Login() {
   const [signup, setSignup] = useState(false);
   const [email, setEmail] = useState("");
@@ -18,6 +19,8 @@ export default function Login() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const configured = isConfigured();
+  const googleEnabled =
+    !isStaticAuth() || process.env.NEXT_PUBLIC_GOOGLE_AUTH_ENABLED === "true";
   useEffect(() => {
     if (new URLSearchParams(window.location.search).has("error"))
       setError(
@@ -37,7 +40,7 @@ export default function Login() {
             email,
             password,
             options: {
-              emailRedirectTo: `${window.location.origin}/auth/callback`,
+              emailRedirectTo: authReturnUrl(window.location.origin),
             },
           })
         : await client.auth.signInWithPassword({ email, password });
@@ -50,7 +53,7 @@ export default function Login() {
         return;
       }
       if (result.data.session) {
-        window.location.assign("/dashboard");
+        window.location.assign(appPath("/dashboard"));
       } else
         setMessage(
           "Revisa tu correo para confirmar la cuenta antes de acceder.",
@@ -69,7 +72,7 @@ export default function Login() {
     try {
       const { error } = await client.auth.signInWithOAuth({
         provider: "google",
-        options: { redirectTo: `${window.location.origin}/auth/callback` },
+        options: { redirectTo: authReturnUrl(window.location.origin) },
       });
       if (error)
         setError(
@@ -122,7 +125,9 @@ export default function Login() {
       <section className="login-form-section">
         <Link href="/dashboard" className="back-link">
           <ArrowLeft size={16} />
-          Explorar la demo
+          {configured && isStaticAuth()
+            ? "Volver al inicio"
+            : "Explorar la demo"}
         </Link>
         <div className="login-form-inner">
           <span className="pill">TU PRÓXIMO PASO</span>
@@ -146,12 +151,18 @@ export default function Login() {
           )}
           <button
             className="button google-button"
-            disabled={!configured || busy}
+            disabled={!configured || busy || !googleEnabled}
             onClick={() => void google()}
           >
             <GoogleMark />
             Continuar con Google
           </button>
+          {configured && !googleEnabled && (
+            <p className="field-help">
+              En esta preliminar puedes entrar con email. Google aún no está
+              habilitado.
+            </p>
+          )}
           <div className="login-divider">
             <span />o con tu email
             <span />

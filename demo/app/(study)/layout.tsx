@@ -1,14 +1,8 @@
-import { StudyProvider } from "@/components/study-provider";
-import { Shell } from "@/components/shell";
-
-export default function DemoLayout({
+import { StaticStudyGate } from "@/components/static-study-gate";
+export default function HostedLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <StudyProvider user={null}>
-      <Shell>{children}</Shell>
-    </StudyProvider>
-  );
+  return <StaticStudyGate>{children}</StaticStudyGate>;
 }

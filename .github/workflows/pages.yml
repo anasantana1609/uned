@@ -1,4 +1,4 @@
-name: Publicar demo en GitHub Pages
+name: Publicar UNED Study AI en GitHub Pages
 on:
   push:
     branches: [main]
@@ -23,7 +23,17 @@ jobs:
       - run: npm test
       - run: npm run build:demo
       - run: npx playwright install --with-deps chromium
+      - run: npm run test:preliminary
       - run: npm run test:pages
+      - name: Comprobar Supabase y compilar la preliminar
+        if: ${{ vars.NEXT_PUBLIC_SUPABASE_URL != '' && vars.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY != '' }}
+        env:
+          SUPABASE_URL: ${{ vars.NEXT_PUBLIC_SUPABASE_URL }}
+          SUPABASE_PUBLISHABLE_KEY: ${{ vars.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
+          GOOGLE_AUTH_ENABLED: ${{ vars.GOOGLE_AUTH_ENABLED }}
+        run: |
+          npm run check:supabase
+          npm run build:preview
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

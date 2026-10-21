@@ -21,10 +21,10 @@ import {
   CircleHelp,
   CheckCircle2,
   AlertCircle,
-  LogOut,
 } from "lucide-react";
 import { useStudy } from "./study-provider";
 import { Modal } from "./ui";
+import { SignOutButton } from "./sign-out-button";
 const links = [
   { href: "/dashboard", label: "Mi resumen", icon: LayoutDashboard },
   { href: "/asignaturas", label: "Asignaturas", icon: BookOpen },
@@ -41,7 +41,7 @@ const titles: Record<string, string> = {
 };
 export function Shell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const path = pathname === "/" ? "/dashboard" : pathname;
+  const path = pathname.replace(/\/$/, "") || "/dashboard";
   const [open, setOpen] = useState(false);
   const [mobile, setMobile] = useState(false);
   const sidebarRef = useRef<HTMLElement>(null);
@@ -53,6 +53,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
     error,
     notice,
     dismiss,
+    retryLoad,
     activeSession,
     pauseSession,
     finishSession,
@@ -227,11 +228,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
               </small>
             </div>
             {user ? (
-              <form method="post" action="/auth/signout">
-                <button className="icon-button" aria-label="Cerrar sesión">
-                  <LogOut size={17} />
-                </button>
-              </form>
+              <SignOutButton iconOnly />
             ) : (
               <Link href="/login" aria-label="Acceder a mi cuenta">
                 <ChevronRight size={18} />
@@ -287,6 +284,14 @@ export function Shell({ children }: { children: React.ReactNode }) {
             <p className="loading-state" role="status">
               Preparando tu espacio…
             </p>
+          )}
+          {!ready && error && (
+            <div className="inline-note">
+              <p>No se pudo cargar tu espacio.</p>
+              <button className="button secondary small" onClick={retryLoad}>
+                Reintentar carga
+              </button>
+            </div>
           )}
           {ready ? children : null}
         </main>

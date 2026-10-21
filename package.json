@@ -12,7 +12,10 @@
     "format": "prettier --write app components lib tests *.ts *.mjs *.json",
     "build:demo": "next build demo",
     "serve:demo": "node scripts/serve-demo.mjs",
-    "test:pages": "playwright test --config playwright.pages.config.ts"
+    "test:pages": "playwright test --config playwright.pages.config.ts",
+    "build:preview": "tsx scripts/build-preview.ts",
+    "check:supabase": "tsx scripts/check-supabase.ts",
+    "test:preliminary": "node scripts/test-preliminary.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",
