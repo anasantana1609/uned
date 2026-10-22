@@ -14,9 +14,11 @@ export function CivilSyllabus({ compact = false }: { compact?: boolean }) {
         disponibles.
       </p>
       <p className="muted">
-        27 documentos distintos descargados, 13 copias idénticas y las tres
-        partes del libro pendientes. Los documentos recibidos aún no están
-        incorporados a tu biblioteca privada en la web.
+        Lote inicial: 27 documentos distintos descargados y 13 copias idénticas.
+        También se ha procesado la parte 1 del manual: 120 páginas PDF
+        escaneadas, 31.ª edición de 2026, verificada en portada y portadilla.
+        Las partes 2 y 3 siguen pendientes. Los documentos recibidos aún no
+        están incorporados a tu biblioteca privada en la web.
       </p>
       {!compact && (
         <>

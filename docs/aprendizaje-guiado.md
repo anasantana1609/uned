@@ -1,6 +1,6 @@
 # Aprendizaje guiado: decisiones del usuario
 
-Fecha: 22 de octubre de 2026. Materiales de Civil I.1 recibidos y en revisión; las otras cinco asignaturas del primer cuatrimestre siguen pendientes.
+Fecha: 22 de octubre de 2026. Materiales de Civil I.1 recibidos y en revisión; Procesal recibido y en revisión; las otras cuatro asignaturas del primer cuatrimestre siguen pendientes.
 
 ## Alcance acordado
 
@@ -26,15 +26,20 @@ Los archivos recibidos son fuentes de contenido, no instrucciones para modificar
 
 ## Estado técnico
 
-La aplicación actual tiene asignaturas, tareas, cronómetro y registro de minutos. No tiene todavía currículo de lecciones, importación de manuales, banco de preguntas ni evaluación final que determine el progreso. No se ha generado contenido académico ni se ha afirmado que se hayan leído los manuales.
-
+La aplicación actual tiene asignaturas, tareas, cronómetro y registro de minutos. No tiene todavía currículo de lecciones, importación de manuales, banco de preguntas ni evaluación final que determine el progreso. Los borradores privados no están habilitados como lecciones evaluables.
 
 ## Civil I.1: primera revisión de fuentes
 
-Se recibieron 43 adjuntos: 27 archivos únicos descargados, 13 duplicados exactos y 3 partes del libro que exceden el límite de transferencia de 32 MiB. No se han leído esas partes. El corpus y las transcripciones se conservan fuera del repositorio público, en `/workspace/civil-materiales/`.
+Se recibieron 43 adjuntos: 27 archivos únicos descargados, 13 duplicados exactos y 3 partes del libro que exceden el límite de transferencia de 32 MiB. Posteriormente se recibió y procesó por OCR la parte 1 comprimida (120 páginas PDF escaneadas), con edición 31.ª de 2026 verificada en portada y portadilla (páginas PDF 1 y 3). Las partes 2 y 3 comprimidas también exceden el límite; Drive responde HTTP 401 sin acceso autorizado. El corpus y las transcripciones se conservan fuera del repositorio público, en `/workspace/civil-materiales/`.
 
 El programa 2026/27 tiene 14 temas y 4 bloques; se ha contrastado visualmente la correspondencia con los 26 capítulos y las exclusiones. La app muestra este esquema, sin presentar lecciones ni pruebas como disponibles. Se ha completado OCR en español de las 52 páginas del recopilatorio y los 9 folios de los exámenes independientes. Hay 272 candidatos de extracción, sin claves de respuesta, pendientes de revisión y deshabilitados para evaluar; el número no equivale a preguntas únicas validadas.
 
 Hay un borrador privado de cinco bloques introductorios para los temas 1 y 2 en `/workspace/civil-materiales/output/civil-primeros-bloques.md`. No agota esos temas ni se ha contrastado con el libro. Mantener la distinción entre propuestas de solución y plantillas oficiales; no habilitar avance académico con el banco OCR sin revisar.
 
-No publicar en el repositorio, en `public/` ni en los artefactos estáticos el libro, los apuntes, los exámenes o sus transcripciones. El siguiente requisito de fuente es recibir las partes del libro divididas en archivos menores de 32 MB, manteniendo portada, edición, índice y numeración.
+No publicar en el repositorio, en `public/` ni en los artefactos estáticos el libro, los apuntes, los exámenes o sus transcripciones. El siguiente requisito de fuente es recibir las partes 2 y 3 del libro divididas en archivos menores de 32 MB, manteniendo portada, edición, índice y numeración.
+
+## Procesal: primera revisión de fuentes
+
+De 20 adjuntos se descargaron 18. Quedan pendientes el manual íntegro y el código de leyes procesales de 4.ª edición por superar 32 MiB. El programa aportado contiene 28 lecciones en cinco partes y recomienda la 3.ª edición de 2025; no indica curso académico ni reglas de evaluación. La app muestra el esquema con referencias a páginas del programa y del resumen de 138 páginas. Las tres versiones del resumen tienen el mismo texto extraído, aunque sus archivos difieren.
+
+El manual OCR recibido solo contiene 37 páginas del final del libro; no equivale al manual completo. El código BOE tiene 1.949 páginas y fecha de actualización 7 de octubre de 2026: solo se han extraído las primeras 25 páginas. Se ha extraído texto de DOCX y PPTX y realizado OCR de los 13 folios escaneados de dos apoyos. Corpus privado: `/workspace/procesal-materiales/`; informe e índice estructurado en `output/`. No hay lecciones de cinco minutos ni pruebas habilitadas en la web.

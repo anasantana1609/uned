@@ -7,7 +7,17 @@ export const civilSyllabus = {
   receivedFiles: 43,
   uniqueReadableFiles: 27,
   duplicateFiles: 13,
-  pendingBookParts: 3,
+  initialBatchOversizedFiles: 3,
+  pendingBookParts: 2,
+  manual: {
+    receivedParts: [1],
+    pendingParts: [2, 3],
+    pdfPagesReceived: 120,
+    edition: 31,
+    year: 2026,
+    editionSourcePdfPages: [1, 3],
+    filename: "PARTE1_compressed.pdf",
+  },
   sources: {
     programme: "Programa_Derecho_Civil_I-1_26-27.pdf",
     concordance: "Concordancias_programa-manual_2026-27.pdf",

@@ -13,11 +13,11 @@ test("Civil outline follows the fourteen-topic programme and all twenty-six chap
     Array.from({ length: 26 }, (_, i) => i + 1),
   );
   assert.equal(civilSyllabus.status, "preparing");
-  assert.equal(civilSyllabus.pendingBookParts, 3);
+  assert.equal(civilSyllabus.pendingBookParts, 2);
   assert.equal(
     civilSyllabus.uniqueReadableFiles +
       civilSyllabus.duplicateFiles +
-      civilSyllabus.pendingBookParts,
+      civilSyllabus.initialBatchOversizedFiles,
     civilSyllabus.receivedFiles,
   );
   assert.deepEqual(
