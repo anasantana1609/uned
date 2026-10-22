@@ -3681,3 +3681,115 @@ td {
     transform-origin: bottom right;
   }
 }
+.exam-options {
+  margin-bottom: 24px;
+  padding: 26px;
+}
+.exam-options > p {
+  line-height: 1.6;
+}
+.exam-draft-notice {
+  padding: 14px 18px;
+  background: #fff4dd;
+  color: #654715;
+  border-radius: 12px;
+}
+.exam-source {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 20px;
+  color: #28604f;
+  text-decoration: underline;
+}
+.exam-options-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+.exam-option-card {
+  padding: 20px;
+  border: 1px solid #dce4dc;
+  border-radius: 16px;
+  min-width: 0;
+}
+.exam-option-card h3 {
+  margin: 0 0 8px;
+}
+.exam-official-name,
+.exam-source-page,
+.exam-mapping-note {
+  font-size: 12px;
+  line-height: 1.5;
+  color: #535f57;
+}
+.exam-week-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 14px;
+}
+.exam-week-option {
+  text-align: left;
+  padding: 14px;
+  border: 1px solid #c8d5cc;
+  border-radius: 12px;
+  background: #fafcf9;
+  color: #263e32;
+  cursor: pointer;
+  font: inherit;
+  min-width: 0;
+}
+.exam-week-option > span,
+.exam-week-option > strong,
+.exam-week-option > small {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 7px;
+  line-height: 1.5;
+}
+.exam-week-option strong {
+  font-size: 14px;
+}
+.exam-week-option small {
+  font-size: 11px;
+}
+.exam-week-option.chosen {
+  border: 2px solid #33614d;
+  background: #e9f2e7;
+  padding: 13px;
+}
+.exam-week-option:focus-visible {
+  outline: 3px solid #33614d;
+  outline-offset: 3px;
+}
+.exam-week-option:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+.exam-choice-actions {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+@media (max-width: 900px) {
+  .exam-options-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 480px) {
+  .exam-options {
+    padding: 18px;
+  }
+  .exam-option-card {
+    padding: 14px;
+  }
+  .exam-week-option {
+    padding: 10px;
+  }
+  .exam-week-option.chosen {
+    padding: 9px;
+  }
+}

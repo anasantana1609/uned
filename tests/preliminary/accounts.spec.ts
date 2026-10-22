@@ -16,7 +16,13 @@ function token() {
     Buffer.from(JSON.stringify(v)).toString("base64url");
   return `${b({ alg: "HS256", typ: "JWT" })}.${b({ sub: userId, role: "authenticated", exp: Math.floor(Date.now() / 1000) + 3600 })}.fixture-signature`;
 }
-async function mockSupabase(page: Page) {
+async function mockSupabase(
+  page: Page,
+  subjectName = "Mi asignatura personal",
+) {
+  const exams: Record<string, unknown>[] = [];
+  const examWrites: { method: string; userFilter: string | null }[] = [];
+  let failExams = false;
   const rows: Record<string, unknown>[] = [];
   let failTasks = false;
   const session = {
@@ -60,7 +66,7 @@ async function mockSupabase(page: Page) {
         {
           id: subjectId,
           user_id: userId,
-          name: "Mi asignatura personal",
+          name: subjectName,
           category: "Derecho privado",
           color: "mint",
           goal_minutes: 600,
@@ -74,11 +80,23 @@ async function mockSupabase(page: Page) {
       }
       return reply(rows);
     }
-    if (
-      u.pathname === "/rest/v1/study_sessions" ||
-      u.pathname === "/rest/v1/exam_dates"
-    )
-      return reply([]);
+    if (u.pathname === "/rest/v1/exam_dates") {
+      if (r.method() === "GET") return reply(exams);
+      if (failExams) return reply({ message: "Rejected fixture write" }, 403);
+      examWrites.push({
+        method: r.method(),
+        userFilter: u.searchParams.get("user_id"),
+      });
+      if (r.method() === "POST") {
+        exams.push(r.postDataJSON());
+        return reply({ id: exams.at(-1)!.id }, 201);
+      }
+      if (r.method() === "PATCH") {
+        Object.assign(exams[0], r.postDataJSON());
+        return reply({ id: exams[0].id });
+      }
+    }
+    if (u.pathname === "/rest/v1/study_sessions") return reply([]);
     if (u.pathname === "/rest/v1/notification_preferences")
       return reply({
         user_id: userId,
@@ -92,6 +110,11 @@ async function mockSupabase(page: Page) {
   });
   return {
     rows,
+    exams,
+    examWrites,
+    failExams: (v: boolean) => {
+      failExams = v;
+    },
     failTasks: (v: boolean) => {
       failTasks = v;
     },
@@ -228,4 +251,57 @@ test("PKCE return exchanges the code and rejects external redirects", async ({
   await expect(
     page.getByText("Mi asignatura personal", { exact: true }),
   ).toBeVisible();
+});
+
+test("account exam choices replace the previous week and failed writes preserve the saved choice", async ({
+  page,
+}) => {
+  const mock = await mockSupabase(page, "Derecho Civil I.1");
+  await login(page);
+  await page.goto("/uned/calendario/");
+  const civil = page.getByRole("article", {
+    name: "Derecho Civil I.1",
+    exact: true,
+  });
+  const dialog = page.getByRole("dialog");
+  const choose = async (week: number) => {
+    await civil
+      .getByRole("button", { name: new RegExp(`${week}ª semana`) })
+      .click();
+    await dialog.getByRole("checkbox").check();
+    await dialog
+      .getByRole("button", { name: "Guardar mi elección provisional" })
+      .click();
+  };
+  await choose(1);
+  await expect(dialog).toHaveCount(0);
+  expect(mock.exams[0]).toMatchObject({
+    user_id: userId,
+    subject_id: subjectId,
+    exam_date: "2027-01-25",
+  });
+  mock.failExams(true);
+  await choose(2);
+  await expect(
+    page.getByRole("alert").filter({ hasText: "No se pudo guardar la opción" }),
+  ).toContainText("No se pudo guardar la opción");
+  expect(mock.exams[0].exam_date).toBe("2027-01-25");
+  mock.failExams(false);
+  await dialog
+    .getByRole("button", { name: "Guardar mi elección provisional" })
+    .click();
+  await expect(dialog).toHaveCount(0);
+  expect(mock.exams).toHaveLength(1);
+  expect(mock.exams[0].exam_date).toBe("2027-02-08");
+  expect(mock.examWrites).toEqual([
+    { method: "POST", userFilter: null },
+    { method: "PATCH", userFilter: `eq.${userId}` },
+  ]);
+  await page.reload();
+  await expect(
+    civil.getByRole("button", { name: /2ª semana/ }),
+  ).toHaveAttribute("aria-pressed", "true");
+  expect(
+    await page.evaluate(() => localStorage.getItem("uned-study-demo-v1")),
+  ).toBeNull();
 });

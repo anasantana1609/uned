@@ -9,6 +9,11 @@ import {
 } from "react";
 import { browserClient } from "@/lib/supabase/client";
 import {
+  semesterExams,
+  savedExamOption,
+  scheduledExamTitle,
+} from "@/lib/exam-calendar";
+import {
   demoData,
   defaultPreferences,
   dateKey,
@@ -33,6 +38,11 @@ type StudyContext = {
   toggleTask: (id: string) => Promise<void>;
   deleteTask: (id: string) => Promise<void>;
   addExam: (e: Omit<Exam, "id">) => Promise<boolean>;
+  chooseExamOption: (
+    subjectId: string,
+    code: string,
+    date: string,
+  ) => Promise<boolean>;
   deleteExam: (id: string) => Promise<void>;
   savePreferences: (p: Preferences) => Promise<boolean>;
   recordSession: (subjectId: string, minutes: number) => Promise<boolean>;
@@ -338,6 +348,67 @@ export function StudyProvider({
       setNotice("Fecha confirmada y guardada.");
     });
   }
+  async function chooseExamOption(
+    subjectId: string,
+    code: string,
+    date: string,
+  ) {
+    return run(async () => {
+      const subject = semesterExams.find((s) => s.code === code);
+      const option = subject?.options.find((o) => o.date === date);
+      if (
+        !subject ||
+        !option ||
+        !data.subjects.some(
+          (s) => s.id === subjectId && s.name === subject.subjectName,
+        )
+      )
+        throw new Error("La opción no corresponde a esta asignatura.");
+      const previous = data.exams.find(
+        (e) =>
+          e.subjectId === subjectId &&
+          savedExamOption(e)?.subject.code === code,
+      );
+      const exam: Exam = {
+        id: previous?.id ?? crypto.randomUUID(),
+        subjectId,
+        date,
+        title: scheduledExamTitle(subject, option),
+        confirmed: true,
+      };
+      if (user) {
+        const client = browserClient()!;
+        const row = {
+          subject_id: subjectId,
+          title: exam.title,
+          exam_date: date,
+          confirmed: true,
+        };
+        const result = previous
+          ? await client
+              .from("exam_dates")
+              .update(row)
+              .eq("id", previous.id)
+              .eq("user_id", user.id)
+              .select("id")
+              .single()
+          : await client
+              .from("exam_dates")
+              .insert({ ...row, id: exam.id, user_id: user.id })
+              .select("id")
+              .single();
+        if (result.error)
+          throw new Error("No se pudo guardar la opción. Inténtalo de nuevo.");
+      }
+      setData((d) => ({
+        ...d,
+        exams: [...d.exams.filter((e) => e.id !== exam.id), exam],
+      }));
+      setNotice(
+        "Opción guardada. El calendario de origen sigue siendo provisional.",
+      );
+    });
+  }
   async function deleteExam(id: string) {
     await run(async () => {
       if (user) {
@@ -517,6 +588,7 @@ export function StudyProvider({
         toggleTask,
         deleteTask,
         addExam,
+        chooseExamOption,
         deleteExam,
         savePreferences,
         recordSession,

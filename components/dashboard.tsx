@@ -17,6 +17,7 @@ import {
   Leaf,
 } from "lucide-react";
 import { useStudy } from "./study-provider";
+import { savedExamOption } from "@/lib/exam-calendar";
 import {
   PageHeading,
   SubjectCard,
@@ -280,7 +281,9 @@ export function Dashboard() {
               </p>
               <span className="confirmed-badge">
                 <CircleCheck size={13} />
-                Confirmada por ti
+                {savedExamOption(upcoming)
+                  ? "Tu elección · borrador"
+                  : "Confirmada por ti"}
               </span>
             </>
           ) : (

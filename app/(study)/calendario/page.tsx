@@ -11,6 +11,8 @@ import {
 import { useStudy } from "@/components/study-provider";
 import { PageHeading, TaskForm, TaskRow, Modal, Empty } from "@/components/ui";
 import { dateKey, localDate } from "@/lib/model";
+import { ExamOptions } from "@/components/exam-options";
+import { savedExamOption } from "@/lib/exam-calendar";
 export default function Calendar() {
   const { data, addExam, deleteExam, busy, ready } = useStudy();
   const today = dateKey();
@@ -53,7 +55,17 @@ export default function Calendar() {
           </button>
         }
       />
-      <div className="calendar-layout">
+      <ExamOptions
+        onChoose={(date) => {
+          const d = localDate(date);
+          setMonth(new Date(d.getFullYear(), d.getMonth(), 1));
+          setSelected(date);
+          document
+            .getElementById("study-calendar")
+            ?.scrollIntoView({ behavior: "smooth", block: "start" });
+        }}
+      />
+      <div className="calendar-layout" id="study-calendar">
         <section className="card calendar-card">
           <div className="calendar-heading">
             <h2>
@@ -148,7 +160,7 @@ export default function Calendar() {
             </span>
             <span>
               <i className="exam-dot" />
-              Exámenes confirmados
+              Exámenes elegidos
             </span>
           </div>
         </section>
@@ -176,7 +188,9 @@ export default function Calendar() {
                 <p>{data.subjects.find((s) => s.id === e.subjectId)?.name}</p>
                 <small>
                   <CheckCircle2 size={12} />
-                  Confirmado por ti
+                  {savedExamOption(e)
+                    ? "Elegido por ti · borrador"
+                    : "Confirmado por ti"}
                 </small>
               </div>
               <button
@@ -221,8 +235,8 @@ export default function Calendar() {
         </aside>
       </div>
       <p className="footnote">
-        No se asume ninguna convocatoria. Las fechas de examen son introducidas
-        y confirmadas por ti.
+        Solo tus elecciones guardadas y los exámenes que añadas aparecen en la
+        agenda. Las opciones del PDF siguen siendo provisionales.
       </p>
       {task && (
         <TaskForm initialDate={selected} onClose={() => setTask(false)} />

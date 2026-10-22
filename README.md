@@ -20,7 +20,8 @@ Rutas: `/dashboard`, `/asignaturas`, `/calendario`, `/progreso`, `/fuentes`, `/a
 - Panel con objetivo diario, racha y tareas del día.
 - Búsqueda de asignaturas, detalle y progreso según minutos registrados (no evaluación académica).
 - Crear, completar y eliminar tareas; calendario navegable.
-- Fechas de examen introducidas manualmente con confirmación obligatoria. No se presupone una convocatoria.
+- Calendario de febrero de 2027: seis asignaturas resaltadas en el PDF aportado, dos opciones por asignatura y horas de Las Palmas (Canarias). El origen está marcado como borrador. Cada elección exige reconocer ese carácter provisional; cambiar de semana sustituye la elección anterior y conserva los exámenes manuales. PDF accesible desde la app. El nombre «Derecho Procesal» se vincula expresamente a Introducción al Derecho Procesal (66021044); Constitucional, Administrativo y Civil I.2 no reciben fechas por inferencia.
+- Fechas de examen introducidas manualmente con confirmación obligatoria. Las opciones importadas no se añaden a la agenda hasta elegirlas.
 - Temporizador con pausa, reanudación y registro al terminar; registro manual del estudio de hoy.
 - Historial, gráfico semanal y estadísticas calculadas a partir de los datos.
 - Objetivo, hora y zona de recordatorio configurables; intereses de email/push guardados **sin envío real**.
