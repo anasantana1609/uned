@@ -1,6 +1,6 @@
 # Aprendizaje guiado: decisiones del usuario
 
-Fecha: 22 de octubre de 2026. Materiales de Civil I.1 recibidos y en revisión; Procesal recibido y en revisión; las otras cuatro asignaturas del primer cuatrimestre siguen pendientes.
+Fecha: 22 de octubre de 2026. Civil I.1, Procesal y Fundamentos tienen materiales recibidos y una primera entrega de bloques de estudio. Las otras tres asignaturas del primer cuatrimestre siguen pendientes de materiales.
 
 ## Alcance acordado
 

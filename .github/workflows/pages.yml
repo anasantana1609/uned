@@ -28,7 +28,15 @@ jobs:
         run: npm run check:supabase
       - run: npm test
       - run: npm run build:demo
-      - run: npx playwright install --with-deps chromium
+      - name: Preparar navegador para las pruebas
+        shell: bash
+        run: |
+          browser_path="$(command -v google-chrome || command -v chromium || true)"
+          if [ -n "$browser_path" ]; then
+            echo "PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=$browser_path" >> "$GITHUB_ENV"
+          else
+            npx playwright install --with-deps chromium
+          fi
       - run: npm run test:preliminary
       - run: npm run test:pages
       - name: Compilar la preliminar
