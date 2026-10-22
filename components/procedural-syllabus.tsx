@@ -11,10 +11,10 @@ export function ProceduralSyllabus({ compact = false }: { compact?: boolean }) {
         <BookOpen size={18} /> Introducción al Derecho Procesal
       </h3>
       <p>
-        <strong>Materiales recibidos · contenido en preparación.</strong> El
+        <strong>Contenido inicial disponible · resto en preparación.</strong> El
         programa aportado tiene 28 lecciones en cinco partes y recomienda la 3.ª
-        edición de 2025. Las lecciones de cinco minutos y las pruebas aún no
-        están habilitadas.
+        edición de 2025. Ya están disponibles tres bloques iniciales de cinco
+        minutos con sus pruebas; el resto sigue en preparación.
       </p>
       <p className="muted">
         18 de los 20 archivos se han descargado. Las tres versiones del resumen
@@ -47,7 +47,11 @@ export function ProceduralSyllabus({ compact = false }: { compact?: boolean }) {
                         apoyo, páginas PDF {topic.summaryStartPage}–
                         {topic.summaryEndPage}
                       </small>
-                      <span>Pendiente de lecciones y prueba final</span>
+                      <span>
+                        {topic.number <= 2
+                          ? "Bloques introductorios disponibles; lección aún incompleta"
+                          : "Lecciones y prueba de este tema en preparación"}
+                      </span>
                     </li>
                   ))}
               </ol>

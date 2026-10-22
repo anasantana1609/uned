@@ -27,7 +27,8 @@ import {
   Empty,
   Modal,
 } from "./ui";
-import { catalogEntry } from "@/lib/subject-catalog";
+import { recommendSubject } from "@/lib/learning";
+import { catalogEntry, subjectTitle } from "@/lib/subject-catalog";
 import {
   dateKey,
   streak,
@@ -36,11 +37,14 @@ import {
   type Subject,
 } from "@/lib/model";
 export function Dashboard() {
-  const { data, user, ready } = useStudy();
+  const { data, user, ready, learningProgress, learningReady } = useStudy();
   const [choosingSubject, setChoosingSubject] = useState(false);
   const [adding, setAdding] = useState(false);
   const [selected, setSelected] = useState<Subject | null>(null);
   const today = dateKey();
+  const recommended = learningReady
+    ? recommendSubject(data.subjects, learningProgress, data.exams, today)
+    : undefined;
   const tasks = data.tasks.filter((t) => t.date === today);
   const complete = tasks.filter((t) => t.done).length;
   const minutes = data.sessions
@@ -315,10 +319,36 @@ export function Dashboard() {
           onClose={() => setChoosingSubject(false)}
         >
           <p className="muted">
-            Las lecciones de cinco minutos y las pruebas finales se habilitarán
-            cuando incorporemos los materiales. Mientras tanto, las seis del
-            primer cuatrimestre permiten registrar estudio libre.
+            Civil I.1, Procesal y Fundamentos tienen sus primeros bloques de
+            cinco minutos. El avance indica los bloques disponibles superados,
+            no todo el programa.
           </p>
+          {recommended ? (
+            <div className="learning-recommendation">
+              <strong>Te recomendamos: {subjectTitle(recommended)}</strong>
+              <p>
+                Priorizamos tu examen confirmado más próximo y, después, el
+                menor avance entre los recorridos que aún tienen bloques
+                pendientes.
+              </p>
+              <button
+                className="button"
+                onClick={() => {
+                  setChoosingSubject(false);
+                  setSelected(recommended);
+                }}
+              >
+                Estudiar la recomendada
+              </button>
+            </div>
+          ) : (
+            learningReady && (
+              <p className="muted">
+                Has superado todos los bloques disponibles. Puedes repasarlos
+                mientras preparamos más contenido.
+              </p>
+            )
+          )}
           <div className="subject-grid study-subject-picker">
             {[...data.subjects]
               .sort(

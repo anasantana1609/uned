@@ -9,7 +9,7 @@ test("Civil shows the sourced syllabus and exclusions while lessons remain in pr
     name: "Preparación de Civil I.1",
   });
   await expect(syllabus).toContainText(
-    "las lecciones y pruebas todavía no están disponibles",
+    "Ya puedes estudiar tres bloques iniciales",
   );
   await syllabus
     .getByText("Bloque 1 · El ordenamiento jurídico", { exact: true })
@@ -28,7 +28,7 @@ test("Civil shows the sourced syllabus and exclusions while lessons remain in pr
   await page.goto("/uned/fuentes/");
   await expect(
     page.getByRole("region", { name: "Preparación de Civil I.1" }),
-  ).toContainText("Las partes 2 y 3 siguen pendientes");
+  ).toContainText("Las partes 2 y 3 también se han descargado");
 });
 
 test("Procesal exposes the programme and source limitations", async ({
@@ -48,6 +48,6 @@ test("Procesal exposes the programme and source limitations", async ({
     .click();
   await expect(syllabus.getByText(/Lección 28\./)).toBeVisible();
   await expect(
-    syllabus.getByText("Pendiente de lecciones y prueba final").last(),
+    syllabus.getByText("Lecciones y prueba de este tema en preparación").last(),
   ).toBeVisible();
 });

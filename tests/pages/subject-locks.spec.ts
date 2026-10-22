@@ -55,6 +55,11 @@ test("legacy catalogue gains two subjects without losing activity and shows the 
       .getByRole("button", { name: "Estudio libre (cronómetro)", exact: true }),
   ).toBeEnabled();
   await expect(
-    page.getByRole("dialog").getByText(/Todavía no hay lecciones/),
+    page
+      .getByRole("dialog")
+      .getByText(
+        "Contenido inicial disponible. Aprende y supera las pruebas de cada bloque; el resto del programa sigue en preparación.",
+        { exact: true },
+      ),
   ).toBeVisible();
 });

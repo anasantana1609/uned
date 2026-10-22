@@ -19,6 +19,24 @@ export default function Sources() {
       <div className="card civil-source-card">
         <CivilSyllabus compact />
         <ProceduralSyllabus compact />
+        <section
+          className="civil-syllabus"
+          aria-label="Preparación de Fundamentos"
+        >
+          <h3>Fundamentos clásicos de la democracia y la administración</h3>
+          <p>
+            Tres bloques iniciales de cinco minutos, con preguntas fáciles,
+            medias y difíciles. Elaborados a partir de las diapositivas de los
+            temas 1 y 2, respetando las exclusiones de la introducción del curso
+            2026/27.
+          </p>
+          <p className="muted">
+            15 archivos descargados, incluido un recopilatorio de test repetido.
+            Los dos archivos del libro siguen pendientes por tamaño. Las
+            preguntas originales aportadas aún requieren revisión; los
+            ejercicios disponibles son de elaboración propia.
+          </p>
+        </section>
       </div>
       <section className="card sources-intro">
         <span className="large-icon">
@@ -28,8 +46,9 @@ export default function Sources() {
         <h2>Tus documentos serán el punto de partida.</h2>
         <p>
           La conexión con Google Drive todavía no está disponible. Los
-          materiales de Civil I.1 y Procesal se han recibido como archivos
-          adjuntos para su preparación. No tenemos acceso a tu carpeta de Drive.
+          materiales de Civil I.1, Procesal y Fundamentos se han recibido como
+          archivos adjuntos para su preparación. No tenemos acceso a tu carpeta
+          de Drive.
         </p>
         <div className="source-folder">
           <FolderOpen size={19} />
@@ -69,8 +88,9 @@ export default function Sources() {
       <div className="inline-note">
         <ShieldCheck size={19} />
         <span>
-          El tutor IA, los resúmenes y las preguntas con fuentes se habilitarán
-          después de la conexión y aprobación de documentos.
+          Civil I.1, Procesal y Fundamentos ya tienen bloques iniciales con
+          preguntas y fuentes en Asignaturas. El tutor IA y la importación
+          automática siguen pendientes.
         </span>
       </div>
     </>

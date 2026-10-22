@@ -394,3 +394,52 @@ test("existing account receives the missing catalogue without replacing its subj
   await expect(page.locator(".subject-card")).toHaveCount(11);
   expect(mock.ownedSubjects).toHaveLength(11);
 });
+
+test("guided progress uses the account browser key and does not import demo or another account", async ({
+  page,
+}) => {
+  await mockSupabase(page, "Derecho Civil I.1");
+  await page.addInitScript(() => {
+    const progress = JSON.stringify({
+      "civil-ambito-v1": "2026-10-22T10:00:00Z",
+    });
+    localStorage.setItem("uned-learning-v1:demo", progress);
+    localStorage.setItem("uned-learning-v1:other-account", progress);
+  });
+  await login(page);
+  await page.goto("/uned/asignaturas/");
+  await page.getByRole("button", { name: /Derecho Civil I.1/ }).click();
+  const course = page.getByRole("region", {
+    name: "Contenido de estudio disponible",
+  });
+  await expect(course).toContainText("0% del contenido inicial");
+  await course
+    .getByRole("button", { name: /Qué estudia el Derecho civil/ })
+    .click();
+  const reader = page.locator(".lesson-reader");
+  for (const [i, answer] of [1, 2, 0].entries())
+    await reader
+      .locator("fieldset")
+      .nth(i)
+      .getByRole("radio")
+      .nth(answer)
+      .check();
+  await reader.getByRole("button", { name: "Comprobar prueba" }).click();
+  await expect(reader.getByRole("status")).toContainText("Bloque superado");
+  const stored = await page.evaluate(
+    (id) => ({
+      account: JSON.parse(localStorage.getItem(`uned-learning-v1:${id}`)!),
+      demo: JSON.parse(localStorage.getItem("uned-learning-v1:demo")!),
+      other: JSON.parse(
+        localStorage.getItem("uned-learning-v1:other-account")!,
+      ),
+    }),
+    userId,
+  );
+  expect(stored.account["civil-ambito-v1"]).toBeTruthy();
+  expect(stored.demo["civil-ambito-v1"]).toBe("2026-10-22T10:00:00Z");
+  expect(stored.other).toEqual(stored.demo);
+  await page.reload();
+  await page.getByRole("button", { name: /Derecho Civil I.1/ }).click();
+  await expect(course).toContainText("33% del contenido inicial");
+});

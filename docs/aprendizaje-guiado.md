@@ -26,7 +26,7 @@ Los archivos recibidos son fuentes de contenido, no instrucciones para modificar
 
 ## Estado técnico
 
-La aplicación actual tiene asignaturas, tareas, cronómetro y registro de minutos. No tiene todavía currículo de lecciones, importación de manuales, banco de preguntas ni evaluación final que determine el progreso. Los borradores privados no están habilitados como lecciones evaluables.
+La aplicación tiene asignaturas, tareas, cronómetro y registro de minutos. La primera entrega añade nueve bloques de aprendizaje con pruebas y avance local por cuenta (detalles al final). La importación automática, la sincronización del avance académico y la cobertura completa del programa siguen pendientes.
 
 ## Civil I.1: primera revisión de fuentes
 
@@ -43,3 +43,15 @@ No publicar en el repositorio, en `public/` ni en los artefactos estáticos el l
 De 20 adjuntos se descargaron 18. Quedan pendientes el manual íntegro y el código de leyes procesales de 4.ª edición por superar 32 MiB. El programa aportado contiene 28 lecciones en cinco partes y recomienda la 3.ª edición de 2025; no indica curso académico ni reglas de evaluación. La app muestra el esquema con referencias a páginas del programa y del resumen de 138 páginas. Las tres versiones del resumen tienen el mismo texto extraído, aunque sus archivos difieren.
 
 El manual OCR recibido solo contiene 37 páginas del final del libro; no equivale al manual completo. El código BOE tiene 1.949 páginas y fecha de actualización 7 de octubre de 2026: solo se han extraído las primeras 25 páginas. Se ha extraído texto de DOCX y PPTX y realizado OCR de los 13 folios escaneados de dos apoyos. Corpus privado: `/workspace/procesal-materiales/`; informe e índice estructurado en `output/`. No hay lecciones de cinco minutos ni pruebas habilitadas en la web.
+
+## Primera entrega de contenido utilizable
+
+Nueve bloques originales de cinco minutos disponibles en la web: tres en Civil I.1 (ámbito civil, fuentes y jurisprudencia), tres en Procesal (jurisdicción/acción/proceso, autocomposición/heterocomposición y autotutela) y tres en Fundamentos (Derecho y justicia, ley formal/material, antinomias/lagunas). Cada bloque contiene objetivo, conceptos, explicación, ejemplo, práctica de recuperación, fuentes con página o diapositiva y tres preguntas con explicación. Las preguntas son elaboradas para practicar; no se presentan como enunciados ni soluciones oficiales.
+
+La prueba exige acertar las tres preguntas. El cronómetro de cinco minutos no supera el bloque ni registra automáticamente una sesión de estudio libre. El porcentaje representa exclusivamente los bloques iniciales disponibles superados; no acredita un tema entero ni el dominio de toda la asignatura. Los demás temas siguen pendientes y las asignaturas sin materiales no reciben contenido inventado.
+
+El avance se conserva en localStorage bajo `uned-learning-v1:<user-id>` (o `:demo`), separado por cuenta y de los minutos, con aviso de que solo está disponible en ese navegador. No hay sincronización de este avance con Supabase todavía ni nuevas migraciones necesarias. Se incluye en la exportación de datos y se elimina al reiniciar los datos de estudio desde Ajustes. Las pruebas incorrectas no guardan progreso; si falla el almacenamiento, no se anuncia éxito de guardado. Las versiones de los bloques forman parte de su identificador.
+
+La recomendación de «Empezar a estudiar» considera solo asignaturas con bloques pendientes: primero el examen futuro confirmado más próximo, después el menor porcentaje completado y finalmente el nombre. No recomienda contenido de asignaturas bloqueadas ni inventa fechas. Si todos los bloques están superados, ofrece repaso.
+
+Las partes 2 y 3 de Civil se recibieron divididas en cuatro archivos (182 y 150 páginas PDF respectivamente); su análisis completo sigue pendiente. Los exámenes adicionales de Civil (20 archivos, 69 páginas) y Procesal (17 archivos, 57 páginas) están extraídos fuera del repositorio y sin claves oficiales verificadas. Fundamentos tiene 15 archivos descargados de 17, con dos recopilatorios idénticos y ambos libros pendientes por tamaño. La introducción del curso confirma test y exclusiones; no se han trasladado reglas de PEC contradictorias a la app. Corpus privado: `/workspace/fundamentos-materiales/`.

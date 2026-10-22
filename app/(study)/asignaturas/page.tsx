@@ -59,9 +59,10 @@ export default function Subjects() {
         />
       )}
       <p className="footnote">
-        Catálogo del primer curso según la relación que has facilitado. Las
-        lecciones están pendientes de materiales. El porcentaje indica tiempo
-        registrado respecto al objetivo de 600 minutos, no dominio del temario.
+        Catálogo del primer curso según la relación que has facilitado. Civil,
+        Procesal y Fundamentos tienen contenido inicial de cinco minutos. El
+        avance del contenido cuenta bloques superados; el objetivo de minutos
+        mide tiempo registrado. Ninguno equivale al dominio de todo el temario.
       </p>
       {selected && (
         <SubjectDetail subject={selected} onClose={() => setSelected(null)} />

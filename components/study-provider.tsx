@@ -26,9 +26,18 @@ import {
   type Preferences,
 } from "@/lib/model";
 import { catalogEntry, isSubjectLocked } from "@/lib/subject-catalog";
+import {
+  lessons,
+  passedLesson,
+  readLearningProgress,
+  type LearningProgress,
+} from "@/lib/learning";
 type User = { id: string; email: string; name: string };
 type StudyContext = {
   data: StudyData;
+  learningProgress: LearningProgress;
+  learningReady: boolean;
+  completeLesson: (id: string, answers: number[]) => boolean;
   user: User | null;
   ready: boolean;
   busy: boolean;
@@ -148,6 +157,43 @@ export function StudyProvider({
   const [data, setData] = useState<StudyData>(() =>
     user ? emptyData() : demoData(),
   );
+  const learningKey = `uned-learning-v1:${user?.id ?? "demo"}`;
+  const [learningState, setLearningState] = useState<{
+    key: string;
+    progress: LearningProgress;
+  } | null>(null);
+  const learningReady = learningState?.key === learningKey;
+  const learningProgress = learningReady ? learningState.progress : {};
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(learningKey);
+      setLearningState({
+        key: learningKey,
+        progress: raw ? readLearningProgress(raw) : {},
+      });
+    } catch {
+      setLearningState({ key: learningKey, progress: {} });
+      setError(
+        "No se pudo recuperar el avance de los bloques en este navegador.",
+      );
+    }
+  }, [learningKey]);
+  function completeLesson(id: string, answers: number[]) {
+    const lesson = lessons.find((l) => l.id === id);
+    if (!learningReady || !lesson || !passedLesson(lesson, answers))
+      return false;
+    const progress = { ...learningProgress, [id]: new Date().toISOString() };
+    try {
+      localStorage.setItem(learningKey, JSON.stringify(progress));
+      setLearningState({ key: learningKey, progress });
+      return true;
+    } catch {
+      setError(
+        "Prueba correcta, pero no se pudo guardar el avance. Habilita el almacenamiento del navegador y vuelve a comprobar.",
+      );
+      return false;
+    }
+  }
   const [ready, setReady] = useState(false);
   const [loadAttempt, setLoadAttempt] = useState(0);
   const [busy, setBusy] = useState(false);
@@ -536,6 +582,8 @@ export function StudyProvider({
       } else {
         setData({ ...demoData(), tasks: [], sessions: [], exams: [] });
       }
+      localStorage.removeItem(learningKey);
+      setLearningState({ key: learningKey, progress: {} });
       setActiveSession(null);
       setNotice(
         "Datos de estudio borrados. Se mantienen las asignaturas y la cuenta.",
@@ -550,6 +598,8 @@ export function StudyProvider({
             exportedAt: new Date().toISOString(),
             mode: user ? "account" : "demo",
             ...data,
+            learningProgress,
+            learningStorage: "local-browser-per-account",
           },
           null,
           2,
@@ -627,6 +677,9 @@ export function StudyProvider({
     <Context.Provider
       value={{
         data,
+        learningProgress,
+        learningReady,
+        completeLesson,
         user,
         ready,
         busy,

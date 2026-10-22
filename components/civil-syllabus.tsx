@@ -8,16 +8,17 @@ export function CivilSyllabus({ compact = false }: { compact?: boolean }) {
         <BookOpen size={18} /> Civil I.1 · programa 2026/27
       </h3>
       <p>
-        <strong>Materiales recibidos · contenido en preparación.</strong> El
+        <strong>Contenido inicial disponible · resto en preparación.</strong> El
         programa tiene 14 temas en cuatro bloques. El esquema y las exclusiones
-        de examen están verificados; las lecciones y pruebas todavía no están
-        disponibles.
+        de examen están verificados. Ya puedes estudiar tres bloques iniciales
+        con sus pruebas; el resto del programa sigue en preparación.
       </p>
       <p className="muted">
         Lote inicial: 27 documentos distintos descargados y 13 copias idénticas.
         También se ha procesado la parte 1 del manual: 120 páginas PDF
         escaneadas, 31.ª edición de 2026, verificada en portada y portadilla.
-        Las partes 2 y 3 siguen pendientes. Los documentos recibidos aún no
+        Las partes 2 y 3 también se han descargado, divididas en cuatro
+        archivos; su revisión sigue pendiente. Los documentos recibidos aún no
         están incorporados a tu biblioteca privada en la web.
       </p>
       {!compact && (
@@ -40,7 +41,11 @@ export function CivilSyllabus({ compact = false }: { compact?: boolean }) {
                         {topic.chapters.join(", ")} · Programa, página PDF{" "}
                         {topic.programmePage}
                       </small>
-                      <span>Pendiente de lecciones y prueba final</span>
+                      <span>
+                        {topic.number <= 2
+                          ? "Bloques introductorios disponibles; tema aún incompleto"
+                          : "Lecciones y prueba de este tema en preparación"}
+                      </span>
                     </li>
                   ))}
               </ol>

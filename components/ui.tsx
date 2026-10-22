@@ -22,6 +22,8 @@ import {
   isSubjectLocked,
   subjectTitle,
 } from "@/lib/subject-catalog";
+import { GuidedLearning } from "./guided-learning";
+import { learningSummary } from "@/lib/learning";
 import { CivilSyllabus } from "./civil-syllabus";
 import { ProceduralSyllabus } from "./procedural-syllabus";
 export function SubjectIcon({
@@ -316,8 +318,9 @@ export function SubjectCard({
   subject: Subject;
   onOpen: () => void;
 }) {
-  const { data } = useStudy();
+  const { data, learningProgress, learningReady } = useStudy();
   const entry = catalogEntry(subject);
+  const learning = learningSummary(entry?.code, learningProgress);
   const locked = isSubjectLocked(subject);
   const minutes = data.sessions
     .filter((s) => s.subjectId === subject.id)
@@ -354,12 +357,24 @@ export function SubjectCard({
             <>
               <LockKeyhole size={13} /> Bloqueada · pendiente de contenido
             </>
-          ) : ["021096", "021044"].includes(entry.code) ? (
-            "Materiales recibidos · en preparación"
+          ) : learning.total ? (
+            "Contenido inicial disponible · 5 min por bloque"
           ) : (
             "1.er cuatrimestre · materiales pendientes"
           )}
         </span>
+      )}
+      {learning.total > 0 && (
+        <div className="subject-learning-progress">
+          <strong>
+            {learningReady
+              ? `${learning.percent}% del contenido inicial`
+              : "Cargando avance…"}
+          </strong>
+          <span>
+            {learning.passed}/{learning.total} bloques superados
+          </span>
+        </div>
       )}
       <div className="subject-progress-label">
         <span>Objetivo de estudio</span>
@@ -414,14 +429,25 @@ export function SubjectDetail({
           <span>
             {isSubjectLocked(subject)
               ? "Asignatura bloqueada. Se habilitará cuando incorporemos sus materiales y preparemos sus lecciones y pruebas."
-              : "Primer cuatrimestre: contenido en preparación. Todavía no hay lecciones ni pruebas disponibles; puedes registrar estudio libre."}
+              : learningSummary(catalogEntry(subject)?.code, {}).total
+                ? "Contenido inicial disponible. Aprende y supera las pruebas de cada bloque; el resto del programa sigue en preparación."
+                : "Primer cuatrimestre: materiales pendientes. Puedes registrar estudio libre."}
           </span>
         </div>
       )}
       <p className="muted">
-        El porcentaje actual mide tiempo de estudio, no dominio del temario. El
-        aprendizaje guiado avanzará al superar la prueba final.
+        El objetivo de minutos y el avance del contenido son independientes.
+        Cada bloque se supera al responder correctamente toda su prueba final.
       </p>
+      <GuidedLearning code={catalogEntry(subject)?.code ?? ""} />
+      {catalogEntry(subject)?.code === "901012" && (
+        <p className="muted">
+          Fundamentos 2026/27: entrenamiento tipo test con niveles fácil, medio
+          y difícil. Los bloques disponibles respetan las exclusiones de la
+          introducción del curso. Los dos archivos del libro siguen pendientes
+          por tamaño.
+        </p>
+      )}
       {catalogEntry(subject)?.code === "021096" && <CivilSyllabus />}
       {catalogEntry(subject)?.code === "021044" && <ProceduralSyllabus />}
       <div className="detail-actions">
