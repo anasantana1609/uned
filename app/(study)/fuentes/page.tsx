@@ -6,6 +6,7 @@ import {
   LockKeyhole,
 } from "lucide-react";
 import { PageHeading } from "@/components/ui";
+import { CivilSyllabus } from "@/components/civil-syllabus";
 export default function Sources() {
   return (
     <>
@@ -14,6 +15,9 @@ export default function Sources() {
         title="Tu biblioteca, en un solo lugar."
         description="El espacio para tus manuales, guías y apuntes de confianza."
       />
+      <div className="card civil-source-card">
+        <CivilSyllabus compact />
+      </div>
       <section className="card sources-intro">
         <span className="large-icon">
           <FolderOpen size={43} />
@@ -21,8 +25,9 @@ export default function Sources() {
         <span className="pill">PRÓXIMA ENTREGA</span>
         <h2>Tus documentos serán el punto de partida.</h2>
         <p>
-          La conexión con Google Drive todavía no está disponible. No tenemos
-          acceso a tu carpeta ni hemos leído documentos personales.
+          La conexión con Google Drive todavía no está disponible. Los
+          materiales de Civil I.1 se han recibido como archivos adjuntos para su
+          preparación. No tenemos acceso a tu carpeta de Drive.
         </p>
         <div className="source-folder">
           <FolderOpen size={19} />

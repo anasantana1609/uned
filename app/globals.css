@@ -3835,3 +3835,48 @@ td {
     grid-template-columns: minmax(0, 1fr);
   }
 }
+.civil-source-card {
+  padding: 24px;
+  margin-bottom: 24px;
+}
+.civil-syllabus h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  margin: 14px 0;
+}
+.civil-syllabus > p {
+  font-size: 13px;
+  line-height: 1.7;
+  margin: 12px 0;
+}
+.syllabus-block {
+  border: 1px solid #dce4da;
+  border-radius: 10px;
+  padding: 13px;
+  margin: 12px 0;
+}
+.syllabus-block summary {
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.syllabus-block ol,
+.syllabus-block ul {
+  padding-left: 20px;
+  margin: 12px 0;
+}
+.syllabus-block li {
+  font-size: 12px;
+  line-height: 1.6;
+  margin: 12px 0;
+}
+.syllabus-block li small,
+.syllabus-block li span {
+  display: block;
+  color: #59665c;
+}
+.syllabus-source {
+  color: #53645a;
+}

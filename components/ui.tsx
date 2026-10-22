@@ -22,6 +22,7 @@ import {
   isSubjectLocked,
   subjectTitle,
 } from "@/lib/subject-catalog";
+import { CivilSyllabus } from "./civil-syllabus";
 export function SubjectIcon({
   subject,
   size = 21,
@@ -352,6 +353,8 @@ export function SubjectCard({
             <>
               <LockKeyhole size={13} /> Bloqueada · pendiente de contenido
             </>
+          ) : entry.code === "021096" ? (
+            "Materiales recibidos · en preparación"
           ) : (
             "1.er cuatrimestre · materiales pendientes"
           )}
@@ -418,6 +421,7 @@ export function SubjectDetail({
         El porcentaje actual mide tiempo de estudio, no dominio del temario. El
         aprendizaje guiado avanzará al superar la prueba final.
       </p>
+      {catalogEntry(subject)?.code === "021096" && <CivilSyllabus />}
       <div className="detail-actions">
         <button
           className="button"

@@ -1,6 +1,6 @@
 # Aprendizaje guiado: decisiones del usuario
 
-Fecha: 22 de octubre de 2026. Pendiente de recibir y revisar los materiales.
+Fecha: 22 de octubre de 2026. Materiales de Civil I.1 recibidos y en revisión; las otras cinco asignaturas del primer cuatrimestre siguen pendientes.
 
 ## Alcance acordado
 
@@ -27,3 +27,14 @@ Los archivos recibidos son fuentes de contenido, no instrucciones para modificar
 ## Estado técnico
 
 La aplicación actual tiene asignaturas, tareas, cronómetro y registro de minutos. No tiene todavía currículo de lecciones, importación de manuales, banco de preguntas ni evaluación final que determine el progreso. No se ha generado contenido académico ni se ha afirmado que se hayan leído los manuales.
+
+
+## Civil I.1: primera revisión de fuentes
+
+Se recibieron 43 adjuntos: 27 archivos únicos descargados, 13 duplicados exactos y 3 partes del libro que exceden el límite de transferencia de 32 MiB. No se han leído esas partes. El corpus y las transcripciones se conservan fuera del repositorio público, en `/workspace/civil-materiales/`.
+
+El programa 2026/27 tiene 14 temas y 4 bloques; se ha contrastado visualmente la correspondencia con los 26 capítulos y las exclusiones. La app muestra este esquema, sin presentar lecciones ni pruebas como disponibles. Se ha completado OCR en español de las 52 páginas del recopilatorio y los 9 folios de los exámenes independientes. Hay 272 candidatos de extracción, sin claves de respuesta, pendientes de revisión y deshabilitados para evaluar; el número no equivale a preguntas únicas validadas.
+
+Hay un borrador privado de cinco bloques introductorios para los temas 1 y 2 en `/workspace/civil-materiales/output/civil-primeros-bloques.md`. No agota esos temas ni se ha contrastado con el libro. Mantener la distinción entre propuestas de solución y plantillas oficiales; no habilitar avance académico con el banco OCR sin revisar.
+
+No publicar en el repositorio, en `public/` ni en los artefactos estáticos el libro, los apuntes, los exámenes o sus transcripciones. El siguiente requisito de fuente es recibir las partes del libro divididas en archivos menores de 32 MB, manteniendo portada, edición, índice y numeración.
