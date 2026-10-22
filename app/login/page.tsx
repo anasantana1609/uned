@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { browserClient, isConfigured } from "@/lib/supabase/client";
 import { appPath, authReturnUrl, isStaticAuth } from "@/lib/paths";
+import { authErrorMessage } from "@/lib/auth-errors";
 export default function Login() {
   const [signup, setSignup] = useState(false);
   const [email, setEmail] = useState("");
@@ -18,6 +19,8 @@ export default function Login() {
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const [confirmationNeeded, setConfirmationNeeded] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const configured = isConfigured();
   const googleEnabled =
     !isStaticAuth() || process.env.NEXT_PUBLIC_GOOGLE_AUTH_ENABLED === "true";
@@ -33,23 +36,24 @@ export default function Login() {
     if (!client) return;
     setBusy(true);
     setError("");
+    setConfirmationNeeded(false);
     setMessage("");
     try {
       const result = signup
         ? await client.auth.signUp({
-            email,
+            email: email.trim(),
             password,
             options: {
               emailRedirectTo: authReturnUrl(window.location.origin),
             },
           })
-        : await client.auth.signInWithPassword({ email, password });
+        : await client.auth.signInWithPassword({
+            email: email.trim(),
+            password,
+          });
       if (result.error) {
-        setError(
-          signup
-            ? "No se pudo crear la cuenta. Revisa los datos o prueba a iniciar sesión."
-            : "No se pudo acceder. Comprueba tu email y contraseña.",
-        );
+        setError(authErrorMessage(result.error, signup));
+        setConfirmationNeeded(result.error.code === "email_not_confirmed");
         return;
       }
       if (result.data.session) {
@@ -57,6 +61,29 @@ export default function Login() {
       } else
         setMessage(
           "Revisa tu correo para confirmar la cuenta antes de acceder.",
+        );
+    } catch {
+      setError("No se pudo conectar. Inténtalo de nuevo.");
+    } finally {
+      setBusy(false);
+    }
+  }
+  async function resendConfirmation() {
+    const client = browserClient();
+    if (!client || !email.trim() || busy) return;
+    setBusy(true);
+    setError("");
+    setMessage("");
+    try {
+      const { error } = await client.auth.resend({
+        type: "signup",
+        email: email.trim(),
+        options: { emailRedirectTo: authReturnUrl(window.location.origin) },
+      });
+      if (error) setError(authErrorMessage(error));
+      else
+        setMessage(
+          "Si la cuenta está pendiente de confirmar, recibirás un nuevo enlace. Ábrelo en este mismo navegador.",
         );
     } catch {
       setError("No se pudo conectar. Inténtalo de nuevo.");
@@ -187,12 +214,20 @@ export default function Login() {
                 required
                 minLength={8}
                 autoComplete={signup ? "new-password" : "current-password"}
-                type="password"
+                type={showPassword ? "text" : "password"}
                 placeholder="Al menos 8 caracteres"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
             </label>
+            <button
+              type="button"
+              className="add-task-link"
+              aria-pressed={showPassword}
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+            </button>
             {error && (
               <p role="alert" className="form-error">
                 {error}
@@ -202,6 +237,16 @@ export default function Login() {
               <p role="status" className="form-success">
                 {message}
               </p>
+            )}
+            {confirmationNeeded && (
+              <button
+                type="button"
+                className="button secondary"
+                disabled={busy}
+                onClick={() => void resendConfirmation()}
+              >
+                Reenviar confirmación
+              </button>
             )}
             <button className="button" disabled={!configured || busy}>
               {busy ? (
@@ -221,6 +266,7 @@ export default function Login() {
                 setSignup(!signup);
                 setError("");
                 setMessage("");
+                setConfirmationNeeded(false);
               }}
             >
               {signup ? "Inicia sesión" : "Crea tu cuenta"}

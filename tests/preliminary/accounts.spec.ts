@@ -305,3 +305,65 @@ test("account exam choices replace the previous week and failed writes preserve 
     await page.evaluate(() => localStorage.getItem("uned-study-demo-v1")),
   ).toBeNull();
 });
+
+test("unconfirmed sign-in offers a confirmation resend with the Pages return URL", async ({
+  page,
+}) => {
+  await mockSupabase(page);
+  await page.route(host + "/auth/v1/token**", (route) =>
+    route.fulfill({
+      status: 400,
+      contentType: "application/json",
+      headers: { "access-control-allow-origin": "*" },
+      body: JSON.stringify({
+        error_code: "email_not_confirmed",
+        msg: "Email not confirmed",
+      }),
+    }),
+  );
+  await page.goto("/uned/login/");
+  await page.getByLabel("Email", { exact: true }).fill(user.email);
+  await page
+    .getByLabel("Contraseña", { exact: true })
+    .fill("My-existing-password-123");
+  await page
+    .getByRole("button", { name: "Mostrar contraseña", exact: true })
+    .click();
+  await expect(page.getByLabel("Contraseña", { exact: true })).toHaveAttribute(
+    "type",
+    "text",
+  );
+  await page
+    .getByRole("button", { name: "Entrar en mi espacio", exact: true })
+    .click();
+  await expect(
+    page.getByRole("alert").filter({ hasText: "todavía no está confirmado" }),
+  ).toBeVisible();
+  let returnUrl = "";
+  await page.route(host + "/auth/v1/resend**", (route) => {
+    if (route.request().method() === "OPTIONS")
+      return route.fulfill({
+        status: 204,
+        headers: {
+          "access-control-allow-origin": "*",
+          "access-control-allow-headers": "*",
+          "access-control-allow-methods": "POST,OPTIONS",
+        },
+      });
+    returnUrl =
+      new URL(route.request().url()).searchParams.get("redirect_to") ?? "";
+    return route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      headers: { "access-control-allow-origin": "*" },
+      body: "{}",
+    });
+  });
+  await page
+    .getByRole("button", { name: "Reenviar confirmación", exact: true })
+    .click();
+  await expect(page.getByRole("status")).toContainText(
+    "recibirás un nuevo enlace",
+  );
+  expect(returnUrl).toBe("http://127.0.0.1:4174/uned/auth/callback/");
+});
