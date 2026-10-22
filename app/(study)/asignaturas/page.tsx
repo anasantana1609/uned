@@ -9,19 +9,28 @@ import {
   Empty,
 } from "@/components/ui";
 import type { Subject } from "@/lib/model";
+import { catalogEntry, subjectTitle } from "@/lib/subject-catalog";
 export default function Subjects() {
   const { data } = useStudy();
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState<Subject | null>(null);
-  const subjects = data.subjects.filter((s) =>
-    s.name.toLocaleLowerCase("es").includes(query.toLocaleLowerCase("es")),
-  );
+  const subjects = data.subjects
+    .filter((s) =>
+      `${subjectTitle(s)} ${catalogEntry(s)?.code ?? ""}`
+        .toLocaleLowerCase("es")
+        .includes(query.toLocaleLowerCase("es")),
+    )
+    .sort(
+      (a, b) =>
+        Number(Boolean(catalogEntry(b)?.firstSemester)) -
+        Number(Boolean(catalogEntry(a)?.firstSemester)),
+    );
   return (
     <>
       <PageHeading
         eyebrow="TU MAPA DE APRENDIZAJE"
         title="Un mundo por descubrir."
-        description="Organiza tu estudio y dedica tiempo a lo que te acerca a tu objetivo."
+        description="Primer curso de Derecho. Prepararemos primero las seis asignaturas del primer cuatrimestre; las demás se habilitarán al incorporar sus materiales."
       />
       <div className="list-toolbar">
         <span>
@@ -50,9 +59,9 @@ export default function Subjects() {
         />
       )}
       <p className="footnote">
-        Asignaturas pendientes de validación académica. El porcentaje indica
-        tiempo registrado respecto al objetivo de 600 minutos, no dominio del
-        temario.
+        Catálogo del primer curso según la relación que has facilitado. Las
+        lecciones están pendientes de materiales. El porcentaje indica tiempo
+        registrado respecto al objetivo de 600 minutos, no dominio del temario.
       </p>
       {selected && (
         <SubjectDetail subject={selected} onClose={() => setSelected(null)} />

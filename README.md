@@ -11,14 +11,14 @@ npm ci
 npm run dev
 ```
 
-Sin credenciales, la aplicación abre una **demo explícita** con nueve asignaturas y actividad de ejemplo. Los cambios se guardan en `localStorage` de este navegador. No introduzcas información sensible en la demo ni en un navegador compartido. Las sesiones de temporizador viven en memoria: al recargar se pierde el temporizador activo; termina la sesión para guardar los minutos. No se transfieren datos de la demo al iniciar sesión.
+Sin credenciales, la aplicación abre una **demo explícita** con once asignaturas del primer curso y actividad de ejemplo. Los cambios se guardan en `localStorage` de este navegador. No introduzcas información sensible en la demo ni en un navegador compartido. Las sesiones de temporizador viven en memoria: al recargar se pierde el temporizador activo; termina la sesión para guardar los minutos. No se transfieren datos de la demo al iniciar sesión.
 
 Rutas: `/dashboard`, `/asignaturas`, `/calendario`, `/progreso`, `/fuentes`, `/ajustes`, `/login`.
 
 ## Funciones disponibles
 
 - Panel con objetivo diario, racha y tareas del día.
-- Búsqueda de asignaturas, detalle y progreso según minutos registrados (no evaluación académica).
+- Catálogo de once asignaturas del primer curso con nombres completos, códigos y créditos; búsqueda por nombre o código. Seis del primer cuatrimestre pendientes de materiales y cinco bloqueadas hasta preparar su contenido. «Empezar a estudiar» abre la elección de asignatura. El estudio libre sigue disponible para las seis primeras; el progreso actual mide minutos registrados, no evaluación académica. Los bloqueos también se comprueban antes de iniciar el temporizador.
 - Crear, completar y eliminar tareas; calendario navegable.
 - Calendario de febrero de 2027: seis asignaturas resaltadas en el PDF aportado, dos opciones por asignatura y horas de Las Palmas (Canarias). El origen está marcado como borrador. Cada elección exige reconocer ese carácter provisional; cambiar de semana sustituye la elección anterior y conserva los exámenes manuales. PDF accesible desde la app. El nombre «Derecho Procesal» se vincula expresamente a Introducción al Derecho Procesal (66021044); Constitucional, Administrativo y Civil I.2 no reciben fechas por inferencia.
 - Fechas de examen introducidas manualmente con confirmación obligatoria. Las opciones importadas no se añaden a la agenda hasta elegirlas.
@@ -34,7 +34,7 @@ La conexión está preparada mediante Supabase Auth y RLS desde el navegador, ma
 
 ## Supabase: pasar de la demo a una cuenta real
 
-1. Crea un proyecto Supabase y ejecuta `supabase/migrations/202610210001_initial.sql` en su editor SQL (una sola vez, o mediante tu flujo de migraciones). Inicializa perfiles, nueve asignaturas por usuario y preferencias. Incluye usuarios existentes; no copia datos de ejemplo a cuentas reales.
+1. Crea un proyecto Supabase y ejecuta `supabase/migrations/202610210001_initial.sql` en su editor SQL (una sola vez, o mediante tu flujo de migraciones). Inicializa perfiles, el catálogo original de nueve asignaturas por usuario y preferencias. Al cargar la app se completa de forma idempotente el catálogo actual de once, conservando los identificadores y la actividad existente. Incluye usuarios existentes; no copia datos de ejemplo a cuentas reales.
 2. Copia `.env.example` a `.env.local` y configura `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` (o `NEXT_PUBLIC_SUPABASE_ANON_KEY` para una clave heredada) con la URL y la clave pública/anon del proyecto. No uses una clave `service_role` en ninguna variable pública. Reinicia el servidor; las variables públicas se incorporan durante el build.
 3. En Authentication > URL Configuration, configura Site URL y la URL de retorno `https://tu-dominio/auth/callback` (en local, el mismo origen del servidor, con la ruta `/auth/callback`). Habilita confirmación de email y configura SMTP para uso real. La app envía registro y acceso directamente al servicio Auth.
 4. Para Google, activa el proveedor en Supabase y configura su OAuth Client ID/Secret **en Supabase**, con la URL de callback que Supabase indica. No son necesarios en el navegador ni en este proyecto. Este acceso solicita identidad, no permisos de Google Drive.

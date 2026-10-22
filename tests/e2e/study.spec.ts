@@ -143,6 +143,13 @@ test("layout stays within the viewport and timer can pause and finish", async ({
     ),
   ).toBe(true);
   await page.getByRole("button", { name: "Empezar a estudiar" }).click();
+  await page
+    .getByRole("dialog")
+    .getByRole("button", { name: /Derecho Civil I.1/ })
+    .click();
+  await page
+    .getByRole("button", { name: "Estudio libre (cronómetro)", exact: true })
+    .click();
   await page.getByRole("button", { name: "Pausar sesión" }).click();
   await expect(page.getByText("Sesión en pausa")).toBeVisible();
   await page.getByRole("button", { name: "Reanudar sesión" }).click();
@@ -168,5 +175,5 @@ test("confirmed deletion preserves subjects and clears study data", async ({
   await page.goto("/dashboard");
   await expect(page.getByText("Un día por escribir")).toBeVisible();
   await page.goto("/asignaturas");
-  await expect(page.locator(".subject-card")).toHaveCount(9);
+  await expect(page.locator(".subject-card")).toHaveCount(11);
 });

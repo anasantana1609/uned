@@ -17,7 +17,7 @@ Estas dos propiedades se publican en el navegador por diseño. Nunca utilices un
 
 En el editor SQL de Supabase ejecuta una sola vez el archivo [`202610210001_initial.sql`](../supabase/migrations/202610210001_initial.sql). Crea las tablas, las políticas por usuario, el catálogo inicial y el borrado de datos de estudio. Si ya lo ejecutaste, no lo vuelvas a aplicar: primero comprueba el estado de las migraciones.
 
-La función de inicialización crea nueve asignaturas para cada cuenta, sin tareas ni minutos de ejemplo. Los datos de demo no se importan a las cuentas. No desactives RLS ni concedas acceso de lectura a `anon`.
+La función de inicialización crea las nueve asignaturas del catálogo original para cada cuenta, sin tareas ni minutos de ejemplo. Al cargar una cuenta, la app añade las materias que falten del catálogo actual de once mediante una operación idempotente y bajo RLS; conserva las asignaturas existentes y sus identificadores. Los datos de demo no se importan a las cuentas. No desactives RLS ni concedas acceso de lectura a `anon`.
 
 ## 3. Acceso y confirmación de email
 

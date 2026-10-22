@@ -23,6 +23,16 @@ async function mockSupabase(
   const exams: Record<string, unknown>[] = [];
   const examWrites: { method: string; userFilter: string | null }[] = [];
   let failExams = false;
+  const ownedSubjects: Record<string, unknown>[] = [
+    {
+      id: subjectId,
+      user_id: userId,
+      name: subjectName,
+      category: "Derecho privado",
+      color: "mint",
+      goal_minutes: 600,
+    },
+  ];
   const rows: Record<string, unknown>[] = [];
   let failTasks = false;
   const session = {
@@ -61,17 +71,16 @@ async function mockSupabase(
       r.headers().authorization !== `Bearer ${session.access_token}`
     )
       return reply({ message: "Authentication required" }, 401);
-    if (u.pathname === "/rest/v1/subjects")
-      return reply([
-        {
-          id: subjectId,
-          user_id: userId,
-          name: subjectName,
-          category: "Derecho privado",
-          color: "mint",
-          goal_minutes: 600,
-        },
-      ]);
+    if (u.pathname === "/rest/v1/subjects") {
+      if (r.method() === "POST") {
+        for (const subject of r.postDataJSON()) {
+          if (!ownedSubjects.some((s) => s.name === subject.name))
+            ownedSubjects.push({ ...subject, id: crypto.randomUUID() });
+        }
+        return route.fulfill({ status: 201, headers });
+      }
+      return reply(ownedSubjects);
+    }
     if (u.pathname === "/rest/v1/study_tasks") {
       if (failTasks) return reply({ message: "Temporarily unavailable" }, 503);
       if (r.method() === "POST") {
@@ -110,6 +119,7 @@ async function mockSupabase(
   });
   return {
     rows,
+    ownedSubjects,
     exams,
     examWrites,
     failExams: (v: boolean) => {
@@ -366,4 +376,21 @@ test("unconfirmed sign-in offers a confirmation resend with the Pages return URL
     "recibirás un nuevo enlace",
   );
   expect(returnUrl).toBe("http://127.0.0.1:4174/uned/auth/callback/");
+});
+
+test("existing account receives the missing catalogue without replacing its subject IDs", async ({
+  page,
+}) => {
+  const mock = await mockSupabase(page, "Derecho Civil I.1");
+  await login(page);
+  await page.goto("/uned/asignaturas/");
+  await expect(page.locator(".subject-card")).toHaveCount(11);
+  await expect(page.locator(".subject-card-locked")).toHaveCount(5);
+  expect(
+    mock.ownedSubjects.find((s) => s.name === "Derecho Civil I.1")?.id,
+  ).toBe(subjectId);
+  expect(mock.ownedSubjects).toHaveLength(11);
+  await page.reload();
+  await expect(page.locator(".subject-card")).toHaveCount(11);
+  expect(mock.ownedSubjects).toHaveLength(11);
 });

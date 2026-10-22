@@ -15,6 +15,7 @@ import {
 } from "@/lib/exam-calendar";
 import {
   demoData,
+  subjectDefinitions,
   defaultPreferences,
   dateKey,
   validateTask,
@@ -24,6 +25,7 @@ import {
   type Exam,
   type Preferences,
 } from "@/lib/model";
+import { catalogEntry, isSubjectLocked } from "@/lib/subject-catalog";
 type User = { id: string; email: string; name: string };
 type StudyContext = {
   data: StudyData;
@@ -124,6 +126,16 @@ function readDemo(raw: string): StudyData {
     !["Atlantic/Canary", "Europe/Madrid"].includes(d.preferences.timezone)
   )
     throw new Error("Preferencias no válidas");
+  const missing = subjectDefinitions.filter(
+    (s) => !d.subjects.some((x) => catalogEntry(x)?.name === s.name),
+  );
+  d.subjects.push(
+    ...missing.map((s) => ({
+      ...s,
+      id: `catalog-${catalogEntry(s)!.code}`,
+      goal: 600,
+    })),
+  );
   return d;
 }
 export function StudyProvider({
@@ -169,8 +181,39 @@ export function StudyProvider({
             );
           if (cancelled) return;
           const [s, t, se, e, p] = results;
+          let subjectRows = s.data ?? [];
+          const missingSubjects = subjectDefinitions.filter(
+            (definition) =>
+              !subjectRows.some(
+                (row) => catalogEntry(row)?.name === definition.name,
+              ),
+          );
+          if (missingSubjects.length) {
+            const added = await client.from("subjects").upsert(
+              missingSubjects.map((definition) => ({
+                user_id: user.id,
+                name: definition.name,
+                category: definition.category,
+                color: definition.color,
+                goal_minutes: 600,
+              })),
+              { onConflict: "user_id,name", ignoreDuplicates: true },
+            );
+            if (added.error)
+              throw new Error(
+                "No se pudo completar el catálogo de asignaturas. Reintenta la carga.",
+              );
+            const refreshed = await client
+              .from("subjects")
+              .select("*")
+              .eq("user_id", user.id);
+            if (refreshed.error)
+              throw new Error("No se pudo cargar el catálogo actualizado.");
+            subjectRows = refreshed.data ?? [];
+          }
+          if (cancelled) return;
           setData({
-            subjects: (s.data ?? []).map((x) => ({
+            subjects: subjectRows.map((x) => ({
               id: x.id,
               name: x.name,
               category: x.category,
@@ -522,6 +565,13 @@ export function StudyProvider({
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
   function startSession(subjectId: string) {
+    const subject = data.subjects.find((s) => s.id === subjectId);
+    if (!subject || isSubjectLocked(subject)) {
+      setNotice(
+        "Esta asignatura está bloqueada hasta incorporar sus materiales y preparar el contenido.",
+      );
+      return;
+    }
     if (activeSession) {
       setNotice(
         "Ya tienes una sesión en marcha. Termínala antes de iniciar otra.",

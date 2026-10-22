@@ -13,9 +13,15 @@ import {
   Play,
   ChevronRight,
   CalendarDays,
+  LockKeyhole,
 } from "lucide-react";
 import { useStudy } from "./study-provider";
 import { dateKey, localDate, type Subject, type Task } from "@/lib/model";
+import {
+  catalogEntry,
+  isSubjectLocked,
+  subjectTitle,
+} from "@/lib/subject-catalog";
 export function SubjectIcon({
   subject,
   size = 21,
@@ -265,7 +271,7 @@ export function TaskRow({
         className="icon-button task-play"
         title="Iniciar sesión"
         aria-label={`Estudiar: ${task.title}`}
-        disabled={!ready}
+        disabled={!ready || Boolean(subject && isSubjectLocked(subject))}
         onClick={() => startSession(task.subjectId)}
       >
         <Play size={15} />
@@ -309,6 +315,8 @@ export function SubjectCard({
   onOpen: () => void;
 }) {
   const { data } = useStudy();
+  const entry = catalogEntry(subject);
+  const locked = isSubjectLocked(subject);
   const minutes = data.sessions
     .filter((s) => s.subjectId === subject.id)
     .reduce((a, s) => a + s.minutes, 0);
@@ -317,15 +325,38 @@ export function SubjectCard({
     (t) => t.subjectId === subject.id && !t.done,
   ).length;
   return (
-    <button className="subject-card" onClick={onOpen}>
+    <button
+      className={`subject-card ${locked ? "subject-card-locked" : ""}`}
+      onClick={onOpen}
+    >
       <div className="subject-card-top">
         <SubjectIcon subject={subject} />
         <span className="subject-open">
-          <ChevronRight size={17} />
+          {locked ? (
+            <LockKeyhole size={17} aria-label="Contenido bloqueado" />
+          ) : (
+            <ChevronRight size={17} />
+          )}
         </span>
       </div>
-      <h3>{subject.name}</h3>
+      <h3>{subjectTitle(subject)}</h3>
       <p>{subject.category}</p>
+      {entry && (
+        <p className="subject-catalog-meta">
+          {entry.code} · {entry.credits.toLocaleString("es-ES")} créditos
+        </p>
+      )}
+      {entry && (
+        <span className={`subject-content-status ${locked ? "locked" : ""}`}>
+          {locked ? (
+            <>
+              <LockKeyhole size={13} /> Bloqueada · pendiente de contenido
+            </>
+          ) : (
+            "1.er cuatrimestre · materiales pendientes"
+          )}
+        </span>
+      )}
       <div className="subject-progress-label">
         <span>Objetivo de estudio</span>
         <strong>{percent}%</strong>
@@ -363,7 +394,7 @@ export function SubjectDetail({
       <TaskForm initialSubject={subject.id} onClose={() => setAdd(false)} />
     );
   return (
-    <Modal title={subject.name} onClose={onClose}>
+    <Modal title={subjectTitle(subject)} onClose={onClose}>
       <div className="detail-summary">
         <SubjectIcon subject={subject} />
         <div>
@@ -373,21 +404,37 @@ export function SubjectDetail({
           </p>
         </div>
       </div>
+      {catalogEntry(subject) && (
+        <div className="inline-note">
+          <LockKeyhole size={18} />
+          <span>
+            {isSubjectLocked(subject)
+              ? "Asignatura bloqueada. Se habilitará cuando incorporemos sus materiales y preparemos sus lecciones y pruebas."
+              : "Primer cuatrimestre: pendiente de recibir y preparar los materiales. Todavía no hay lecciones ni pruebas disponibles; puedes registrar estudio libre."}
+          </span>
+        </div>
+      )}
       <p className="muted">
-        Asignatura pendiente de validación académica. El progreso mide tiempo de
-        estudio, no dominio del temario.
+        El porcentaje actual mide tiempo de estudio, no dominio del temario. El
+        aprendizaje guiado avanzará al superar la prueba final.
       </p>
       <div className="detail-actions">
         <button
           className="button"
-          disabled={!ready}
+          disabled={!ready || isSubjectLocked(subject)}
           onClick={() => {
             startSession(subject.id);
             onClose();
           }}
         >
           <Play size={16} />
-          Iniciar sesión
+          {isSubjectLocked(subject) ? (
+            <>
+              <LockKeyhole size={15} /> Contenido bloqueado
+            </>
+          ) : (
+            "Estudio libre (cronómetro)"
+          )}
         </button>
         <button className="button secondary" onClick={() => setAdd(true)}>
           <Plus size={16} />

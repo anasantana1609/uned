@@ -79,6 +79,12 @@ export const subjectDefinitions = [
     category: "Derecho público",
     color: "blue",
   },
+  {
+    name: "Cultura Europea en España",
+    category: "Historia jurídica",
+    color: "yellow",
+  },
+  { name: "Derecho Romano", category: "Derecho privado", color: "peach" },
 ];
 export const defaultPreferences: Preferences = {
   dailyGoal: 60,

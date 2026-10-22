@@ -25,7 +25,9 @@ import {
   TaskForm,
   TaskRow,
   Empty,
+  Modal,
 } from "./ui";
+import { catalogEntry } from "@/lib/subject-catalog";
 import {
   dateKey,
   streak,
@@ -34,7 +36,8 @@ import {
   type Subject,
 } from "@/lib/model";
 export function Dashboard() {
-  const { data, user, startSession, ready } = useStudy();
+  const { data, user, ready } = useStudy();
+  const [choosingSubject, setChoosingSubject] = useState(false);
   const [adding, setAdding] = useState(false);
   const [selected, setSelected] = useState<Subject | null>(null);
   const today = dateKey();
@@ -50,7 +53,6 @@ export function Dashboard() {
   const upcoming = data.exams
     .filter((e) => e.date >= today && e.confirmed)
     .sort((a, b) => a.date.localeCompare(b.date))[0];
-  const nextTask = tasks.find((t) => !t.done);
   return (
     <>
       <PageHeading
@@ -90,9 +92,7 @@ export function Dashboard() {
             <button
               className="button dark"
               disabled={!ready || !data.subjects.length}
-              onClick={() =>
-                startSession(nextTask?.subjectId ?? data.subjects[0].id)
-              }
+              onClick={() => setChoosingSubject(true)}
             >
               <Play size={15} fill="currentColor" />
               Empezar a estudiar
@@ -309,6 +309,36 @@ export function Dashboard() {
         <Sparkles size={15} />
       </div>
       {adding && <TaskForm onClose={() => setAdding(false)} />}{" "}
+      {choosingSubject && (
+        <Modal
+          title="Elige tu asignatura"
+          onClose={() => setChoosingSubject(false)}
+        >
+          <p className="muted">
+            Las lecciones de cinco minutos y las pruebas finales se habilitarán
+            cuando incorporemos los materiales. Mientras tanto, las seis del
+            primer cuatrimestre permiten registrar estudio libre.
+          </p>
+          <div className="subject-grid study-subject-picker">
+            {[...data.subjects]
+              .sort(
+                (a, b) =>
+                  Number(Boolean(catalogEntry(b)?.firstSemester)) -
+                  Number(Boolean(catalogEntry(a)?.firstSemester)),
+              )
+              .map((subject) => (
+                <SubjectCard
+                  key={subject.id}
+                  subject={subject}
+                  onOpen={() => {
+                    setChoosingSubject(false);
+                    setSelected(subject);
+                  }}
+                />
+              ))}
+          </div>
+        </Modal>
+      )}
       {selected && (
         <SubjectDetail subject={selected} onClose={() => setSelected(null)} />
       )}

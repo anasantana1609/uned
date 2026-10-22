@@ -3793,3 +3793,45 @@ td {
     padding: 9px;
   }
 }
+.subject-card-locked {
+  background: #f4f5f1;
+  border-style: dashed;
+}
+.subject-card-locked .subject-open {
+  color: #637066;
+}
+.subject-catalog-meta {
+  font-size: 11px;
+  color: #59665e;
+}
+.subject-content-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  line-height: 1.5;
+  color: #355b46;
+  background: #edf3e7;
+  padding: 7px 9px;
+  border-radius: 8px;
+  margin: 8px 0 14px;
+  text-align: left;
+}
+.subject-content-status.locked {
+  background: #e9eae4;
+  color: #525e55;
+}
+.study-subject-picker {
+  grid-template-columns: minmax(0, 1fr);
+}
+.study-subject-picker .subject-card h3 {
+  min-height: 0;
+}
+.subject-card > .subject-catalog-meta {
+  margin-bottom: 8px;
+}
+@media (max-width: 600px) {
+  .full-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
