@@ -20,20 +20,24 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
+      - name: Comprobar conexión Supabase
+        if: ${{ vars.NEXT_PUBLIC_SUPABASE_URL != '' && vars.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY != '' }}
+        env:
+          SUPABASE_URL: ${{ vars.NEXT_PUBLIC_SUPABASE_URL }}
+          SUPABASE_PUBLISHABLE_KEY: ${{ vars.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
+        run: npm run check:supabase
       - run: npm test
       - run: npm run build:demo
       - run: npx playwright install --with-deps chromium
       - run: npm run test:preliminary
       - run: npm run test:pages
-      - name: Comprobar Supabase y compilar la preliminar
+      - name: Compilar la preliminar
         if: ${{ vars.NEXT_PUBLIC_SUPABASE_URL != '' && vars.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY != '' }}
         env:
           SUPABASE_URL: ${{ vars.NEXT_PUBLIC_SUPABASE_URL }}
           SUPABASE_PUBLISHABLE_KEY: ${{ vars.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
           GOOGLE_AUTH_ENABLED: ${{ vars.GOOGLE_AUTH_ENABLED }}
-        run: |
-          npm run check:supabase
-          npm run build:preview
+        run: npm run build:preview
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

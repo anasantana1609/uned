@@ -46,9 +46,16 @@ async function main() {
       "Falta probar el acceso y el aislamiento con dos cuentas reales; este diagnóstico no lo sustituye.",
     );
   } catch (e) {
-    console.error(
-      e instanceof Error ? e.message : "No se pudo validar Supabase.",
-    );
+    const message =
+      e instanceof Error ? e.message : "No se pudo validar Supabase.";
+    console.error(message);
+    if (process.env.GITHUB_ACTIONS === "true") {
+      const escaped = message
+        .replace(/%/g, "%25")
+        .replace(/\r/g, "%0D")
+        .replace(/\n/g, "%0A");
+      console.error(`::error title=Conexión Supabase::${escaped}`);
+    }
     process.exitCode = 1;
   }
 }

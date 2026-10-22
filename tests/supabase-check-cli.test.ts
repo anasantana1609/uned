@@ -6,6 +6,7 @@ const cwd = fileURLToPath(new URL("..", import.meta.url));
 function run(mode?: string) {
   const env = {
     ...process.env,
+    GITHUB_ACTIONS: "true",
     SUPABASE_URL: mode ? "https://fixture.supabase.co" : "",
     SUPABASE_PUBLISHABLE_KEY: mode
       ? "sb_publishable_fixture_not_for_real_service"
@@ -33,6 +34,10 @@ test("Supabase CLI starts in the actual package module format and reports missin
   const result = run();
   assert.equal(result.status, 1);
   assert.match(result.stderr, /Indica una URL válida/);
+  assert.match(
+    result.stderr,
+    /::error title=Conexión Supabase::Indica una URL válida/,
+  );
   assert.doesNotMatch(result.stderr, /Transform failed|Top-level await/);
 });
 test("Supabase CLI validates email and all private-table denials through its real entry point", () => {
