@@ -413,7 +413,7 @@ export function SubjectDetail({
           <span>
             {isSubjectLocked(subject)
               ? "Asignatura bloqueada. Se habilitará cuando incorporemos sus materiales y preparemos sus lecciones y pruebas."
-              : "Primer cuatrimestre: pendiente de recibir y preparar los materiales. Todavía no hay lecciones ni pruebas disponibles; puedes registrar estudio libre."}
+              : "Primer cuatrimestre: contenido en preparación. Todavía no hay lecciones ni pruebas disponibles; puedes registrar estudio libre."}
           </span>
         </div>
       )}
