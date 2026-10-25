@@ -15,6 +15,7 @@ import {
   CalendarDays,
   LockKeyhole,
 } from "lucide-react";
+import { subjectColors } from "@/lib/subject-theme";
 import { useStudy } from "./study-provider";
 import { dateKey, localDate, type Subject, type Task } from "@/lib/model";
 import {
@@ -43,7 +44,14 @@ export function SubjectIcon({
           ? Landmark
           : ScrollText;
   return (
-    <span className={`subject-icon ${subject.color}`}>
+    <span
+      className={`subject-icon ${subject.color}`}
+      style={{
+        background:
+          subjectColors[catalogEntry(subject)?.code ?? ""] ?? "#34765c",
+        color: "white",
+      }}
+    >
       <Icon size={size} />
     </span>
   );

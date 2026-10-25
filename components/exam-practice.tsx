@@ -1,4 +1,5 @@
 "use client";
+import { subjectTheme } from "@/lib/subject-theme";
 import { useEffect, useState } from "react";
 import {
   examPracticeFor,
@@ -34,7 +35,11 @@ export function ExamPractice({ code }: { code: string }) {
     setDeadline(spec.minutes ? Date.now() + spec.minutes * 60_000 : null);
   }
   return (
-    <section className="exam-practice" aria-label="Práctica de examen">
+    <section
+      className="exam-practice subject-theme"
+      style={subjectTheme(code)}
+      aria-label="Práctica de examen"
+    >
       <h2>Hacer exámenes</h2>
       <p>{spec.description}</p>
       {spec.source && <p className="muted">Referencia: {spec.source}</p>}

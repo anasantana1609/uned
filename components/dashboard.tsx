@@ -18,22 +18,9 @@ import { ExamPractice } from "./exam-practice";
 import { CivilSyllabus } from "./civil-syllabus";
 import { ProceduralSyllabus } from "./procedural-syllabus";
 import { HistoryPreparation } from "./history-preparation";
+import { subjectColors, subjectTheme } from "@/lib/subject-theme";
 import { lessonsFor } from "@/lib/learning";
 
-const colors = [
-  "#235fc4",
-  "#16724d",
-  "#ab510b",
-  "#7740b3",
-  "#b52d68",
-  "#087880",
-  "#896800",
-  "#394fb2",
-  "#865331",
-  "#53751b",
-  "#a4323b",
-];
-const accents = colors;
 export function Dashboard() {
   const { data, ready } = useStudy();
   const [expanded, setExpanded] = useState<string | null>(null);
@@ -61,7 +48,8 @@ export function Dashboard() {
       <section
         ref={focusRef}
         tabIndex={-1}
-        className="subject-workspace"
+        className="subject-workspace subject-theme"
+        style={subjectTheme(subject.code)}
         aria-label={`${subject.title}: ${selection.mode === "lessons" ? "lecciones" : "exámenes"}`}
       >
         <button className="text-link" onClick={() => setSelection(null)}>
@@ -113,9 +101,6 @@ export function Dashboard() {
       <h1 className="subject-home-heading">Mis asignaturas</h1>
       <section className="subject-home-list" aria-label="Asignaturas del curso">
         {subjects.map((entry) => {
-          const index = firstYearCatalog.findIndex(
-            (s) => s.code === entry.code,
-          );
           const open = expanded === entry.code;
           return (
             <article
@@ -123,8 +108,8 @@ export function Dashboard() {
               className={`subject-home-row ${!entry.firstSemester ? "semester-locked" : ""}`}
               style={
                 {
-                  "--subject-bg": colors[index],
-                  "--subject-accent": accents[index],
+                  "--subject-bg": subjectColors[entry.code],
+                  "--subject-accent": subjectColors[entry.code],
                 } as CSSProperties
               }
             >

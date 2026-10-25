@@ -20,7 +20,7 @@ body {
   background: var(--cream);
   color: var(--text);
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 14px;
+  font-size: 20px;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
 }
@@ -132,7 +132,7 @@ select:focus {
   border-radius: 12px 12px 12px 3px;
 }
 .brand > span:last-child {
-  font-size: 32px;
+  font-size: 40px;
   font-weight: 800;
   letter-spacing: -1.4px;
 }
@@ -141,14 +141,14 @@ select:focus {
 }
 .brand small {
   display: block;
-  font-size: 9px;
+  font-size: 16px;
   letter-spacing: 2.6px;
   font-weight: 600;
   margin-top: 6px;
   color: #616c63;
 }
 .workspace-label {
-  font-size: 9px;
+  font-size: 16px;
   font-weight: 700;
   letter-spacing: 1.5px;
   color: #666b66;
@@ -162,7 +162,7 @@ select:focus {
   padding: 12px 13px;
   border-radius: 7px;
   color: #626c65;
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 500;
   margin: 3px 0;
   white-space: nowrap;
@@ -188,7 +188,7 @@ select:focus {
   margin-top: 31px;
 }
 .small-soon {
-  font-size: 7px;
+  font-size: 16px;
   background: #f3f3ed;
   color: #656a61;
   letter-spacing: 0.4px;
@@ -213,13 +213,13 @@ select:focus {
   color: #597055;
 }
 .sidebar-note h3 {
-  font-size: 13px;
+  font-size: 20px;
   font-weight: 600;
   line-height: 1.65;
   margin: 9px 0 6px;
 }
 .sidebar-note p {
-  font-size: 11px;
+  font-size: 16px;
   line-height: 1.8;
   color: #626a5f;
 }
@@ -228,7 +228,7 @@ select:focus {
   align-items: center;
   gap: 9px;
   color: #55714d;
-  font-size: 10px;
+  font-size: 16px;
   font-weight: 600;
   margin-top: 16px;
   position: relative;
@@ -264,7 +264,7 @@ select:focus {
   border-radius: 50%;
   font-weight: 600;
   color: #5a7251;
-  font-size: 12px;
+  font-size: 16px;
 }
 .sidebar-profile > div {
   flex: 1;
@@ -272,7 +272,7 @@ select:focus {
 }
 .sidebar-profile strong {
   display: block;
-  font-size: 10px;
+  font-size: 16px;
   max-width: 130px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -280,7 +280,7 @@ select:focus {
 }
 .sidebar-profile small {
   display: block;
-  font-size: 8px;
+  font-size: 16px;
   color: #666a64;
   margin-top: 2px;
 }
@@ -307,7 +307,7 @@ select:focus {
   display: flex;
   align-items: center;
   gap: 15px;
-  font-size: 11px;
+  font-size: 16px;
   color: #656c66;
 }
 .breadcrumb strong {
@@ -326,7 +326,7 @@ select:focus {
   display: flex;
   align-items: center;
   gap: 7px;
-  font-size: 10px;
+  font-size: 16px;
   color: #606b5e;
 }
 .status-dot {
@@ -360,7 +360,7 @@ select:focus {
   justify-content: space-between;
   align-items: center;
   gap: 16px;
-  font-size: 9px;
+  font-size: 16px;
   color: #616b58;
 }
 .demo-banner > span {
@@ -395,7 +395,7 @@ select:focus {
   margin-bottom: 29px;
 }
 .eyebrow {
-  font-size: 8px;
+  font-size: 16px;
   font-weight: 600;
   letter-spacing: 1.8px;
   color: #616d5c;
@@ -405,13 +405,13 @@ select:focus {
   gap: 8px;
 }
 .page-heading h1 {
-  font-size: 27px;
+  font-size: 32px;
   letter-spacing: -1px;
   line-height: 1.35;
   font-weight: 550;
 }
 .page-heading > div > p:last-child {
-  font-size: 11px;
+  font-size: 16px;
   color: #666c62;
   margin-top: 9px;
   line-height: 1.6;
@@ -425,7 +425,7 @@ select:focus {
   color: #fff;
   border: 1px solid var(--green);
   padding: 11px 17px;
-  font-size: 11px;
+  font-size: 16px;
   font-weight: 500;
   border-radius: 6px;
   line-height: 1.5;
@@ -452,7 +452,7 @@ select:focus {
 .button.small {
   padding: 7px 10px;
   min-height: 31px;
-  font-size: 10px;
+  font-size: 16px;
 }
 .dashboard-top {
   display: grid;
@@ -478,7 +478,7 @@ select:focus {
   display: flex;
   gap: 6px;
   align-items: center;
-  font-size: 7px;
+  font-size: 16px;
   letter-spacing: 1.3px;
   color: #5b6e54;
   font-weight: 600;
@@ -486,7 +486,7 @@ select:focus {
 }
 .hero-content h2 {
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 33px;
+  font-size: 40px;
   font-weight: 400;
   line-height: 1.2;
   letter-spacing: -0.8px;
@@ -497,13 +497,13 @@ select:focus {
   font-style: normal;
 }
 .hero-content p {
-  font-size: 10px;
+  font-size: 16px;
   line-height: 1.8;
   color: #5f6d5a;
   margin: 15px 0 21px;
 }
 .hero-content .button {
-  font-size: 10px;
+  font-size: 16px;
   padding: 10px 13px;
   gap: 8px;
 }
@@ -553,7 +553,7 @@ select:focus {
   top: 21px;
   left: 15px;
   font-family: Georgia, serif;
-  font-size: 9px;
+  font-size: 16px;
   color: #768166;
   letter-spacing: 1px;
 }
@@ -591,13 +591,13 @@ select:focus {
 }
 .book-front b {
   font-family: Georgia, serif;
-  font-size: 11px;
+  font-size: 16px;
   letter-spacing: 2px;
   font-weight: 400;
   margin-top: 10px;
 }
 .book-front > span {
-  font-size: 4px;
+  font-size: 16px;
   letter-spacing: 1.1px;
   margin-top: 6px;
 }
@@ -628,12 +628,12 @@ select:focus {
 .art-tiny-star {
   position: absolute;
   color: #5c6f4c;
-  font-size: 27px;
+  font-size: 32px;
 }
 .star-one {
   top: 37px;
   left: 25px;
-  font-size: 16px;
+  font-size: 20px;
 }
 .star-two {
   top: 93px;
@@ -705,7 +705,7 @@ select:focus {
   gap: 12px;
 }
 .card-heading h2 {
-  font-size: 13px;
+  font-size: 20px;
   font-weight: 600;
   display: flex;
   align-items: center;
@@ -720,7 +720,7 @@ select:focus {
   padding: 23px 22px 17px;
 }
 .daily-goal .card-heading h2 {
-  font-size: 12px;
+  font-size: 16px;
 }
 .goal-ring {
   width: 139px;
@@ -743,19 +743,19 @@ select:focus {
   transform: rotate(35deg);
 }
 .goal-ring > div > span {
-  font-size: 32px;
+  font-size: 40px;
   font-weight: 500;
   line-height: 1.3;
   letter-spacing: -1px;
 }
 .goal-ring small {
-  font-size: 16px;
+  font-size: 20px;
   color: #656a61;
   font-weight: 400;
   letter-spacing: 0;
 }
 .goal-ring p {
-  font-size: 8px;
+  font-size: 16px;
   color: #636d5c;
   margin-top: 3px;
 }
@@ -773,11 +773,11 @@ select:focus {
   color: #5d6d4c;
 }
 .daily-goal > h3 {
-  font-size: 11px;
+  font-size: 16px;
   font-weight: 600;
 }
 .daily-goal > p {
-  font-size: 9px;
+  font-size: 16px;
   color: #666960;
   margin: 6px 0 11px;
 }
@@ -785,7 +785,7 @@ select:focus {
   display: inline-flex;
   align-items: center;
   gap: 2px;
-  font-size: 9px;
+  font-size: 16px;
   color: #5d6f52;
 }
 .stats-grid {
@@ -837,26 +837,26 @@ select:focus {
   color: #756739;
 }
 .stat-card > div > span {
-  font-size: 9px;
+  font-size: 16px;
   color: #676c62;
   display: block;
   margin-bottom: 3px;
 }
 .stat-card strong {
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 500;
   line-height: 1.2;
   letter-spacing: -0.5px;
 }
 .stat-card strong small {
-  font-size: 12px;
+  font-size: 16px;
   color: #626b5d;
   font-weight: 400;
 }
 .stat-detail {
   margin-left: auto;
   align-self: flex-end;
-  font-size: 8px;
+  font-size: 16px;
   color: #666c5f;
   padding-bottom: 2px;
   white-space: nowrap;
@@ -872,17 +872,17 @@ select:focus {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 600;
   letter-spacing: -0.25px;
 }
 .section-heading p {
   color: #666961;
-  font-size: 10px;
+  font-size: 16px;
   margin-top: 5px;
 }
 .count-badge {
-  font-size: 9px;
+  font-size: 16px;
   color: #616c5c;
   background: #ebeee6;
   min-width: 19px;
@@ -898,7 +898,7 @@ select:focus {
   align-items: center;
   gap: 7px;
   color: #5c6e54;
-  font-size: 10px;
+  font-size: 16px;
   font-weight: 500;
   white-space: nowrap;
 }
@@ -942,7 +942,7 @@ select:focus {
   color: #676b63;
 }
 .subject-card h3 {
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 600;
   line-height: 1.4;
   min-height: 34px;
@@ -950,7 +950,7 @@ select:focus {
   align-items: center;
 }
 .subject-card > p {
-  font-size: 8px;
+  font-size: 16px;
   color: #66695f;
   margin: 3px 0 20px;
 }
@@ -958,7 +958,7 @@ select:focus {
   display: flex;
   justify-content: space-between;
   gap: 8px;
-  font-size: 8px;
+  font-size: 16px;
   color: #676c5e;
   margin-bottom: 7px;
 }
@@ -998,7 +998,7 @@ select:focus {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 7px;
+  font-size: 16px;
   color: #666961;
   margin-top: 13px;
   gap: 5px;
@@ -1018,7 +1018,7 @@ select:focus {
   padding: 20px 22px 0;
 }
 .date-label {
-  font-size: 9px;
+  font-size: 16px;
   color: #666960;
 }
 .tasks-list {
@@ -1056,7 +1056,7 @@ select:focus {
 }
 .task-info > strong {
   display: block;
-  font-size: 10px;
+  font-size: 16px;
   font-weight: 500;
   line-height: 1.5;
   overflow-wrap: anywhere;
@@ -1069,7 +1069,7 @@ select:focus {
   display: flex;
   gap: 4px;
   align-items: center;
-  font-size: 7px;
+  font-size: 16px;
   color: #666b5e;
   margin-top: 4px;
   flex-wrap: wrap;
@@ -1106,7 +1106,7 @@ select:focus {
   display: flex;
   align-items: center;
   gap: 4px;
-  font-size: 8px;
+  font-size: 16px;
   color: #646b5e;
   white-space: nowrap;
 }
@@ -1142,7 +1142,7 @@ select:focus {
   width: 100%;
   padding: 15px;
   color: #5f6f54;
-  font-size: 9px;
+  font-size: 16px;
 }
 .add-task-link:hover {
   color: #3e6241;
@@ -1184,23 +1184,23 @@ select:focus {
   place-items: center;
 }
 .next-card h3 {
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 500;
 }
 .next-card > p {
-  font-size: 9px;
+  font-size: 16px;
   line-height: 1.8;
   color: #666b5e;
   max-width: 190px;
   margin: 7px auto 16px;
 }
 .next-card .text-link {
-  font-size: 9px;
+  font-size: 16px;
   margin-top: auto;
 }
 .next-date {
   font-family: Georgia, serif;
-  font-size: 35px;
+  font-size: 40px;
   color: #586e4e;
   margin: 3px 0 12px;
 }
@@ -1210,7 +1210,7 @@ select:focus {
   gap: 5px;
   background: #eef4e8;
   color: #5a704c;
-  font-size: 8px;
+  font-size: 16px;
   padding: 4px 7px;
   border-radius: 4px;
   margin-bottom: 15px;
@@ -1224,7 +1224,7 @@ select:focus {
   color: #666c5c;
 }
 .gentle-note p {
-  font-size: 9px;
+  font-size: 16px;
   color: #666c60;
 }
 .gentle-note > svg:last-child {
@@ -1236,7 +1236,7 @@ select:focus {
   justify-content: space-between;
   padding: 18px 42px;
   border-top: 1px solid var(--line);
-  font-size: 8px;
+  font-size: 16px;
   color: #676b62;
   gap: 15px;
 }
@@ -1248,7 +1248,7 @@ select:focus {
   display: none;
 }
 .loading-state {
-  font-size: 11px;
+  font-size: 16px;
   padding: 10px 0;
   color: #5e6c57;
 }
@@ -1266,7 +1266,7 @@ select:focus {
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 12px;
+  font-size: 16px;
 }
 .toast .icon-button {
   color: #cfdfca;
@@ -1290,7 +1290,7 @@ select:focus {
   max-width: calc(100% - var(--sidebar) - 60px);
 }
 .session-bar strong {
-  font-size: 11px;
+  font-size: 16px;
   display: block;
   max-width: 220px;
   overflow: hidden;
@@ -1300,7 +1300,7 @@ select:focus {
 .session-bar small {
   display: block;
   color: #bed1c1;
-  font-size: 9px;
+  font-size: 16px;
 }
 .session-bar .icon-button {
   color: #d9e6d4;
@@ -1309,7 +1309,7 @@ select:focus {
   font-variant-numeric: tabular-nums;
   letter-spacing: 1px;
   font-weight: 500;
-  font-size: 18px;
+  font-size: 24px;
 }
 .session-pulse {
   width: 7px;
@@ -1349,7 +1349,7 @@ select:focus {
   margin-bottom: 22px;
 }
 .modal-head h2 {
-  font-size: 19px;
+  font-size: 24px;
   font-weight: 500;
   line-height: 1.4;
   letter-spacing: -0.4px;
@@ -1364,7 +1364,7 @@ select:focus {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  font-size: 12px;
+  font-size: 16px;
   color: #5c7059;
   font-weight: 500;
 }
@@ -1377,7 +1377,7 @@ textarea {
   min-height: 41px;
   border-radius: 6px;
   padding: 9px 12px;
-  font-size: 12px;
+  font-size: 16px;
   color: #405c47;
 }
 input::placeholder {
@@ -1397,7 +1397,7 @@ input:disabled {
   align-items: flex-start;
   gap: 9px;
   line-height: 1.6;
-  font-size: 11px;
+  font-size: 16px;
 }
 input[type="checkbox"] {
   accent-color: #4f7c55;
@@ -1414,11 +1414,11 @@ input[type="checkbox"] {
 }
 .muted {
   color: #616c5a;
-  font-size: 12px;
+  font-size: 16px;
   line-height: 1.8;
 }
 .help-list {
-  font-size: 13px;
+  font-size: 20px;
   line-height: 2.3;
   color: #5f7459;
   padding-left: 20px;
@@ -1443,11 +1443,11 @@ input[type="checkbox"] {
   margin-bottom: 12px;
 }
 .empty-state h3 {
-  font-size: 14px;
+  font-size: 20px;
   font-weight: 500;
 }
 .empty-state p {
-  font-size: 11px;
+  font-size: 16px;
   max-width: 300px;
   margin: 7px auto 0;
   color: #646a5e;
@@ -1463,10 +1463,10 @@ input[type="checkbox"] {
   margin-bottom: 14px;
 }
 .detail-summary strong {
-  font-size: 13px;
+  font-size: 20px;
 }
 .detail-summary p {
-  font-size: 10px;
+  font-size: 16px;
   margin-top: 4px;
   color: #636a5e;
 }
@@ -1477,7 +1477,7 @@ input[type="checkbox"] {
   margin-bottom: 24px;
 }
 .section-subtitle {
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 500;
   margin: 19px 0 8px;
 }
@@ -1489,7 +1489,7 @@ input[type="checkbox"] {
   border: 1px solid #e5ecdc;
   border-radius: 6px;
   padding: 14px;
-  font-size: 11px;
+  font-size: 16px;
   line-height: 1.8;
   color: #606d56;
   margin-top: 20px;
@@ -1510,7 +1510,7 @@ input[type="checkbox"] {
   align-items: center;
   gap: 9px;
   color: #5e6d56;
-  font-size: 12px;
+  font-size: 16px;
 }
 .search-input {
   display: flex;
@@ -1526,7 +1526,7 @@ input[type="checkbox"] {
   border: 0;
   outline-offset: 0;
   background: none;
-  font-size: 11px;
+  font-size: 16px;
 }
 .full-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1536,22 +1536,22 @@ input[type="checkbox"] {
   padding: 23px;
 }
 .full-grid .subject-card h3 {
-  font-size: 15px;
+  font-size: 20px;
 }
 .full-grid .subject-card > p {
-  font-size: 11px;
+  font-size: 16px;
 }
 .full-grid .subject-progress-label {
-  font-size: 10px;
+  font-size: 16px;
 }
 .full-grid .subject-card-bottom {
-  font-size: 9px;
+  font-size: 16px;
 }
 .full-grid .subject-card-top {
   margin-bottom: 20px;
 }
 .footnote {
-  font-size: 10px;
+  font-size: 16px;
   line-height: 1.8;
   color: #646b5e;
   margin-top: 20px;
@@ -1571,7 +1571,7 @@ input[type="checkbox"] {
   margin-bottom: 20px;
 }
 .calendar-heading h2 {
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 500;
   text-transform: capitalize;
 }
@@ -1586,7 +1586,7 @@ input[type="checkbox"] {
 }
 .weekday {
   text-align: center;
-  font-size: 10px;
+  font-size: 16px;
   padding: 12px 0;
   color: #646c5c;
   border-bottom: 1px solid var(--line);
@@ -1609,7 +1609,7 @@ input[type="checkbox"] {
   place-items: center;
   width: 23px;
   height: 23px;
-  font-size: 10px;
+  font-size: 16px;
   margin-bottom: 4px;
   border-radius: 50%;
 }
@@ -1637,7 +1637,7 @@ input[type="checkbox"] {
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
-  font-size: 7px;
+  font-size: 16px;
   padding: 3px;
   border-radius: 3px;
 }
@@ -1663,7 +1663,7 @@ input[type="checkbox"] {
   display: flex;
   gap: 6px;
   align-items: center;
-  font-size: 9px;
+  font-size: 16px;
   color: #656b5e;
 }
 .calendar-legend i,
@@ -1691,7 +1691,7 @@ input[type="checkbox"] {
   margin-left: auto;
 }
 .calendar-agenda .card-heading h2 {
-  font-size: 15px;
+  font-size: 20px;
 }
 .agenda-exam {
   border-top: 1px solid var(--line);
@@ -1699,11 +1699,11 @@ input[type="checkbox"] {
   margin-top: 15px;
 }
 .agenda-exam h3 {
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 500;
 }
 .agenda-exam p {
-  font-size: 10px;
+  font-size: 16px;
   line-height: 1.8;
   color: #676c5c;
   margin: 8px 0 15px;
@@ -1720,11 +1720,11 @@ input[type="checkbox"] {
   min-width: 0;
 }
 .exam-item strong {
-  font-size: 11px;
+  font-size: 16px;
   font-weight: 500;
 }
 .exam-item p {
-  font-size: 8px;
+  font-size: 16px;
   color: #656a5a;
   line-height: 1.8;
 }
@@ -1732,7 +1732,7 @@ input[type="checkbox"] {
   display: flex;
   align-items: center;
   gap: 3px;
-  font-size: 8px;
+  font-size: 16px;
   color: #636b52;
   margin-top: 4px;
 }
@@ -1748,7 +1748,7 @@ input[type="checkbox"] {
   gap: 22px;
 }
 .weekly-chart .card-heading p {
-  font-size: 10px;
+  font-size: 16px;
   color: #646a5a;
   margin-top: 5px;
 }
@@ -1768,12 +1768,12 @@ input[type="checkbox"] {
   gap: 8px;
 }
 .chart-column > strong {
-  font-size: 10px;
+  font-size: 16px;
   font-weight: 500;
   color: #5f6e54;
 }
 .chart-column > strong small {
-  font-size: 8px;
+  font-size: 16px;
   font-weight: 400;
 }
 .bar-space {
@@ -1803,11 +1803,11 @@ input[type="checkbox"] {
 }
 .chart-column > span {
   text-transform: capitalize;
-  font-size: 10px;
+  font-size: 16px;
   color: #616d56;
 }
 .chart-column > small {
-  font-size: 9px;
+  font-size: 16px;
   color: #656b5b;
   margin-top: -7px;
 }
@@ -1831,13 +1831,13 @@ input[type="checkbox"] {
   min-width: 0;
 }
 .time-row strong {
-  font-size: 9px;
+  font-size: 16px;
   font-weight: 500;
   display: block;
   margin-bottom: 7px;
 }
 .time-row > span:last-child {
-  font-size: 9px;
+  font-size: 16px;
   color: #636d58;
   white-space: nowrap;
 }
@@ -1850,14 +1850,14 @@ input[type="checkbox"] {
 table {
   border-collapse: collapse;
   width: 100%;
-  font-size: 11px;
+  font-size: 16px;
   text-align: left;
   margin-top: 15px;
 }
 th {
   color: #636c5a;
   font-weight: 500;
-  font-size: 10px;
+  font-size: 16px;
   padding: 12px;
   border-bottom: 1px solid var(--line);
 }
@@ -1883,7 +1883,7 @@ td {
 }
 .pill {
   display: inline-block;
-  font-size: 8px;
+  font-size: 16px;
   letter-spacing: 0.7px;
   padding: 5px 9px;
   border-radius: 4px;
@@ -1893,13 +1893,13 @@ td {
 }
 .sources-intro > h2 {
   font-family: Georgia, serif;
-  font-size: 28px;
+  font-size: 32px;
   font-weight: 400;
   letter-spacing: -0.4px;
   margin: 20px 0 13px;
 }
 .sources-intro > p {
-  font-size: 12px;
+  font-size: 16px;
   line-height: 1.9;
   max-width: 480px;
   margin: 0 auto;
@@ -1920,14 +1920,14 @@ td {
 }
 .source-folder strong {
   display: block;
-  font-size: 12px;
+  font-size: 16px;
   color: #5c704f;
   font-weight: 500;
 }
 .source-folder small {
   display: block;
   color: #646c5c;
-  font-size: 10px;
+  font-size: 16px;
   margin-top: 4px;
 }
 .source-folder > svg:last-child {
@@ -1946,12 +1946,12 @@ td {
   margin-bottom: 10px;
 }
 .sources-steps h3 {
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 500;
   margin-bottom: 7px;
 }
 .sources-steps p {
-  font-size: 10px;
+  font-size: 16px;
   line-height: 1.9;
   color: #626b5a;
 }
@@ -1972,23 +1972,23 @@ td {
   flex-wrap: wrap;
 }
 .settings-heading h2 {
-  font-size: 13px;
+  font-size: 20px;
   font-weight: 500;
 }
 .settings-heading p {
-  font-size: 10px;
+  font-size: 16px;
   color: #656c5c;
   margin-top: 5px;
 }
 .settings-heading .pill {
   margin-left: auto;
-  font-size: 6px;
+  font-size: 16px;
 }
 .settings-card .form-label input {
   max-width: 230px;
 }
 .field-help {
-  font-size: 9px;
+  font-size: 16px;
   line-height: 1.9;
   color: #656d5c;
   margin-top: 10px;
@@ -2013,13 +2013,13 @@ td {
 }
 .toggle-row strong {
   display: block;
-  font-size: 11px;
+  font-size: 16px;
   color: #5c704f;
   font-weight: 500;
 }
 .toggle-row small {
   display: block;
-  font-size: 9px;
+  font-size: 16px;
   color: #646c5b;
   margin-top: 5px;
 }
@@ -2056,7 +2056,7 @@ td {
   outline-offset: 3px;
 }
 .settings-card .muted {
-  font-size: 11px;
+  font-size: 16px;
   margin-bottom: 20px;
 }
 .settings-action {
@@ -2066,7 +2066,7 @@ td {
   width: 100%;
   padding: 16px 0;
   border-bottom: 1px solid var(--line);
-  font-size: 11px;
+  font-size: 16px;
   color: #5c6f50;
   text-align: left;
 }
@@ -2088,7 +2088,7 @@ td {
 }
 .account-email {
   display: block;
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 500;
   margin-bottom: 15px;
   overflow-wrap: anywhere;
@@ -2137,7 +2137,7 @@ td {
   color: #5e6f4f;
 }
 .login-story-content > p {
-  font-size: 13px;
+  font-size: 20px;
   line-height: 1.9;
   max-width: 330px;
   color: #5f6c54;
@@ -2145,12 +2145,12 @@ td {
 .login-quote {
   margin-top: 60px;
   font-family: Georgia, serif;
-  font-size: 20px;
+  font-size: 24px;
   color: #616e54;
   line-height: 1.6;
 }
 .login-disclaimer {
-  font-size: 9px;
+  font-size: 16px;
   color: #626c5a;
   margin-top: auto;
 }
@@ -2165,7 +2165,7 @@ td {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 10px;
+  font-size: 16px;
   color: #626d54;
   align-self: flex-start;
 }
@@ -2176,14 +2176,14 @@ td {
   padding: 45px 0;
 }
 .login-form-inner h2 {
-  font-size: 26px;
+  font-size: 32px;
   line-height: 1.3;
   font-weight: 500;
   letter-spacing: -0.7px;
   margin: 18px 0 10px;
 }
 .login-form-inner > p {
-  font-size: 12px;
+  font-size: 16px;
   color: #646c5c;
   line-height: 1.8;
 }
@@ -2199,12 +2199,12 @@ td {
   margin: 25px 0 20px;
 }
 .login-config-note strong {
-  font-size: 11px;
+  font-size: 16px;
   font-weight: 500;
   color: #5c6f4e;
 }
 .login-config-note p {
-  font-size: 10px;
+  font-size: 16px;
   line-height: 1.8;
   margin-top: 5px;
 }
@@ -2214,7 +2214,7 @@ td {
   background: white;
   border-color: #dfe6d8;
   margin-top: 22px;
-  font-size: 12px;
+  font-size: 16px;
 }
 .google-button:hover:not(:disabled) {
   background: #f6f8f1;
@@ -2223,7 +2223,7 @@ td {
   display: flex;
   align-items: center;
   gap: 15px;
-  font-size: 9px;
+  font-size: 16px;
   color: #646b5d;
   margin: 25px 0;
 }
@@ -2241,7 +2241,7 @@ td {
 }
 .login-form-inner .signup-toggle {
   text-align: center;
-  font-size: 10px;
+  font-size: 16px;
   color: #626b59;
   margin-top: 22px;
 }
@@ -2255,7 +2255,7 @@ td {
   align-items: center;
   justify-content: center;
   gap: 7px;
-  font-size: 8px;
+  font-size: 16px;
   color: #646c5d;
   padding-top: 30px;
   border-top: 1px solid var(--line);
@@ -2263,11 +2263,11 @@ td {
 }
 .form-error {
   color: #905e4e;
-  font-size: 11px;
+  font-size: 16px;
 }
 .form-success {
   color: #567141;
-  font-size: 11px;
+  font-size: 16px;
 }
 .spin {
   animation: spin 1s linear infinite;
@@ -2289,12 +2289,12 @@ td {
 }
 .not-found h1 {
   font-family: Georgia, serif;
-  font-size: 36px;
+  font-size: 40px;
   font-weight: 400;
 }
 .not-found p {
   color: #626e54;
-  font-size: 13px;
+  font-size: 20px;
 }
 @media (min-width: 1500px) {
   .hero-card {
@@ -2337,14 +2337,14 @@ td {
     padding: 30px 27px 22px;
   }
   .page-heading h1 {
-    font-size: 24px;
+    font-size: 32px;
   }
   .hero-card {
     padding: 24px;
     min-height: 285px;
   }
   .hero-content h2 {
-    font-size: 29px;
+    font-size: 32px;
   }
   .hero-art {
     right: -20px;
@@ -2353,13 +2353,13 @@ td {
     width: 50%;
   }
   .hero-kicker {
-    font-size: 6px;
+    font-size: 16px;
   }
   .hero-content {
     max-width: 70%;
   }
   .hero-content p {
-    font-size: 9px;
+    font-size: 16px;
   }
   .daily-goal {
     padding: 20px 15px;
@@ -2382,10 +2382,10 @@ td {
     padding: 14px;
   }
   .subject-card h3 {
-    font-size: 11px;
+    font-size: 16px;
   }
   .subject-card-bottom {
-    font-size: 6px;
+    font-size: 16px;
   }
   .today-card {
     padding-left: 16px;
@@ -2395,7 +2395,7 @@ td {
     gap: 7px;
   }
   .task-duration {
-    font-size: 7px;
+    font-size: 16px;
   }
   .next-card {
     padding: 20px 17px;
@@ -2462,19 +2462,19 @@ td {
     height: 38px;
   }
   .brand > span:last-child {
-    font-size: 28px;
+    font-size: 32px;
   }
   .workspace-label {
-    font-size: 8px;
+    font-size: 16px;
     margin-left: 10px;
   }
   .nav-item {
     gap: 10px;
     padding: 11px 10px;
-    font-size: 11px;
+    font-size: 16px;
   }
   .small-soon {
-    font-size: 6px;
+    font-size: 16px;
     padding: 3px;
   }
   .sidebar-note {
@@ -2483,14 +2483,14 @@ td {
     margin-right: 0;
   }
   .sidebar-note h3 {
-    font-size: 12px;
+    font-size: 16px;
   }
   .sidebar-profile strong {
-    font-size: 9px;
+    font-size: 16px;
     max-width: 100px;
   }
   .sidebar-profile small {
-    font-size: 7px;
+    font-size: 16px;
   }
   .sidebar-profile {
     gap: 7px;
@@ -2511,20 +2511,20 @@ td {
   }
   .demo-banner {
     padding: 8px 24px;
-    font-size: 8px;
+    font-size: 16px;
   }
   .page-heading {
     align-items: flex-start;
   }
   .page-heading h1 {
-    font-size: 22px;
+    font-size: 24px;
   }
   .page-heading .button {
-    font-size: 9px;
+    font-size: 16px;
     padding: 9px 11px;
   }
   .page-heading > div > p:last-child {
-    font-size: 10px;
+    font-size: 16px;
   }
   .dashboard-top {
     grid-template-columns: minmax(0, 1.8fr) minmax(190px, 1fr);
@@ -2535,7 +2535,7 @@ td {
     min-height: 295px;
   }
   .hero-content h2 {
-    font-size: 27px;
+    font-size: 32px;
   }
   .hero-content {
     max-width: 100%;
@@ -2546,7 +2546,7 @@ td {
     transform: scale(0.75);
   }
   .hero-kicker {
-    font-size: 6px;
+    font-size: 16px;
     letter-spacing: 1px;
   }
   .hero-content p {
@@ -2554,10 +2554,10 @@ td {
     z-index: 2;
   }
   .hero-content .button {
-    font-size: 9px;
+    font-size: 16px;
   }
   .daily-goal .card-heading h2 {
-    font-size: 10px;
+    font-size: 16px;
   }
   .daily-goal .card-heading svg {
     width: 15px;
@@ -2569,13 +2569,13 @@ td {
     margin-bottom: 20px;
   }
   .goal-ring > div > span {
-    font-size: 28px;
+    font-size: 32px;
   }
   .goal-ring small {
-    font-size: 14px;
+    font-size: 20px;
   }
   .daily-goal > p {
-    font-size: 8px;
+    font-size: 16px;
   }
   .stats-grid {
     gap: 11px;
@@ -2593,13 +2593,13 @@ td {
     width: 17px;
   }
   .stat-card > div > span {
-    font-size: 8px;
+    font-size: 16px;
   }
   .stat-card strong {
-    font-size: 19px;
+    font-size: 24px;
   }
   .stat-card strong small {
-    font-size: 10px;
+    font-size: 16px;
   }
   .subject-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2610,16 +2610,16 @@ td {
   }
   .subject-card h3 {
     min-height: 30px;
-    font-size: 12px;
+    font-size: 16px;
   }
   .subject-card > p {
-    font-size: 9px;
+    font-size: 16px;
   }
   .subject-card-bottom {
-    font-size: 8px;
+    font-size: 16px;
   }
   .subject-progress-label {
-    font-size: 9px;
+    font-size: 16px;
   }
   .dashboard-bottom {
     grid-template-columns: 1fr;
@@ -2631,19 +2631,19 @@ td {
   }
   .app-footer {
     padding: 17px 24px;
-    font-size: 7px;
+    font-size: 16px;
   }
   .full-grid .subject-card {
     padding: 18px;
   }
   .full-grid .subject-card h3 {
-    font-size: 13px;
+    font-size: 20px;
   }
   .full-grid .subject-card > p {
-    font-size: 9px;
+    font-size: 16px;
   }
   .full-grid .subject-card-bottom {
-    font-size: 8px;
+    font-size: 16px;
   }
   .settings-layout {
     grid-template-columns: 1fr;
@@ -2663,16 +2663,16 @@ td {
     padding: 35px 24px;
   }
   .sources-intro > h2 {
-    font-size: 25px;
+    font-size: 32px;
   }
   .sources-steps {
     gap: 20px;
   }
   .sources-steps h3 {
-    font-size: 11px;
+    font-size: 16px;
   }
   .sources-steps p {
-    font-size: 9px;
+    font-size: 16px;
   }
   .login-form-section {
     padding: 30px 9%;
@@ -2681,10 +2681,10 @@ td {
     padding: 30px 9%;
   }
   .login-form-inner h2 {
-    font-size: 23px;
+    font-size: 32px;
   }
   .login-quote {
-    font-size: 18px;
+    font-size: 24px;
   }
   .sidebar-bottom {
     padding-top: 35px;
@@ -2725,25 +2725,25 @@ td {
     height: 43px;
   }
   .brand > span:last-child {
-    font-size: 32px;
+    font-size: 40px;
   }
   .nav-item {
-    font-size: 12px;
+    font-size: 16px;
     padding: 12px 13px;
     gap: 13px;
   }
   .workspace-label {
-    font-size: 9px;
+    font-size: 16px;
   }
   .sidebar-profile strong {
-    font-size: 11px;
+    font-size: 16px;
     max-width: 140px;
   }
   .sidebar-profile small {
-    font-size: 8px;
+    font-size: 16px;
   }
   .sidebar-note h3 {
-    font-size: 13px;
+    font-size: 20px;
   }
   .sidebar-note {
     padding: 18px 15px;
@@ -2760,13 +2760,13 @@ td {
   }
   .breadcrumb {
     gap: 10px;
-    font-size: 10px;
+    font-size: 16px;
   }
   .topbar-right {
     gap: 12px;
   }
   .private-label {
-    font-size: 8px;
+    font-size: 16px;
     gap: 5px;
   }
   .topbar-avatar {
@@ -2779,7 +2779,7 @@ td {
   .demo-banner {
     padding: 9px 21px;
     gap: 8px;
-    font-size: 8px;
+    font-size: 16px;
   }
   .demo-banner > span {
     gap: 5px;
@@ -2788,7 +2788,7 @@ td {
     display: none;
   }
   .demo-banner a {
-    font-size: 8px;
+    font-size: 16px;
     gap: 4px;
   }
   .demo-banner a svg {
@@ -2803,22 +2803,22 @@ td {
     gap: 16px;
   }
   .page-heading h1 {
-    font-size: 25px;
+    font-size: 32px;
     letter-spacing: -0.8px;
     max-width: 390px;
   }
   .eyebrow {
-    font-size: 7px;
+    font-size: 16px;
     letter-spacing: 1.5px;
   }
   .page-heading > div > p:last-child {
-    font-size: 10px;
+    font-size: 16px;
     max-width: 360px;
     line-height: 1.8;
     margin-top: 8px;
   }
   .page-heading > .button {
-    font-size: 10px;
+    font-size: 16px;
     padding: 8px 12px;
     min-height: 35px;
   }
@@ -2834,14 +2834,14 @@ td {
     max-width: 70%;
   }
   .hero-content h2 {
-    font-size: 31px;
+    font-size: 40px;
   }
   .hero-kicker {
-    font-size: 6px;
+    font-size: 16px;
     letter-spacing: 1.2px;
   }
   .hero-content p {
-    font-size: 9px;
+    font-size: 16px;
     margin-top: 14px;
     margin-bottom: 18px;
   }
@@ -2852,7 +2852,7 @@ td {
     width: 47%;
   }
   .hero-content .button {
-    font-size: 10px;
+    font-size: 16px;
   }
   .daily-goal {
     display: grid;
@@ -2867,7 +2867,7 @@ td {
     grid-row: 1;
   }
   .daily-goal .card-heading h2 {
-    font-size: 12px;
+    font-size: 16px;
   }
   .daily-goal .card-heading > svg {
     display: none;
@@ -2881,13 +2881,13 @@ td {
     padding: 6px;
   }
   .goal-ring > div > span {
-    font-size: 25px;
+    font-size: 32px;
   }
   .goal-ring small {
-    font-size: 12px;
+    font-size: 16px;
   }
   .goal-ring p {
-    font-size: 6px;
+    font-size: 16px;
   }
   .ring-spark {
     width: 24px;
@@ -2902,18 +2902,18 @@ td {
     grid-column: 2;
     grid-row: 2;
     margin-top: 8px;
-    font-size: 10px;
+    font-size: 16px;
   }
   .daily-goal > p {
     grid-column: 2;
     grid-row: 3;
-    font-size: 8px;
+    font-size: 16px;
     margin: 5px 0 6px;
   }
   .daily-goal > a {
     grid-column: 2;
     grid-row: 4;
-    font-size: 8px;
+    font-size: 16px;
   }
   .stats-grid {
     margin: 17px 0 28px;
@@ -2933,29 +2933,29 @@ td {
     width: 16px;
   }
   .stat-card > div > span {
-    font-size: 7px;
+    font-size: 16px;
     margin-bottom: 5px;
   }
   .stat-card strong {
-    font-size: 20px;
+    font-size: 24px;
     white-space: nowrap;
   }
   .stat-card strong small {
-    font-size: 10px;
+    font-size: 16px;
   }
   .section-heading {
     margin-bottom: 15px;
     align-items: flex-start;
   }
   .section-heading h2 {
-    font-size: 15px;
+    font-size: 20px;
   }
   .section-heading p {
-    font-size: 9px;
+    font-size: 16px;
     max-width: 240px;
   }
   .section-heading > .text-link {
-    font-size: 9px;
+    font-size: 16px;
     margin-top: 3px;
     gap: 5px;
   }
@@ -2980,19 +2980,19 @@ td {
     width: 19px;
   }
   .subject-card h3 {
-    font-size: 11px;
+    font-size: 16px;
     min-height: 31px;
   }
   .subject-card > p {
-    font-size: 8px;
+    font-size: 16px;
     margin-top: 3px;
     margin-bottom: 15px;
   }
   .subject-progress-label {
-    font-size: 7px;
+    font-size: 16px;
   }
   .subject-card-bottom {
-    font-size: 6px;
+    font-size: 16px;
     margin-top: 11px;
     gap: 4px;
   }
@@ -3006,23 +3006,23 @@ td {
     padding: 18px 16px 0;
   }
   .card-heading h2 {
-    font-size: 12px;
+    font-size: 16px;
   }
   .date-label {
-    font-size: 8px;
+    font-size: 16px;
   }
   .task-row {
     gap: 8px;
     padding: 14px 0;
   }
   .task-info > strong {
-    font-size: 10px;
+    font-size: 16px;
   }
   .task-info > span {
-    font-size: 7px;
+    font-size: 16px;
   }
   .task-duration {
-    font-size: 8px;
+    font-size: 16px;
     gap: 3px;
   }
   .task-duration svg {
@@ -3039,7 +3039,7 @@ td {
     gap: 7px;
   }
   .gentle-note p {
-    font-size: 7px;
+    font-size: 16px;
   }
   .gentle-note svg {
     width: 14px;
@@ -3052,7 +3052,7 @@ td {
     flex-direction: column;
     align-items: center;
     gap: 7px;
-    font-size: 7px;
+    font-size: 16px;
   }
   .session-bar {
     left: 12px;
@@ -3067,17 +3067,17 @@ td {
     min-width: 0;
   }
   .session-bar strong {
-    font-size: 9px;
+    font-size: 16px;
   }
   .session-bar small {
-    font-size: 7px;
+    font-size: 16px;
   }
   .session-bar .button {
-    font-size: 8px;
+    font-size: 16px;
     padding: 7px;
   }
   .session-clock {
-    font-size: 16px;
+    font-size: 20px;
   }
   .session-pulse {
     width: 5px;
@@ -3091,14 +3091,14 @@ td {
     left: 14px;
     right: 14px;
     max-width: none;
-    font-size: 11px;
+    font-size: 16px;
     padding: 13px;
   }
   .modal {
     padding: 22px 19px;
   }
   .modal-head h2 {
-    font-size: 18px;
+    font-size: 24px;
   }
   .modal-backdrop {
     padding: 15px;
@@ -3114,7 +3114,7 @@ td {
     flex-direction: column;
   }
   .list-toolbar > span {
-    font-size: 11px;
+    font-size: 16px;
   }
   .search-input {
     width: 100%;
@@ -3124,19 +3124,19 @@ td {
     padding: 16px;
   }
   .full-grid .subject-card h3 {
-    font-size: 12px;
+    font-size: 16px;
   }
   .full-grid .subject-card > p {
-    font-size: 8px;
+    font-size: 16px;
   }
   .full-grid .subject-progress-label {
-    font-size: 8px;
+    font-size: 16px;
   }
   .full-grid .subject-card-bottom {
-    font-size: 7px;
+    font-size: 16px;
   }
   .footnote {
-    font-size: 9px;
+    font-size: 16px;
   }
   .calendar-card {
     padding: 15px 10px;
@@ -3145,10 +3145,10 @@ td {
     padding: 0 3px;
   }
   .calendar-heading h2 {
-    font-size: 14px;
+    font-size: 20px;
   }
   .calendar-heading .button {
-    font-size: 8px;
+    font-size: 16px;
     min-height: 27px;
     padding: 6px 8px;
   }
@@ -3156,7 +3156,7 @@ td {
     width: 25px;
   }
   .weekday {
-    font-size: 9px;
+    font-size: 16px;
   }
   .calendar-day {
     min-height: 59px;
@@ -3170,7 +3170,7 @@ td {
     display: none;
   }
   .calendar-day > span {
-    font-size: 10px;
+    font-size: 16px;
   }
   .mobile-day-dots {
     display: flex;
@@ -3205,7 +3205,7 @@ td {
     margin: 15px 3px 2px;
   }
   .calendar-legend span {
-    font-size: 8px;
+    font-size: 16px;
   }
   .progress-stats .stat-card {
     padding: 14px 11px;
@@ -3214,25 +3214,25 @@ td {
     padding: 20px 16px;
   }
   .weekly-chart .card-heading h2 {
-    font-size: 13px;
+    font-size: 20px;
   }
   .weekly-chart .card-heading p {
-    font-size: 8px;
+    font-size: 16px;
   }
   .chart-bars {
     gap: 5px;
   }
   .chart-column > strong {
-    font-size: 9px;
+    font-size: 16px;
   }
   .chart-column > strong small {
-    font-size: 6px;
+    font-size: 16px;
   }
   .chart-column > span {
-    font-size: 9px;
+    font-size: 16px;
   }
   .chart-column > small {
-    font-size: 8px;
+    font-size: 16px;
   }
   .subject-time {
     display: block;
@@ -3241,24 +3241,24 @@ td {
     padding: 12px 0;
   }
   .time-row strong {
-    font-size: 10px;
+    font-size: 16px;
   }
   .time-row > span:last-child {
-    font-size: 9px;
+    font-size: 16px;
   }
   .session-history {
     padding: 20px 15px;
   }
   .session-history .muted {
-    font-size: 9px;
+    font-size: 16px;
   }
   .session-history th {
     padding: 10px 6px;
-    font-size: 9px;
+    font-size: 16px;
   }
   .session-history td {
     padding: 12px 6px;
-    font-size: 9px;
+    font-size: 16px;
   }
   .settings-layout aside {
     grid-template-columns: 1fr;
@@ -3267,25 +3267,25 @@ td {
     padding: 21px 18px;
   }
   .settings-heading h2 {
-    font-size: 13px;
+    font-size: 20px;
   }
   .settings-heading .pill {
-    font-size: 6px;
+    font-size: 16px;
   }
   .form-grid {
     gap: 12px;
   }
   .settings-card .form-grid .form-label {
-    font-size: 10px;
+    font-size: 16px;
   }
   .sources-intro {
     padding: 30px 21px;
   }
   .sources-intro > h2 {
-    font-size: 24px;
+    font-size: 32px;
   }
   .sources-intro > p {
-    font-size: 11px;
+    font-size: 16px;
   }
   .sources-steps {
     grid-template-columns: 1fr;
@@ -3301,17 +3301,17 @@ td {
     grid-row: 1/3;
   }
   .sources-steps h3 {
-    font-size: 12px;
+    font-size: 16px;
     margin: 0;
   }
   .sources-steps p {
-    font-size: 10px;
+    font-size: 16px;
   }
   .source-folder {
     margin-bottom: 28px;
   }
   .inline-note {
-    font-size: 10px;
+    font-size: 16px;
   }
   .login-page {
     grid-template-columns: 1fr;
@@ -3333,7 +3333,7 @@ td {
     display: none;
   }
   .login-story-content h1 {
-    font-size: 25px;
+    font-size: 32px;
     letter-spacing: -0.5px;
     margin: 0;
     line-height: 1.3;
@@ -3358,10 +3358,10 @@ td {
     margin: 0 auto;
   }
   .login-form-inner h2 {
-    font-size: 25px;
+    font-size: 32px;
   }
   .login-form-inner .pill {
-    font-size: 7px;
+    font-size: 16px;
   }
   .login-config-note {
     margin-top: 20px;
@@ -3374,10 +3374,10 @@ td {
     padding-top: 25px;
   }
   .login-form-section .back-link {
-    font-size: 10px;
+    font-size: 16px;
   }
   .not-found h1 {
-    font-size: 29px;
+    font-size: 32px;
   }
 }
 @media (max-width: 370px) {
@@ -3386,7 +3386,7 @@ td {
     padding-right: 16px;
   }
   .hero-content h2 {
-    font-size: 28px;
+    font-size: 32px;
   }
   .hero-card {
     padding: 22px;
@@ -3402,19 +3402,19 @@ td {
     padding: 8px 16px;
   }
   .demo-banner strong {
-    font-size: 7px;
+    font-size: 16px;
   }
   .demo-banner a {
-    font-size: 7px;
+    font-size: 16px;
   }
   .task-duration {
     display: none;
   }
   .stat-card strong {
-    font-size: 17px;
+    font-size: 24px;
   }
   .stat-card strong small {
-    font-size: 8px;
+    font-size: 16px;
   }
   .full-grid .subject-card {
     padding: 12px;
@@ -3423,7 +3423,7 @@ td {
     gap: 3px;
   }
   .page-heading h1 {
-    font-size: 23px;
+    font-size: 32px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -3444,112 +3444,112 @@ td {
   flex-shrink: 0;
 }
 .page-heading > div > p:last-child {
-  font-size: 12px;
+  font-size: 16px;
 }
 .demo-banner {
-  font-size: 10px;
+  font-size: 16px;
 }
 .eyebrow {
-  font-size: 9px;
+  font-size: 16px;
 }
 .hero-kicker {
-  font-size: 8px;
+  font-size: 16px;
 }
 .hero-content p {
-  font-size: 12px;
+  font-size: 16px;
 }
 .hero-content .button {
-  font-size: 12px;
+  font-size: 16px;
 }
 .stat-card > div > span {
-  font-size: 11px;
+  font-size: 16px;
 }
 .stat-detail {
-  font-size: 9px;
+  font-size: 16px;
 }
 .daily-goal > p {
-  font-size: 11px;
+  font-size: 16px;
 }
 .daily-goal > a {
-  font-size: 11px;
+  font-size: 16px;
 }
 .goal-ring p {
-  font-size: 9px;
+  font-size: 16px;
 }
 .daily-goal > h3 {
-  font-size: 12px;
+  font-size: 16px;
 }
 .subject-card h3 {
-  font-size: 13px;
+  font-size: 20px;
 }
 .subject-card > p {
-  font-size: 11px;
+  font-size: 16px;
 }
 .subject-progress-label {
-  font-size: 10px;
+  font-size: 16px;
 }
 .subject-card-bottom {
-  font-size: 9px;
+  font-size: 16px;
 }
 .section-heading p {
-  font-size: 12px;
+  font-size: 16px;
 }
 .task-info > strong {
-  font-size: 12px;
+  font-size: 16px;
 }
 .task-info > span {
-  font-size: 10px;
+  font-size: 16px;
 }
 .task-duration {
-  font-size: 10px;
+  font-size: 16px;
 }
 .add-task-link {
-  font-size: 11px;
+  font-size: 16px;
 }
 .next-card > p {
-  font-size: 11px;
+  font-size: 16px;
 }
 .next-card .text-link {
-  font-size: 11px;
+  font-size: 16px;
 }
 .gentle-note p {
-  font-size: 10px;
+  font-size: 16px;
 }
 .app-footer {
-  font-size: 9px;
+  font-size: 16px;
 }
 .workspace-label {
-  font-size: 9px;
+  font-size: 16px;
 }
 .nav-item {
-  font-size: 12px;
+  font-size: 16px;
 }
 .sidebar-profile strong {
-  font-size: 11px;
+  font-size: 16px;
 }
 .sidebar-profile small {
-  font-size: 9px;
+  font-size: 16px;
 }
 .full-grid .subject-card > p {
-  font-size: 11px;
+  font-size: 16px;
 }
 .full-grid .subject-card-bottom {
-  font-size: 10px;
+  font-size: 16px;
 }
 .footnote {
-  font-size: 11px;
+  font-size: 16px;
 }
 .field-help {
-  font-size: 11px;
+  font-size: 16px;
 }
 .toggle-row small {
-  font-size: 11px;
+  font-size: 16px;
 }
 .settings-heading p {
-  font-size: 11px;
+  font-size: 16px;
 }
 .settings-action {
-  font-size: 12px;
+  font-size: 16px;
 }
 @media (max-height: 850px) and (min-width: 701px) {
   .sidebar-note {
@@ -3567,64 +3567,64 @@ td {
 }
 @media (max-width: 700px) {
   .page-heading > div > p:last-child {
-    font-size: 12px;
+    font-size: 16px;
   }
   .hero-content p {
-    font-size: 11px;
+    font-size: 16px;
   }
   .hero-content .button {
-    font-size: 11px;
+    font-size: 16px;
   }
   .hero-kicker {
-    font-size: 7px;
+    font-size: 16px;
   }
   .demo-banner {
-    font-size: 9px;
+    font-size: 16px;
   }
   .demo-banner a {
-    font-size: 9px;
+    font-size: 16px;
   }
   .stat-card > div > span {
-    font-size: 9px;
+    font-size: 16px;
   }
   .stat-card strong {
-    font-size: 19px;
+    font-size: 24px;
   }
   .daily-goal > p {
-    font-size: 10px;
+    font-size: 16px;
   }
   .daily-goal > a {
-    font-size: 10px;
+    font-size: 16px;
   }
   .daily-goal > h3 {
-    font-size: 11px;
+    font-size: 16px;
   }
   .goal-ring p {
-    font-size: 7px;
+    font-size: 16px;
   }
   .subject-card h3 {
-    font-size: 12px;
+    font-size: 16px;
   }
   .subject-card > p {
-    font-size: 9px;
+    font-size: 16px;
   }
   .subject-progress-label {
-    font-size: 8px;
+    font-size: 16px;
   }
   .subject-card-bottom {
-    font-size: 8px;
+    font-size: 16px;
   }
   .section-heading p {
-    font-size: 11px;
+    font-size: 16px;
   }
   .task-info > strong {
-    font-size: 11px;
+    font-size: 16px;
   }
   .task-info > span {
-    font-size: 9px;
+    font-size: 16px;
   }
   .task-duration {
-    font-size: 9px;
+    font-size: 16px;
   }
   .task-row {
     gap: 6px;
@@ -3636,25 +3636,25 @@ td {
     width: 20px;
   }
   .gentle-note p {
-    font-size: 9px;
+    font-size: 16px;
   }
   .app-footer {
-    font-size: 8px;
+    font-size: 16px;
   }
   .full-grid .subject-card > p {
-    font-size: 10px;
+    font-size: 16px;
   }
   .full-grid .subject-card-bottom {
-    font-size: 8px;
+    font-size: 16px;
   }
   .full-grid .subject-progress-label {
-    font-size: 9px;
+    font-size: 16px;
   }
   .settings-heading p {
-    font-size: 11px;
+    font-size: 16px;
   }
   .field-help {
-    font-size: 10px;
+    font-size: 16px;
   }
 }
 
@@ -3666,7 +3666,7 @@ td {
     max-width: 100%;
   }
   .hero-content h2 {
-    font-size: 29px;
+    font-size: 32px;
     letter-spacing: -0.8px;
   }
   .hero-content p {
@@ -3719,7 +3719,7 @@ td {
 .exam-official-name,
 .exam-source-page,
 .exam-mapping-note {
-  font-size: 12px;
+  font-size: 16px;
   line-height: 1.5;
   color: #535f57;
 }
@@ -3749,10 +3749,10 @@ td {
   line-height: 1.5;
 }
 .exam-week-option strong {
-  font-size: 14px;
+  font-size: 20px;
 }
 .exam-week-option small {
-  font-size: 11px;
+  font-size: 16px;
 }
 .exam-week-option.chosen {
   border: 2px solid #33614d;
@@ -3801,14 +3801,14 @@ td {
   color: #637066;
 }
 .subject-catalog-meta {
-  font-size: 11px;
+  font-size: 16px;
   color: #59665e;
 }
 .subject-content-status {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  font-size: 11px;
+  font-size: 16px;
   line-height: 1.5;
   color: #355b46;
   background: #edf3e7;
@@ -3843,11 +3843,11 @@ td {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 16px;
+  font-size: 20px;
   margin: 14px 0;
 }
 .civil-syllabus > p {
-  font-size: 13px;
+  font-size: 20px;
   line-height: 1.7;
   margin: 12px 0;
 }
@@ -3858,7 +3858,7 @@ td {
   margin: 12px 0;
 }
 .syllabus-block summary {
-  font-size: 13px;
+  font-size: 20px;
   font-weight: 600;
   cursor: pointer;
 }
@@ -3868,7 +3868,7 @@ td {
   margin: 12px 0;
 }
 .syllabus-block li {
-  font-size: 12px;
+  font-size: 16px;
   line-height: 1.6;
   margin: 12px 0;
 }
@@ -4249,4 +4249,228 @@ td {
   .exam-practice {
     padding: 16px;
   }
+}
+
+/* Shared readable typography and subject identity throughout learning and practice. */
+html {
+  font-size: 20px;
+}
+body {
+  font-size: 20px;
+  line-height: 1.6;
+}
+h2,
+h3,
+h4 {
+  line-height: 1.4;
+}
+p,
+label,
+legend,
+li {
+  overflow-wrap: anywhere;
+}
+input,
+select,
+textarea {
+  min-width: 0;
+  max-width: 100%;
+}
+small,
+.muted,
+.footnote {
+  line-height: 1.6;
+}
+.button {
+  min-height: 48px;
+  font-size: 20px;
+  white-space: normal;
+  text-align: center;
+}
+.form-grid {
+  min-width: 0;
+}
+.form-grid > *,
+.page-heading > *,
+.card-heading > * {
+  min-width: 0;
+}
+.page-heading,
+.card-heading,
+.calendar-heading {
+  flex-wrap: wrap;
+}
+.modal {
+  width: min(850px, calc(100vw - 32px));
+}
+.modal-head h2 {
+  font-size: 28px;
+  min-width: 0;
+}
+.modal-head .icon-button {
+  flex-shrink: 0;
+}
+.sidebar {
+  overflow-y: auto;
+}
+.sidebar-nav a {
+  min-height: 48px;
+  height: auto;
+}
+.subject-theme {
+  --green: var(--subject-color);
+}
+.subject-workspace > h1 {
+  background: var(--subject-color);
+  color: white;
+  padding: 24px;
+  border-radius: 16px;
+}
+.subject-theme .button:not(.secondary) {
+  background: var(--subject-color);
+  border-color: var(--subject-color);
+  color: white;
+}
+.subject-theme .button.secondary {
+  border-color: var(--subject-color);
+  color: var(--subject-color);
+  background: white;
+}
+.subject-theme .button:not(.secondary):hover:not(:disabled) {
+  filter: brightness(0.9);
+}
+.subject-theme .button.secondary:hover:not(:disabled) {
+  background: var(--subject-tint);
+}
+.subject-theme .text-link {
+  color: var(--subject-color);
+}
+.subject-theme.guided-learning {
+  background: var(--subject-tint);
+  border-color: var(--subject-line);
+  border-top: 6px solid var(--subject-color);
+}
+.subject-theme.guided-learning h3,
+.subject-theme.guided-learning h4 {
+  color: var(--subject-color);
+}
+.subject-theme progress,
+.subject-theme input[type="radio"] {
+  accent-color: var(--subject-color);
+}
+.subject-theme .lesson-choice {
+  border-color: var(--subject-line);
+  border-left: 5px solid var(--subject-color);
+  flex-wrap: wrap;
+}
+.subject-theme .concept-chips span {
+  background: var(--subject-color);
+  color: white;
+}
+.subject-theme .lesson-timer {
+  background: white;
+  border-color: var(--subject-line);
+}
+.subject-theme .lesson-example {
+  border-color: var(--subject-color);
+}
+.subject-theme .lesson-audio {
+  border-color: var(--subject-line);
+  background: white;
+}
+.subject-theme.exam-practice {
+  border-top: 6px solid var(--subject-color);
+}
+.subject-theme.exam-practice h2 {
+  color: var(--subject-color);
+  font-size: 28px;
+}
+.subject-theme .exam-result,
+.subject-theme .exam-correction {
+  background: var(--subject-tint);
+  border-left: 4px solid var(--subject-color);
+}
+.subject-theme .lesson-question {
+  border-color: var(--subject-line);
+}
+.subject-theme button:focus-visible {
+  outline-color: var(--subject-color);
+}
+@media (max-width: 700px) {
+  .main-content {
+    padding: 24px 16px;
+  }
+  .topbar {
+    padding: 16px;
+    gap: 12px;
+    height: auto;
+    min-height: 72px;
+  }
+  .breadcrumb {
+    flex-wrap: wrap;
+    min-width: 0;
+  }
+  .topbar-right {
+    flex-shrink: 0;
+  }
+  .guided-learning {
+    padding: 16px;
+  }
+  .lesson-choice {
+    align-items: flex-start;
+  }
+  .list-toolbar {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .search-input {
+    max-width: 100%;
+    width: 100%;
+  }
+  .calendar-heading {
+    gap: 12px;
+  }
+  .calendar-heading h2 {
+    flex-basis: 100%;
+  }
+  .calendar-card {
+    padding: 16px 8px;
+  }
+  .calendar-heading .button {
+    min-height: 44px;
+  }
+  .task-info strong {
+    white-space: normal;
+  }
+  .task-row {
+    flex-wrap: wrap;
+  }
+  .form-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .page-heading h1 {
+    font-size: 32px;
+  }
+  .page-heading > p,
+  .page-heading p {
+    font-size: 20px;
+  }
+  .site-footer {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+}
+
+.nav-item {
+  font-size: 20px;
+  white-space: normal;
+  min-height: 48px;
+}
+.form-stack label,
+.form-label,
+input:not([type="checkbox"]):not([type="radio"]),
+select,
+textarea,
+.page-heading > div > p:last-child {
+  font-size: 20px;
 }

@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { BookOpen, Check, Play, Pause, ArrowLeft } from "lucide-react";
 import { lessonsFor, learningSummary, type Lesson } from "@/lib/learning";
 import { useStudy } from "./study-provider";
+import { subjectTheme } from "@/lib/subject-theme";
 import { LessonAudio } from "./lesson-audio";
 import { lessonSpeechText } from "@/lib/lesson-speech";
 
@@ -29,7 +30,8 @@ export function GuidedLearning({ code }: { code: string }) {
     );
   return (
     <section
-      className="guided-learning"
+      className="guided-learning subject-theme"
+      style={subjectTheme(code)}
       aria-label="Contenido de estudio disponible"
     >
       <p className="eyebrow">TU PRIMER RECORRIDO</p>
@@ -141,7 +143,8 @@ function LessonReader({
     <section
       ref={readerRef}
       tabIndex={-1}
-      className="guided-learning lesson-reader"
+      className="guided-learning lesson-reader subject-theme"
+      style={subjectTheme(lesson.code)}
       aria-label={`Bloque: ${lesson.title}`}
     >
       <button className="text-link" onClick={onBack}>
