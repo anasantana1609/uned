@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 test("tasks can be created, completed, persisted and deleted", async ({
   page,
 }) => {
-  await page.goto("/dashboard");
+  await page.goto("/calendario");
   await expect(page.getByText("Preparando tu espacio…")).toHaveCount(0);
   await page.getByRole("button", { name: "Nueva tarea", exact: true }).click();
   const dialog = page.getByRole("dialog");
@@ -133,20 +133,13 @@ test("demo login and document integrations are honestly labeled", async ({
 test("layout stays within the viewport and timer can pause and finish", async ({
   page,
 }) => {
-  await page.goto("/dashboard");
-  await expect(
-    page.getByRole("button", { name: "Empezar a estudiar" }),
-  ).toBeEnabled();
+  await page.goto("/asignaturas");
   expect(
     await page.evaluate(
       () => document.documentElement.scrollWidth <= innerWidth,
     ),
   ).toBe(true);
-  await page.getByRole("button", { name: "Empezar a estudiar" }).click();
-  await page
-    .getByRole("dialog")
-    .getByRole("button", { name: /Derecho Civil I.1/ })
-    .click();
+  await page.getByRole("button", { name: /Derecho Civil I.1/ }).click();
   await page
     .getByRole("button", { name: "Estudio libre (cronómetro)", exact: true })
     .click();
@@ -173,7 +166,7 @@ test("confirmed deletion preserves subjects and clears study data", async ({
   await remove.click();
   await expect(dialog).toHaveCount(0);
   await page.goto("/dashboard");
-  await expect(page.getByText("Un día por escribir")).toBeVisible();
+  await expect(page.locator(".subject-home-row")).toHaveCount(11);
   await page.goto("/asignaturas");
   await expect(page.locator(".subject-card")).toHaveCount(11);
 });

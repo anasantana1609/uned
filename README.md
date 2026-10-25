@@ -19,7 +19,7 @@ Rutas: `/dashboard`, `/asignaturas`, `/calendario`, `/progreso`, `/fuentes`, `/a
 
 Cada lección guiada incluye «Escuchar lección»: lee el objetivo, los conceptos, la explicación, el ejemplo y la práctica, sin revelar las respuestas de la prueba. Permite pausar, reanudar, detener, repetir y elegir voz en español y velocidad (0,75×–2×). Al salir de la lección se detiene el audio. Usa las voces del navegador y del dispositivo; algunas necesitan Internet. No requiere una API de audio de pago ni modifica el avance académico.
 
-- Panel con objetivo diario, racha y tareas del día.
+- Inicio con las once asignaturas del curso en un listado de ancho completo, cada una con un color. Las cinco del segundo cuatrimestre aparecen con candado. Cada asignatura del primero despliega «Hacer lecciones» y «Hacer exámenes». Las tareas siguen disponibles en Plan de estudio.
 - Catálogo de once asignaturas del primer curso con nombres completos, códigos y créditos; búsqueda por nombre o código. Seis del primer cuatrimestre pendientes de materiales y cinco bloqueadas hasta preparar su contenido. «Empezar a estudiar» abre la elección de asignatura. El estudio libre sigue disponible para las seis primeras; el progreso actual mide minutos registrados, no evaluación académica. Los bloqueos también se comprueban antes de iniciar el temporizador.
 - Crear, completar y eliminar tareas; calendario navegable.
 - Calendario de febrero de 2027: seis asignaturas resaltadas en el PDF aportado, dos opciones por asignatura y horas de Las Palmas (Canarias). El origen está marcado como borrador. Cada elección exige reconocer ese carácter provisional; cambiar de semana sustituye la elección anterior y conserva los exámenes manuales. PDF accesible desde la app. El nombre «Derecho Procesal» se vincula expresamente a Introducción al Derecho Procesal (66021044); Constitucional, Administrativo y Civil I.2 no reciben fechas por inferencia.
@@ -94,3 +94,10 @@ Configura las dos variables públicas de Supabase en la plataforma de despliegue
 `ESPECIFICACIONES.md` describe el producto completo y `CODEX_PROMPT.md` conserva el planteamiento del paquete original. No implican funcionalidades ya entregadas. Pendientes: Google Drive y su sincronización diaria, aprobación y extracción de documentos, tutor con recuperación de fuentes y citas, simulacros y rúbricas, flashcards, repetición espaciada, práctica oral, cron y notificaciones push/email con idempotencia y horario de verano. La biblioteca muestra este estado con claridad. No se han leído documentos de Drive ni generado contenido jurídico atribuido a fuentes.
 
 Las asignaturas iniciales requieren validación académica. Los títulos de tareas y minutos de la demo son ejemplos de interfaz, no información extraída de manuales o documentos reales.
+
+
+## Inicio y práctica de examen
+
+El inicio solo muestra el catálogo de asignaturas que cursas o vas a cursar. Las lecciones conservan contenido, conceptos, programa, fuentes y lectura en voz alta. La práctica de examen es independiente del avance de los bloques y sus intentos no se guardan al salir.
+
+Civil ofrece intentos aleatorios de 20 ejercicios originales del banco didáctico, con 60 minutos y corrección según el modelo histórico de febrero de 2023 (+0,5/−0,25; blancos 0). Fundamentos ofrece un test inicial sin atribuirle puntuación ni duración oficial. Los formatos no contrastados permanecen en preparación. Historia conserva el modelo de desarrollo y comentario, pero no crea nuevas lecciones o prácticas hasta que el usuario confirme que ha terminado de aportar los materiales.

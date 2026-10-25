@@ -56,7 +56,9 @@ test("History shows the supplied development format without inventing graded les
     "dos preguntas teóricas a elegir entre tres",
   );
   await expect(preparation).toContainText("comentario de texto obligatorio");
-  await expect(preparation).toContainText("Pendientes el programa vigente");
+  await expect(preparation).toContainText(
+    "La creación de lecciones y prácticas está pausada",
+  );
   await expect(
     page.getByRole("region", { name: "Contenido de estudio disponible" }),
   ).toHaveCount(0);

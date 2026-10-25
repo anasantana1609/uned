@@ -9,7 +9,7 @@ test("exported demo loads its scripts and supports task persistence under /uned"
   page.on("response", (r) => {
     if (r.status() >= 400) broken.push(r.url());
   });
-  await page.goto("/uned/");
+  await page.goto("/uned/calendario/");
   await expect(
     page.getByRole("button", { name: "Nueva tarea", exact: true }),
   ).toBeEnabled();
@@ -56,7 +56,7 @@ test("all exported deep links load directly and navigation retains the Pages pre
   }
   await page.goto("/uned/dashboard/");
   await expect(
-    page.getByRole("button", { name: "Nueva tarea", exact: true }),
+    page.getByRole("button", { name: /^Derecho Civil I.1/ }),
   ).toBeEnabled();
   if (isMobile) await page.getByRole("button", { name: "Abrir menú" }).click();
   await page.getByRole("link", { name: "Asignaturas", exact: true }).click();
@@ -83,7 +83,7 @@ test("static build remains demo-only without external service requests", async (
   await page.getByRole("link", { name: "Explorar la demo" }).click();
   await expect(page).toHaveURL(/\/uned\/dashboard\/?$/);
   await expect(
-    page.getByRole("button", { name: "Nueva tarea", exact: true }),
+    page.getByRole("button", { name: /^Derecho Civil I.1/ }),
   ).toBeEnabled();
   expect(external).toEqual([]);
 });
@@ -93,13 +93,15 @@ test("static artifact hydrates on a future date without retaining build-day samp
   const errors: string[] = [];
   page.on("pageerror", (e) => errors.push(e.message));
   await page.clock.install({ time: new Date("2030-01-02T12:00:00Z") });
-  await page.goto("/uned/");
+  await page.goto("/uned/calendario/");
   await expect(
     page.getByRole("button", {
       name: "Completar: Repasar la persona y la personalidad",
       exact: true,
     }),
   ).toBeVisible();
-  await expect(page.locator(".date-label")).toHaveText("2 de enero");
+  await expect(
+    page.getByRole("heading", { name: "2 de enero", exact: true }),
+  ).toHaveText("2 de enero");
   expect(errors).toEqual([]);
 });

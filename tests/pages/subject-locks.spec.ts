@@ -39,27 +39,12 @@ test("legacy catalogue gains two subjects without losing activity and shows the 
   expect(saved.tasks[0]).toEqual(previous.tasks[0]);
   expect(saved.sessions).toEqual(previous.sessions);
   await page.goto("/uned/dashboard/");
-  await page
-    .getByRole("button", { name: "Empezar a estudiar", exact: true })
-    .click();
+  await expect(page.locator(".subject-home-toggle:disabled")).toHaveCount(5);
+  await page.getByRole("button", { name: /^Derecho Civil I.1/ }).click();
   await expect(
-    page.getByRole("dialog", { name: "Elige tu asignatura" }),
-  ).toBeVisible();
-  await page
-    .getByRole("dialog")
-    .getByRole("button", { name: /Derecho Civil I.1/ })
-    .click();
-  await expect(
-    page
-      .getByRole("dialog")
-      .getByRole("button", { name: "Estudio libre (cronómetro)", exact: true }),
+    page.getByRole("button", { name: /Hacer lecciones/ }),
   ).toBeEnabled();
   await expect(
-    page
-      .getByRole("dialog")
-      .getByText(
-        "Contenido inicial disponible. Aprende y supera las pruebas de cada bloque; el resto del programa sigue en preparación.",
-        { exact: true },
-      ),
-  ).toBeVisible();
+    page.getByRole("button", { name: /Hacer exámenes/ }),
+  ).toBeEnabled();
 });

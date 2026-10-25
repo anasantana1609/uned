@@ -26,11 +26,15 @@ export function HistoryPreparation({ compact = false }: { compact?: boolean }) {
         condiciones en la guía vigente.
       </p>
       <p className="muted">
-        Pendientes el programa vigente y el manual o apuntes para desarrollar
-        las lecciones y fundamentar las respuestas. La numeración de las
-        lecciones cambia entre modelos; las agrupaciones siguientes no
-        sustituyen el índice oficial. No hay plantilla oficial de corrección
-        verificada ni evaluación automática de estas respuestas.
+        Recibidos Apuntes EC (171 páginas), los apuntes de Carmen–Escudero (163
+        páginas) y un esquema de Derecho medieval. Los dos manuales completos
+        necesitan dividirse por tamaño. La creación de lecciones y prácticas
+        está pausada hasta tu aviso de que has terminado de subir los
+        materiales. El programa incluido en los apuntes no tiene curso vigente
+        verificado. La numeración de las lecciones cambia entre modelos; las
+        agrupaciones siguientes no sustituyen el índice oficial. No hay
+        plantilla oficial de corrección verificada ni evaluación automática de
+        estas respuestas.
       </p>
       {!compact && (
         <>

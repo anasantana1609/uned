@@ -26,13 +26,13 @@ import { useStudy } from "./study-provider";
 import { Modal } from "./ui";
 import { SignOutButton } from "./sign-out-button";
 const links = [
-  { href: "/dashboard", label: "Mi resumen", icon: LayoutDashboard },
+  { href: "/dashboard", label: "Inicio", icon: LayoutDashboard },
   { href: "/asignaturas", label: "Asignaturas", icon: BookOpen },
   { href: "/calendario", label: "Plan de estudio", icon: CalendarDays },
   { href: "/progreso", label: "Mi progreso", icon: ChartNoAxesCombined },
 ];
 const titles: Record<string, string> = {
-  "/dashboard": "Mi resumen",
+  "/dashboard": "Inicio",
   "/asignaturas": "Asignaturas",
   "/calendario": "Plan de estudio",
   "/progreso": "Mi progreso",
@@ -279,7 +279,10 @@ export function Shell({ children }: { children: React.ReactNode }) {
             </Link>
           </div>
         )}
-        <main id="main" className="main-content">
+        <main
+          id="main"
+          className={`main-content ${path === "/dashboard" ? "home-content" : ""}`}
+        >
           {!ready && (
             <p className="loading-state" role="status">
               Preparando tu espacio…

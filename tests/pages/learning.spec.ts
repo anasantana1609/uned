@@ -56,15 +56,12 @@ test("guided block grades answers, persists only a pass, and countdown cannot co
   );
 });
 
-test("study picker recommends available content and each prepared subject opens a sourced lesson", async ({
+test("home opens lessons and each prepared subject exposes its sources", async ({
   page,
 }) => {
   await page.goto("/uned/dashboard/");
-  await page
-    .getByRole("button", { name: "Empezar a estudiar", exact: true })
-    .click();
-  await expect(page.getByText(/Te recomendamos:/)).toBeVisible();
-  await page.getByRole("button", { name: "Estudiar la recomendada" }).click();
+  await page.getByRole("button", { name: /^Derecho Civil I.1/ }).click();
+  await page.getByRole("button", { name: /Hacer lecciones/ }).click();
   await expect(
     page.getByRole("region", { name: "Contenido de estudio disponible" }),
   ).toBeVisible();

@@ -3,7 +3,7 @@ import AxeBuilder from "@axe-core/playwright";
 test("dashboard has no serious accessibility violations", async ({ page }) => {
   await page.goto("/dashboard");
   await expect(
-    page.getByRole("button", { name: "Nueva tarea", exact: true }),
+    page.getByRole("button", { name: /^Derecho Civil I.1/ }),
   ).toBeEnabled();
   const results = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa", "wcag21aa"])

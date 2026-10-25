@@ -162,9 +162,10 @@ test("email session loads personal data, persists tasks, and clears the view on 
   const mock = await mockSupabase(page);
   await login(page);
   await expect(
-    page.getByText("Mi asignatura personal", { exact: true }),
-  ).toBeVisible();
+    page.getByRole("button", { name: /^Derecho Civil I.1/ }),
+  ).toBeEnabled();
   await expect(page.getByText("Estás explorando la demo.")).toHaveCount(0);
+  await page.goto("/uned/calendario/");
   await page.getByRole("button", { name: "Nueva tarea", exact: true }).click();
   const d = page.getByRole("dialog");
   await d.getByLabel("¿Qué vas a estudiar?").fill("Mi tarea de cuenta");
@@ -212,11 +213,8 @@ test("account query failure never falls back to demo and can be retried", async 
   mock.failTasks(false);
   await page.getByRole("button", { name: "Reintentar carga" }).click();
   await expect(
-    page.getByRole("button", { name: "Nueva tarea", exact: true }),
+    page.getByRole("button", { name: /^Derecho Civil I.1/ }),
   ).toBeEnabled();
-  await expect(
-    page.getByText("Mi asignatura personal", { exact: true }),
-  ).toBeVisible();
 });
 test("registration uses the Pages callback and Google stays disabled until configured", async ({
   page,
@@ -260,8 +258,8 @@ test("PKCE return exchanges the code and rejects external redirects", async ({
   );
   await page.waitForURL("**/uned/dashboard/");
   await expect(
-    page.getByText("Mi asignatura personal", { exact: true }),
-  ).toBeVisible();
+    page.getByRole("button", { name: /^Derecho Civil I.1/ }),
+  ).toBeEnabled();
 });
 
 test("account exam choices replace the previous week and failed writes preserve the saved choice", async ({
