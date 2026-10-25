@@ -1,4 +1,5 @@
 import { test, expect, type Page } from "@playwright/test";
+import { lessonsFor } from "../../lib/learning";
 const host = "https://preliminary-test.supabase.co";
 const userId = "11111111-1111-4111-8111-111111111111";
 const subjectId = "33333333-3333-4333-8333-333333333333";
@@ -425,7 +426,9 @@ test("guided progress uses the account browser key and does not import demo or a
       .nth(answer)
       .check();
   await reader.getByRole("button", { name: "Comprobar prueba" }).click();
-  await expect(reader.getByRole("status")).toContainText("Bloque superado");
+  await expect(reader.locator("form").getByRole("status")).toContainText(
+    "Bloque superado",
+  );
   const stored = await page.evaluate(
     (id) => ({
       account: JSON.parse(localStorage.getItem(`uned-learning-v1:${id}`)!),
@@ -441,5 +444,7 @@ test("guided progress uses the account browser key and does not import demo or a
   expect(stored.other).toEqual(stored.demo);
   await page.reload();
   await page.getByRole("button", { name: /Derecho Civil I.1/ }).click();
-  await expect(course).toContainText("33% del contenido inicial");
+  await expect(course).toContainText(
+    `${Math.round(100 / lessonsFor("021096").length)}% del contenido inicial`,
+  );
 });
