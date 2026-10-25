@@ -28,7 +28,7 @@ test("learning requires all answers, rejects sparse or invalid answers, and sepa
   assert.equal(
     learningSummary("021096", { [lessons[0].id]: "2026-10-22T12:00:00Z" })
       .percent,
-    33,
+    Math.round(100 / lessons.filter((l) => l.code === "021096").length),
   );
   assert.equal(learningSummary("021067", {}).total, 0);
   assert.deepEqual(

@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { lessonsFor } from "../../lib/learning";
 import AxeBuilder from "@axe-core/playwright";
 
 test("guided block grades answers, persists only a pass, and countdown cannot complete it", async ({
@@ -47,8 +48,12 @@ test("guided block grades answers, persists only a pass, and countdown cannot co
   );
   await page.reload();
   await page.getByRole("button", { name: /Derecho Civil I.1/ }).click();
-  await expect(course).toContainText("33% del contenido inicial");
-  await expect(course).toContainText("1 de 3 bloques superados");
+  await expect(course).toContainText(
+    `${Math.round(100 / lessonsFor("021096").length)}% del contenido inicial`,
+  );
+  await expect(course).toContainText(
+    `1 de ${lessonsFor("021096").length} bloques superados`,
+  );
 });
 
 test("study picker recommends available content and each prepared subject opens a sourced lesson", async ({

@@ -1,5 +1,6 @@
 import type { Subject, Exam } from "./model";
 import { catalogEntry } from "./subject-catalog";
+import { civilTopicLessons } from "./civil-learning";
 
 export type Question = {
   prompt: string;
@@ -21,6 +22,7 @@ export type Lesson = {
   practice: string;
   sources: string[];
   questions: Question[];
+  examModel?: string;
 };
 export type LearningProgress = Record<string, string>;
 const q = (
@@ -526,6 +528,7 @@ export const lessons: Lesson[] = [
       ),
     ],
   },
+  ...civilTopicLessons,
 ];
 export function lessonsFor(code: string | undefined) {
   return lessons.filter((l) => l.code === code);

@@ -30,6 +30,8 @@ Cada lección guiada incluye «Escuchar lección»: lee el objetivo, los concept
 - Exportación JSON y borrado confirmado de tareas, sesiones, fechas y preferencias. El borrado conserva la cuenta y las asignaturas. La eliminación completa de la cuenta se gestiona desde Supabase por el administrador en esta entrega.
 - Email/contraseña y Google OAuth con Supabase cuando se configura. Sin credenciales, los controles de acceso explican el requisito y están deshabilitados.
 
+La entrega de contenido incluye 15 bloques introductorios de Civil I.1 distribuidos por los 14 temas, tres de Procesal y tres de Fundamentos: 63 preguntas originales en total, con fuentes y explicaciones. Se pueden filtrar los bloques por tema. No completan el programa. Los 17 modelos aportados de Historia están procesados: la web muestra su formato de desarrollo y comentario y los materiales pendientes para elaborar respuestas fundamentadas.
+
 ## Preliminar con cuentas en GitHub Pages
 
 La conexión está preparada mediante Supabase Auth y RLS desde el navegador, manteniendo la dirección de GitHub Pages. Sigue la [guía de activación](docs/supabase-preliminar.md): necesita un proyecto real, la migración SQL y dos variables públicas de GitHub Actions. Sin esa configuración sigue funcionando la demo. No se afirma una conexión real hasta comprobar el proyecto.

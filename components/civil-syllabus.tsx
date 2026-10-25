@@ -1,7 +1,9 @@
 import { BookOpen, FileCheck2 } from "lucide-react";
 import { civilSyllabus } from "@/lib/civil-syllabus";
+import { lessonsFor } from "@/lib/learning";
 
 export function CivilSyllabus({ compact = false }: { compact?: boolean }) {
+  const available = lessonsFor("021096");
   return (
     <section className="civil-syllabus" aria-label="Preparación de Civil I.1">
       <h3>
@@ -10,8 +12,10 @@ export function CivilSyllabus({ compact = false }: { compact?: boolean }) {
       <p>
         <strong>Contenido inicial disponible · resto en preparación.</strong> El
         programa tiene 14 temas en cuatro bloques. El esquema y las exclusiones
-        de examen están verificados. Ya puedes estudiar tres bloques iniciales
-        con sus pruebas; el resto del programa sigue en preparación.
+        de examen están verificados. Ya puedes estudiar {available.length}{" "}
+        bloques introductorios con sus pruebas, repartidos por los 14 temas.
+        Cada tema sigue incompleto: estos bloques no sustituyen el estudio del
+        programa.
       </p>
       <p className="muted">
         Lote inicial: 27 documentos distintos descargados y 13 copias idénticas.
@@ -42,7 +46,9 @@ export function CivilSyllabus({ compact = false }: { compact?: boolean }) {
                         {topic.programmePage}
                       </small>
                       <span>
-                        {topic.number <= 2
+                        {available.some(
+                          (l) => l.topic === `Tema ${topic.number}`,
+                        )
                           ? "Bloques introductorios disponibles; tema aún incompleto"
                           : "Lecciones y prueba de este tema en preparación"}
                       </span>

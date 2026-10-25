@@ -26,6 +26,7 @@ import { GuidedLearning } from "./guided-learning";
 import { learningSummary } from "@/lib/learning";
 import { CivilSyllabus } from "./civil-syllabus";
 import { ProceduralSyllabus } from "./procedural-syllabus";
+import { HistoryPreparation } from "./history-preparation";
 export function SubjectIcon({
   subject,
   size = 21,
@@ -359,6 +360,8 @@ export function SubjectCard({
             </>
           ) : learning.total ? (
             "Contenido inicial disponible · 5 min por bloque"
+          ) : entry.code === "021015" ? (
+            "Exámenes recibidos · lecciones en preparación"
           ) : (
             "1.er cuatrimestre · materiales pendientes"
           )}
@@ -431,7 +434,9 @@ export function SubjectDetail({
               ? "Asignatura bloqueada. Se habilitará cuando incorporemos sus materiales y preparemos sus lecciones y pruebas."
               : learningSummary(catalogEntry(subject)?.code, {}).total
                 ? "Contenido inicial disponible. Aprende y supera las pruebas de cada bloque; el resto del programa sigue en preparación."
-                : "Primer cuatrimestre: materiales pendientes. Puedes registrar estudio libre."}
+                : catalogEntry(subject)?.code === "021015"
+                  ? "Exámenes recibidos. Faltan el programa y los materiales de estudio para preparar las lecciones y sus respuestas. Puedes registrar estudio libre."
+                  : "Primer cuatrimestre: materiales pendientes. Puedes registrar estudio libre."}
           </span>
         </div>
       )}
@@ -450,6 +455,7 @@ export function SubjectDetail({
       )}
       {catalogEntry(subject)?.code === "021096" && <CivilSyllabus />}
       {catalogEntry(subject)?.code === "021044" && <ProceduralSyllabus />}
+      {catalogEntry(subject)?.code === "021015" && <HistoryPreparation />}
       <div className="detail-actions">
         <button
           className="button"

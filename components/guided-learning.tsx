@@ -10,6 +10,7 @@ export function GuidedLearning({ code }: { code: string }) {
   const { learningProgress, learningReady } = useStudy();
   const available = lessonsFor(code);
   const [selected, setSelected] = useState<Lesson | null>(null);
+  const [topic, setTopic] = useState("");
   const summary = learningSummary(code, learningProgress);
   if (!available.length) return null;
   if (selected)
@@ -56,31 +57,44 @@ export function GuidedLearning({ code }: { code: string }) {
         en este navegador; aún no se sincroniza entre dispositivos.
       </p>
       <div className="lesson-list">
-        {available.map((lesson) => (
-          <button
-            type="button"
-            className="lesson-choice"
-            key={lesson.id}
-            onClick={() => setSelected(lesson)}
-            disabled={!learningReady}
-          >
-            <span>
-              <small>{lesson.topic} · 5 min</small>
-              <strong>{lesson.title}</strong>
-            </span>
-            <span>
-              {learningProgress[lesson.id] ? (
-                <>
-                  <Check size={16} /> Superado · repasar
-                </>
-              ) : (
-                <>
-                  <Play size={16} /> Estudiar
-                </>
-              )}
-            </span>
-          </button>
-        ))}
+        <label className="lesson-topic-filter">
+          Filtrar por tema
+          <select value={topic} onChange={(e) => setTopic(e.target.value)}>
+            <option value="">Todos los temas</option>
+            {[...new Set(available.map((l) => l.topic))].map((t) => (
+              <option key={t} value={t}>
+                {t}
+              </option>
+            ))}
+          </select>
+        </label>
+        {available
+          .filter((l) => !topic || l.topic === topic)
+          .map((lesson) => (
+            <button
+              type="button"
+              className="lesson-choice"
+              key={lesson.id}
+              onClick={() => setSelected(lesson)}
+              disabled={!learningReady}
+            >
+              <span>
+                <small>{lesson.topic} · 5 min</small>
+                <strong>{lesson.title}</strong>
+              </span>
+              <span>
+                {learningProgress[lesson.id] ? (
+                  <>
+                    <Check size={16} /> Superado · repasar
+                  </>
+                ) : (
+                  <>
+                    <Play size={16} /> Estudiar
+                  </>
+                )}
+              </span>
+            </button>
+          ))}
       </div>
     </section>
   );
@@ -220,6 +234,19 @@ function LessonReader({
         }}
       >
         <h4>Comprueba lo aprendido</h4>
+        {lesson.examModel && (
+          <div className="inline-note">
+            <div>
+              <strong>Práctica según el modelo de examen</strong>
+              <p>{lesson.examModel}</p>
+              <p>
+                Tres alternativas y una respuesta correcta. Ejercicios
+                originales con soluciones razonadas a partir de las fuentes del
+                bloque; no son una plantilla oficial ni un simulacro completo.
+              </p>
+            </div>
+          </div>
+        )}
         <p>
           Necesitas las tres respuestas correctas. Si fallas, revisa la
           explicación y vuelve a intentarlo.

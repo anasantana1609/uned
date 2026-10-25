@@ -9,7 +9,7 @@ test("Civil shows the sourced syllabus and exclusions while lessons remain in pr
     name: "Preparación de Civil I.1",
   });
   await expect(syllabus).toContainText(
-    "Ya puedes estudiar tres bloques iniciales",
+    "Ya puedes estudiar 15 bloques introductorios",
   );
   await syllabus
     .getByText("Bloque 1 · El ordenamiento jurídico", { exact: true })

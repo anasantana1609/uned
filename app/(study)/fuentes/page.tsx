@@ -8,6 +8,7 @@ import {
 import { PageHeading } from "@/components/ui";
 import { CivilSyllabus } from "@/components/civil-syllabus";
 import { ProceduralSyllabus } from "@/components/procedural-syllabus";
+import { HistoryPreparation } from "@/components/history-preparation";
 export default function Sources() {
   return (
     <>
@@ -19,6 +20,7 @@ export default function Sources() {
       <div className="card civil-source-card">
         <CivilSyllabus compact />
         <ProceduralSyllabus compact />
+        <HistoryPreparation compact />
         <section
           className="civil-syllabus"
           aria-label="Preparación de Fundamentos"
@@ -46,9 +48,9 @@ export default function Sources() {
         <h2>Tus documentos serán el punto de partida.</h2>
         <p>
           La conexión con Google Drive todavía no está disponible. Los
-          materiales de Civil I.1, Procesal y Fundamentos se han recibido como
-          archivos adjuntos para su preparación. No tenemos acceso a tu carpeta
-          de Drive.
+          materiales de Civil I.1, Procesal y Fundamentos, y los exámenes de
+          Historia, se han recibido como archivos adjuntos para su preparación.
+          No tenemos acceso a tu carpeta de Drive.
         </p>
         <div className="source-folder">
           <FolderOpen size={19} />

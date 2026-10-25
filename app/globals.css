@@ -4075,3 +4075,12 @@ td {
   width: 100%;
   min-width: 0;
 }
+
+.lesson-topic-filter {
+  display: grid;
+  gap: 8px;
+  margin: 16px 0;
+}
+.lesson-topic-filter select {
+  width: 100%;
+}

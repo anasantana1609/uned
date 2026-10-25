@@ -1,6 +1,6 @@
 # Aprendizaje guiado: decisiones del usuario
 
-Fecha: 22 de octubre de 2026. Civil I.1, Procesal y Fundamentos tienen materiales recibidos y una primera entrega de bloques de estudio. Las otras tres asignaturas del primer cuatrimestre siguen pendientes de materiales.
+Actualizado: 25 de octubre de 2026. Civil I.1, Procesal y Fundamentos tienen bloques de estudio disponibles. Historia tiene 17 exámenes recibidos y procesados; faltan programa y materiales de estudio. Teoría del Derecho y Teoría del Estado Constitucional siguen pendientes de materiales. Las secciones de primera revisión siguientes conservan el estado histórico de cada lote; el estado actual se precisa al final.
 
 ## Alcance acordado
 
@@ -55,3 +55,16 @@ El avance se conserva en localStorage bajo `uned-learning-v1:<user-id>` (o `:dem
 La recomendación de «Empezar a estudiar» considera solo asignaturas con bloques pendientes: primero el examen futuro confirmado más próximo, después el menor porcentaje completado y finalmente el nombre. No recomienda contenido de asignaturas bloqueadas ni inventa fechas. Si todos los bloques están superados, ofrece repaso.
 
 Las partes 2 y 3 de Civil se recibieron divididas en cuatro archivos (182 y 150 páginas PDF respectivamente); su análisis completo sigue pendiente. Los exámenes adicionales de Civil (20 archivos, 69 páginas) y Procesal (17 archivos, 57 páginas) están extraídos fuera del repositorio y sin claves oficiales verificadas. Fundamentos tiene 15 archivos descargados de 17, con dos recopilatorios idénticos y ambos libros pendientes por tamaño. La introducción del curso confirma test y exclusiones; no se han trasladado reglas de PEC contradictorias a la app. Corpus privado: `/workspace/fundamentos-materiales/`.
+
+
+## Ampliación del 25 de octubre de 2026
+
+La lectura en voz alta está integrada en cada bloque con pausa, reanudación, parada, repetición, voz en español y velocidad. Lee el material didáctico; excluye la prueba y sus soluciones. No registra automáticamente progreso ni minutos.
+
+Civil I.1 añade doce bloques introductorios para los temas 3–14 y 36 preguntas originales. Total actual: 15 bloques de Civil (45 preguntas), tres de Procesal y tres de Fundamentos; 21 bloques y 63 preguntas en conjunto. Se pueden filtrar por tema. Cada tema sigue incompleto y no hay simulacro completo ni banco oficial de soluciones. Se mantienen los identificadores de los bloques previos; al aumentar el total de bloques, el porcentaje se recalcula sin perder aprobados.
+
+Las explicaciones nuevas se contrastan con las páginas identificadas de los apuntes aportados y con el programa 2026/27. Cada bloque indica el modelo histórico usado para orientar el formato o el concepto. Se combinan definiciones, casos breves y alternativas incorrectas, con tres opciones y una correcta. Se respeta la distinción entre norma histórica y sistema posterior a la Ley 8/2021 en los apoyos; se evita evaluar como vigente la antigua organización registral. Los apuntes contienen pasajes históricos y desactualizados: esta ampliación no constituye una revisión exhaustiva de la normativa o del manual de 2026.
+
+Historia: 17 PDF distintos, 17 páginas; siete con texto utilizable y diez tratados con OCR español. Se conservan fuera del repositorio, en `/workspace/historia-materiales/`, junto con inventario, huellas SHA-256, transcripciones, script de preparación y banco privado de candidatos. Se extraen 51 apariciones de preguntas teóricas y 17 comentarios, no 68 preguntas únicas validadas. No hay respuestas oficiales verificadas ni ejercicios habilitados para calificar. Los números de lección difieren entre modelos y quedan sin correspondencia oficial hasta recibir el programa vigente.
+
+Los 17 modelos de Historia indican dos horas, solo el programa como material, dos preguntas teóricas a elegir entre tres y un comentario obligatorio. La web muestra ese formato histórico y áreas provisionales de práctica con referencias, sin publicar los PDF ni sus transcripciones. La preparación de respuestas será de desarrollo y comentario, no una conversión automática al test de Civil. Programa, manual/apuntes y criterios de corrección siguen pendientes. Los corpus adicionales de Procesal y Fundamentos mencionados en revisiones anteriores no están presentes en el entorno actual; no se han procesado nuevos materiales de esas asignaturas en esta ampliación.
