@@ -15,9 +15,6 @@ import {
 } from "@/lib/subject-catalog";
 import { GuidedLearning } from "./guided-learning";
 import { ExamPractice } from "./exam-practice";
-import { CivilSyllabus } from "./civil-syllabus";
-import { ProceduralSyllabus } from "./procedural-syllabus";
-import { HistoryPreparation } from "./history-preparation";
 import { subjectColors, subjectTheme } from "@/lib/subject-theme";
 import { lessonsFor } from "@/lib/learning";
 
@@ -80,17 +77,9 @@ export function Dashboard() {
             {!!available.length && <GuidedLearning code={subject.code} />}
             {!available.length && (
               <div className="card lesson-empty">
-                <h2>Lecciones en preparación</h2>
-                <p>
-                  {subject.code === "021015"
-                    ? "Hemos recibido apuntes y exámenes. Esperamos tu aviso de que has terminado de subir los materiales para crear las lecciones de Historia."
-                    : "Los contenidos, esquemas y conceptos aparecerán aquí cuando se incorporen los materiales de la asignatura."}
-                </p>
+                <h2>Todavía no hay lecciones disponibles</h2>
               </div>
             )}
-            {subject.code === "021096" && <CivilSyllabus />}
-            {subject.code === "021044" && <ProceduralSyllabus />}
-            {subject.code === "021015" && <HistoryPreparation />}
           </>
         )}
       </section>

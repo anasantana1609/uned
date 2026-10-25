@@ -77,3 +77,10 @@ El usuario sustituye el panel de resumen por un listado vertical de las once asi
 La práctica de examen es independiente de las pruebas de bloque. Civil usa 20 ejercicios originales seleccionados aleatoriamente de los 45 disponibles, con duración de 60 minutos y puntuación de práctica basada en el modelo de febrero de 2023. Fundamentos ofrece su banco inicial tipo test sin inventar reglas oficiales. Procesal y las materias sin modelo contrastado permanecen en preparación. No se incorporan preguntas oficiales ni transcripciones privadas al repositorio público.
 
 Se recibieron para Historia Apuntes EC (171 páginas), apuntes de Carmen–Escudero (163 páginas) y un esquema medieval. Los dos manuales completos enviados después superan el límite de transferencia y requieren partes inferiores a 32 MB. El usuario ha indicado que aún faltan contenidos y avisará cuando esté todo: no generar ni publicar lecciones o preguntas de Historia hasta ese aviso. Los borradores preliminares se mantienen fuera del repositorio y no forman parte de la app.
+
+
+## Pantallas de estudio sin informes internos
+
+A petición del usuario, las pantallas de lecciones muestran el listado con avance por lección (pendiente 0%, completada 100%, según la prueba de conceptos). No se inventa avance parcial de lectura. Los informes de recepción, OCR, tamaños y preparación se conservan en esta documentación y quedan fuera de las pantallas de estudio. Mis fuentes contiene referencias bibliográficas sin informes de desarrollo.
+
+Hacer exámenes abre directamente el intento con sus preguntas. Historia incorpora práctica escrita con tres adaptaciones originales de modelos aportados (2025 F1, 2025 F2, 2026 F1): elegir dos de tres desarrollos y responder un comentario con fragmento parafraseado. Se cita el modelo; no se publican PDF ni transcripciones literales y no se inventa plantilla ni nota automática. Las respuestas son temporales y no aprueban lecciones. La creación de lecciones de Historia sigue en pausa hasta que el usuario confirme que ha terminado de subir materiales.

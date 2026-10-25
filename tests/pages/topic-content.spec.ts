@@ -17,7 +17,9 @@ test("Civil filters the new topics and grades a sourced representation block", a
   const reader = page.getByRole("region", {
     name: "Bloque: Actuar en nombre propio o en nombre ajeno",
   });
-  await expect(reader).toContainText("no son una plantilla oficial");
+  await expect(
+    reader.getByText("Práctica según el modelo de examen"),
+  ).toHaveCount(0);
   await expect(
     reader.getByRole("button", { name: "Escuchar lección", exact: true }),
   ).toBeEnabled();
@@ -38,40 +40,25 @@ test("Civil filters the new topics and grades a sourced representation block", a
     "Bloque superado",
   );
   await reader.getByRole("button", { name: "Volver al recorrido" }).click();
-  await expect(course).toContainText("1 de 15 bloques superados");
+  await expect(course).toContainText("1 de 15 lecciones completadas");
 });
 
-test("History shows the supplied development format without inventing graded lessons", async ({
+test("History shows a clean lesson state and its sources remain available", async ({
   page,
 }) => {
-  await page.goto("/uned/asignaturas/");
+  await page.goto("/uned/dashboard/");
   await page
-    .getByRole("button", { name: /Historia del Derecho Español/ })
+    .getByRole("button", { name: /^Historia del Derecho Español/ })
     .click();
-  const preparation = page.getByRole("region", {
-    name: "Preparación de Historia del Derecho",
-  });
-  await expect(preparation).toContainText("17 modelos aportados");
-  await expect(preparation).toContainText(
-    "dos preguntas teóricas a elegir entre tres",
-  );
-  await expect(preparation).toContainText("comentario de texto obligatorio");
-  await expect(preparation).toContainText(
-    "La creación de lecciones y prácticas está pausada",
-  );
+  await page.getByRole("button", { name: /Hacer lecciones/ }).click();
   await expect(
-    page.getByRole("region", { name: "Contenido de estudio disponible" }),
-  ).toHaveCount(0);
-  await preparation
-    .getByText("Modelos recibidos y referencias", { exact: true })
-    .click();
-  await expect(
-    preparation.getByText("E660210150-26SO.pdf · página PDF 1", {
-      exact: true,
-    }),
+    page.getByRole("heading", { name: "Todavía no hay lecciones disponibles" }),
   ).toBeVisible();
+  await expect(page.getByText(/Identificadas 51/)).toHaveCount(0);
   await page.goto("/uned/fuentes/");
   await expect(
-    page.getByRole("region", { name: "Preparación de Historia del Derecho" }),
-  ).toContainText("17 modelos aportados");
+    page.getByRole("region", {
+      name: "Fuentes de Historia del Derecho Español",
+    }),
+  ).toContainText("Apuntes EC.pdf");
 });

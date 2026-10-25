@@ -25,9 +25,6 @@ import {
 } from "@/lib/subject-catalog";
 import { GuidedLearning } from "./guided-learning";
 import { learningSummary } from "@/lib/learning";
-import { CivilSyllabus } from "./civil-syllabus";
-import { ProceduralSyllabus } from "./procedural-syllabus";
-import { HistoryPreparation } from "./history-preparation";
 export function SubjectIcon({
   subject,
   size = 21,
@@ -434,36 +431,10 @@ export function SubjectDetail({
           </p>
         </div>
       </div>
-      {catalogEntry(subject) && (
-        <div className="inline-note">
-          <LockKeyhole size={18} />
-          <span>
-            {isSubjectLocked(subject)
-              ? "Asignatura bloqueada. Se habilitará cuando incorporemos sus materiales y preparemos sus lecciones y pruebas."
-              : learningSummary(catalogEntry(subject)?.code, {}).total
-                ? "Contenido inicial disponible. Aprende y supera las pruebas de cada bloque; el resto del programa sigue en preparación."
-                : catalogEntry(subject)?.code === "021015"
-                  ? "Exámenes recibidos. Faltan el programa y los materiales de estudio para preparar las lecciones y sus respuestas. Puedes registrar estudio libre."
-                  : "Primer cuatrimestre: materiales pendientes. Puedes registrar estudio libre."}
-          </span>
-        </div>
-      )}
-      <p className="muted">
-        El objetivo de minutos y el avance del contenido son independientes.
-        Cada bloque se supera al responder correctamente toda su prueba final.
-      </p>
       <GuidedLearning code={catalogEntry(subject)?.code ?? ""} />
-      {catalogEntry(subject)?.code === "901012" && (
-        <p className="muted">
-          Fundamentos 2026/27: entrenamiento tipo test con niveles fácil, medio
-          y difícil. Los bloques disponibles respetan las exclusiones de la
-          introducción del curso. Los dos archivos del libro siguen pendientes
-          por tamaño.
-        </p>
+      {!learningSummary(catalogEntry(subject)?.code, {}).total && (
+        <p>Todavía no hay lecciones disponibles.</p>
       )}
-      {catalogEntry(subject)?.code === "021096" && <CivilSyllabus />}
-      {catalogEntry(subject)?.code === "021044" && <ProceduralSyllabus />}
-      {catalogEntry(subject)?.code === "021015" && <HistoryPreparation />}
       <div className="detail-actions">
         <button
           className="button"

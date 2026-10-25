@@ -30,7 +30,7 @@ Cada lección guiada incluye «Escuchar lección»: lee el objetivo, los concept
 - Exportación JSON y borrado confirmado de tareas, sesiones, fechas y preferencias. El borrado conserva la cuenta y las asignaturas. La eliminación completa de la cuenta se gestiona desde Supabase por el administrador en esta entrega.
 - Email/contraseña y Google OAuth con Supabase cuando se configura. Sin credenciales, los controles de acceso explican el requisito y están deshabilitados.
 
-La entrega de contenido incluye 15 bloques introductorios de Civil I.1 distribuidos por los 14 temas, tres de Procesal y tres de Fundamentos: 63 preguntas originales en total, con fuentes y explicaciones. Se pueden filtrar los bloques por tema. No completan el programa. Los 17 modelos aportados de Historia están procesados: la web muestra su formato de desarrollo y comentario y los materiales pendientes para elaborar respuestas fundamentadas.
+La entrega de contenido incluye 15 bloques introductorios de Civil I.1 distribuidos por los 14 temas, tres de Procesal y tres de Fundamentos: 63 preguntas originales en total, con fuentes y explicaciones. Se pueden filtrar los bloques por tema. No completan el programa. Historia ofrece tres prácticas escritas adaptadas de los modelos aportados, con elección de dos desarrollos y un comentario de texto; no tienen calificación automática. Sus lecciones siguen pendientes del aviso de que se ha completado la subida de materiales.
 
 ## Preliminar con cuentas en GitHub Pages
 
@@ -101,3 +101,6 @@ Las asignaturas iniciales requieren validación académica. Los títulos de tare
 El inicio solo muestra el catálogo de asignaturas que cursas o vas a cursar. Las lecciones conservan contenido, conceptos, programa, fuentes y lectura en voz alta. La práctica de examen es independiente del avance de los bloques y sus intentos no se guardan al salir.
 
 Civil ofrece intentos aleatorios de 20 ejercicios originales del banco didáctico, con 60 minutos y corrección según el modelo histórico de febrero de 2023 (+0,5/−0,25; blancos 0). Fundamentos ofrece un test inicial sin atribuirle puntuación ni duración oficial. Los formatos no contrastados permanecen en preparación. Historia conserva el modelo de desarrollo y comentario, pero no crea nuevas lecciones o prácticas hasta que el usuario confirme que ha terminado de aportar los materiales.
+
+
+Las pantallas de estudio muestran directamente las lecciones y su progreso individual o las preguntas del intento. Los informes internos de recepción y preparación se conservan en la documentación del proyecto. Mis fuentes reúne las referencias bibliográficas por asignatura.

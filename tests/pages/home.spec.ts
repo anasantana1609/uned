@@ -50,7 +50,6 @@ test("Civil exam practice scores an attempt with blanks, explains corrections an
   await page.goto("/uned/dashboard/");
   await page.getByRole("button", { name: /^Derecho Civil I.1/ }).click();
   await page.getByRole("button", { name: /Hacer exámenes/ }).click();
-  await page.getByRole("button", { name: "Comenzar práctica" }).click();
   const practice = page.getByRole("region", { name: "Práctica de examen" });
   const groups = practice.locator("fieldset");
   await expect(groups).toHaveCount(20);
@@ -82,14 +81,14 @@ test("Civil exam practice scores an attempt with blanks, explains corrections an
   await expect(practice.locator("input:checked")).toHaveCount(0);
 });
 
-test("Civil practice ends at the time limit and History remains paused", async ({
+test("Civil practice ends at the time limit and History offers written questions", async ({
   page,
 }) => {
   await page.clock.install();
   await page.goto("/uned/dashboard/");
   await page.getByRole("button", { name: /^Derecho Civil I.1/ }).click();
   await page.getByRole("button", { name: /Hacer exámenes/ }).click();
-  await page.getByRole("button", { name: "Comenzar práctica" }).click();
+  await expect(page.locator(".exam-practice fieldset")).toHaveCount(20);
   await page.clock.fastForward(60 * 60_000);
   await expect(
     page
@@ -103,8 +102,47 @@ test("Civil practice ends at the time limit and History remains paused", async (
   await page.getByRole("button", { name: /Hacer exámenes/ }).click();
   await expect(
     page.getByRole("region", { name: "Práctica de examen" }),
-  ).toContainText("comentario de texto obligatorio");
+  ).toContainText("Comentario de texto");
   await expect(
-    page.getByRole("button", { name: "Comenzar práctica" }),
-  ).toHaveCount(0);
+    page.getByRole("textbox", { name: "Tu comentario" }),
+  ).toBeVisible();
+});
+
+test("History shows written questions directly and accepts two developments plus a commentary without inventing a grade", async ({
+  page,
+}) => {
+  await page.goto("/uned/dashboard/");
+  await page
+    .getByRole("button", { name: /^Historia del Derecho Español/ })
+    .click();
+  await page.getByRole("button", { name: /Hacer exámenes/ }).click();
+  const practice = page.getByRole("region", { name: "Práctica de examen" });
+  await expect(practice.getByRole("group")).toHaveCount(4);
+  await expect(
+    practice.getByRole("button", { name: "Finalizar práctica" }),
+  ).toBeDisabled();
+  await practice.getByRole("checkbox").nth(0).check();
+  await practice.getByRole("checkbox").nth(1).check();
+  await expect(practice.getByRole("checkbox").nth(2)).toBeDisabled();
+  await practice
+    .getByLabel("Tu respuesta a la pregunta 1")
+    .fill("Respuesta personal a la primera pregunta.");
+  await practice
+    .getByLabel("Tu respuesta a la pregunta 2")
+    .fill("Respuesta personal a la segunda pregunta.");
+  await practice
+    .getByLabel("Tu comentario", { exact: true })
+    .fill("Comentario personal del fragmento adaptado.");
+  await practice.getByRole("button", { name: "Finalizar práctica" }).click();
+  await expect(practice.getByRole("status")).toContainText(
+    "Práctica finalizada",
+  );
+  await expect(practice.getByText(/Puntuación/)).toHaveCount(0);
+  expect(
+    await page.evaluate(() => localStorage.getItem("uned-learning-v1:demo")),
+  ).toBeNull();
+  await practice.getByLabel("Elegir modelo").selectOption("1");
+  await expect(
+    practice.getByLabel("Tu comentario", { exact: true }),
+  ).toHaveValue("");
 });

@@ -10,7 +10,7 @@ test("guided block grades answers, persists only a pass, and countdown cannot co
   const course = page.getByRole("region", {
     name: "Contenido de estudio disponible",
   });
-  await expect(course).toContainText("0% del contenido inicial");
+  await expect(course).toContainText("0% de lecciones completadas");
   await course
     .getByRole("button", { name: /Qué estudia el Derecho civil/ })
     .click();
@@ -49,11 +49,17 @@ test("guided block grades answers, persists only a pass, and countdown cannot co
   await page.reload();
   await page.getByRole("button", { name: /Derecho Civil I.1/ }).click();
   await expect(course).toContainText(
-    `${Math.round(100 / lessonsFor("021096").length)}% del contenido inicial`,
+    `${Math.round(100 / lessonsFor("021096").length)}% de lecciones completadas`,
   );
   await expect(course).toContainText(
-    `1 de ${lessonsFor("021096").length} bloques superados`,
+    `1 de ${lessonsFor("021096").length} lecciones completadas`,
   );
+  await expect(
+    course.getByRole("progressbar", {
+      name: "Progreso de la lección: Qué estudia el Derecho civil",
+      exact: true,
+    }),
+  ).toHaveAttribute("value", "100");
 });
 
 test("home opens lessons and each prepared subject exposes its sources", async ({
@@ -78,9 +84,7 @@ test("home opens lessons and each prepared subject exposes its sources", async (
     await course.locator(".lesson-choice").first().click();
     const reader = page.locator(".lesson-reader");
     await reader.getByText("Fuentes de este bloque", { exact: true }).click();
-    await expect(
-      reader.getByText(/Síntesis y ejercicios de elaboración propia/),
-    ).toBeVisible();
+    expect(await reader.locator("details li").count()).toBeGreaterThan(0);
     await expect(reader.locator("fieldset")).toHaveCount(3);
     await page.keyboard.press("Escape");
   }

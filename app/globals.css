@@ -4474,3 +4474,54 @@ textarea,
 .page-heading > div > p:last-child {
   font-size: 20px;
 }
+
+.lesson-choice > .lesson-item-main {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 8px;
+}
+.lesson-item-progress {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+.lesson-item-progress progress {
+  flex: 1;
+  min-width: 0;
+  height: 10px;
+}
+.lesson-item-progress small {
+  font-size: 16px;
+  min-width: 45px;
+  text-align: right;
+}
+.exam-instructions {
+  margin: 12px 0 20px;
+}
+.exam-label {
+  margin: 12px 0;
+  font-weight: 600;
+}
+.exam-practice textarea {
+  margin: 10px 0;
+  resize: vertical;
+}
+.exam-practice blockquote {
+  margin: 18px 0;
+  padding: 16px;
+  border-left: 4px solid var(--subject-color);
+  background: var(--subject-tint);
+  line-height: 1.7;
+}
+.study-references {
+  padding: 24px;
+  margin-bottom: 20px;
+}
+.study-references ul {
+  padding-left: 24px;
+}
+.study-references li {
+  margin: 12px 0;
+}

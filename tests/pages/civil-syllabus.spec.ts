@@ -1,53 +1,36 @@
 import { test, expect } from "@playwright/test";
 
-test("Civil shows the sourced syllabus and exclusions while lessons remain in preparation", async ({
+test("Civil lessons show progress without development receipts", async ({
   page,
 }) => {
-  await page.goto("/uned/asignaturas/");
-  await page.getByRole("button", { name: /Derecho Civil I.1/ }).click();
-  const syllabus = page.getByRole("region", {
-    name: "Preparación de Civil I.1",
+  await page.goto("/uned/dashboard/");
+  await page.getByRole("button", { name: /^Derecho Civil I.1/ }).click();
+  await page.getByRole("button", { name: /Hacer lecciones/ }).click();
+  const course = page.getByRole("region", {
+    name: "Contenido de estudio disponible",
   });
-  await expect(syllabus).toContainText(
-    "Ya puedes estudiar 15 bloques introductorios",
+  await expect(course.locator(".lesson-choice")).toHaveCount(15);
+  await expect(
+    course.getByRole("progressbar", { name: /Progreso de la lección:/ }),
+  ).toHaveCount(15);
+  await expect(page.getByText(/documentos distintos descargados/)).toHaveCount(
+    0,
   );
-  await syllabus
-    .getByText("Bloque 1 · El ordenamiento jurídico", { exact: true })
-    .click();
-  await expect(
-    syllabus.getByText(/Tema 5. Prescripción y caducidad/),
-  ).toBeVisible();
-  await syllabus
-    .getByText("Exclusiones del examen 2026/27", { exact: true })
-    .click();
-  await expect(
-    syllabus.getByText("Capítulo 3: epígrafes 3, 4, 8, 9, 10, 11.", {
-      exact: true,
-    }),
-  ).toBeVisible();
   await page.goto("/uned/fuentes/");
   await expect(
-    page.getByRole("region", { name: "Preparación de Civil I.1" }),
-  ).toContainText("Las partes 2 y 3 también se han descargado");
+    page.getByRole("region", {
+      name: "Fuentes de Derecho Civil I.1: Parte General y Persona",
+    }),
+  ).toContainText("Apuntes actualizados");
 });
-
-test("Procesal exposes the programme and source limitations", async ({
+test("Procesal opens its lessons without material preparation reports", async ({
   page,
 }) => {
-  await page.goto("/uned/asignaturas/");
+  await page.goto("/uned/dashboard/");
   await page
-    .getByRole("button", { name: /Introducción al Derecho Procesal/ })
+    .getByRole("button", { name: /^Introducción al Derecho Procesal/ })
     .click();
-  const syllabus = page.getByRole("region", {
-    name: "Preparación de Introducción al Derecho Procesal",
-  });
-  await expect(syllabus).toContainText("28 lecciones en cinco partes");
-  await expect(syllabus).toContainText("fragmento de 37 páginas");
-  await syllabus
-    .getByText("Parte 5 · Derecho paraprocesal", { exact: true })
-    .click();
-  await expect(syllabus.getByText(/Lección 28\./)).toBeVisible();
-  await expect(
-    syllabus.getByText("Lecciones y prueba de este tema en preparación").last(),
-  ).toBeVisible();
+  await page.getByRole("button", { name: /Hacer lecciones/ }).click();
+  await expect(page.locator(".lesson-choice")).toHaveCount(3);
+  await expect(page.getByText(/fragmento de 37 páginas/)).toHaveCount(0);
 });

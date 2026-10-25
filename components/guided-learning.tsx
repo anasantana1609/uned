@@ -34,30 +34,20 @@ export function GuidedLearning({ code }: { code: string }) {
       style={subjectTheme(code)}
       aria-label="Contenido de estudio disponible"
     >
-      <p className="eyebrow">TU PRIMER RECORRIDO</p>
       <h3>
-        <BookOpen size={20} /> Aprende en bloques de cinco minutos
+        <BookOpen size={20} /> Lecciones
       </h3>
-      <p>
-        Explicación, ejemplo, práctica y prueba final. Supera las tres preguntas
-        para completar cada bloque. Puedes repetirlo cuando quieras.
-      </p>
       <div className="learning-summary">
-        <strong>{summary.percent}% del contenido inicial</strong>
+        <strong>{summary.percent}% de lecciones completadas</strong>
         <span>
-          {summary.passed} de {summary.total} bloques superados
+          {summary.passed} de {summary.total} lecciones completadas
         </span>
       </div>
       <progress
-        aria-label="Avance del contenido inicial"
+        aria-label="Avance de lecciones completadas"
         value={summary.passed}
         max={summary.total}
       />
-      <p className="muted">
-        Este recorrido no cubre todo el programa ni completa un tema por sí
-        solo. Seguiremos incorporando contenido. Tu avance se guarda por cuenta
-        en este navegador; aún no se sincroniza entre dispositivos.
-      </p>
       <div className="lesson-list">
         <label className="lesson-topic-filter">
           Filtrar por tema
@@ -80,9 +70,17 @@ export function GuidedLearning({ code }: { code: string }) {
               onClick={() => setSelected(lesson)}
               disabled={!learningReady}
             >
-              <span>
+              <span className="lesson-item-main">
                 <small>{lesson.topic} · 5 min</small>
                 <strong>{lesson.title}</strong>
+                <span className="lesson-item-progress">
+                  <progress
+                    aria-label={`Progreso de la lección: ${lesson.title}`}
+                    value={learningProgress[lesson.id] ? 100 : 0}
+                    max={100}
+                  />
+                  <small>{learningProgress[lesson.id] ? "100%" : "0%"}</small>
+                </span>
               </span>
               <span>
                 {learningProgress[lesson.id] ? (
@@ -216,10 +214,6 @@ function LessonReader({
             <li key={s}>{s}</li>
           ))}
         </ul>
-        <p className="muted">
-          Síntesis y ejercicios de elaboración propia basados en los materiales
-          aportados. No son preguntas ni soluciones oficiales de examen.
-        </p>
       </details>
       <form
         onSubmit={(e) => {
@@ -237,19 +231,6 @@ function LessonReader({
         }}
       >
         <h4>Comprueba lo aprendido</h4>
-        {lesson.examModel && (
-          <div className="inline-note">
-            <div>
-              <strong>Práctica según el modelo de examen</strong>
-              <p>{lesson.examModel}</p>
-              <p>
-                Tres alternativas y una respuesta correcta. Ejercicios
-                originales con soluciones razonadas a partir de las fuentes del
-                bloque; no son una plantilla oficial ni un simulacro completo.
-              </p>
-            </div>
-          </div>
-        )}
         <p>
           Necesitas las tres respuestas correctas. Si fallas, revisa la
           explicación y vuelve a intentarlo.

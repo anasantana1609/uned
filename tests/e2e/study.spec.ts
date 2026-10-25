@@ -128,7 +128,9 @@ test("demo login and document integrations are honestly labeled", async ({
     }),
   ).toBeVisible();
   await page.goto("/fuentes");
-  await expect(page.getByText("Carpeta prevista · Sin conectar")).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Mis fuentes" }),
+  ).toBeVisible();
 });
 test("layout stays within the viewport and timer can pause and finish", async ({
   page,

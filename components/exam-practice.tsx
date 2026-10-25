@@ -1,4 +1,5 @@
 "use client";
+import { HistoryExamPractice } from "./history-exam-practice";
 import { subjectTheme } from "@/lib/subject-theme";
 import { useEffect, useState } from "react";
 import {
@@ -9,6 +10,13 @@ import {
 } from "@/lib/exam-practice";
 
 export function ExamPractice({ code }: { code: string }) {
+  return code === "021015" ? (
+    <HistoryExamPractice />
+  ) : (
+    <TestExamPractice code={code} />
+  );
+}
+function TestExamPractice({ code }: { code: string }) {
   const spec = examPracticeFor(code);
   const [questions, setQuestions] = useState<PracticeQuestion[]>([]);
   const [answers, setAnswers] = useState<Record<string, number>>({});
@@ -26,6 +34,11 @@ export function ExamPractice({ code }: { code: string }) {
     const timer = window.setInterval(tick, 1000);
     return () => clearInterval(timer);
   }, [deadline, submitted]);
+  useEffect(() => {
+    if (spec.available) start();
+    // Starting an activity creates one attempt; later renders keep its questions.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [code]);
   const result = examResult(questions, answers, spec.penalized);
   function start() {
     setQuestions(shuffledQuestions(spec.bank, spec.count));
@@ -41,26 +54,21 @@ export function ExamPractice({ code }: { code: string }) {
       aria-label="Práctica de examen"
     >
       <h2>Hacer exámenes</h2>
-      <p>{spec.description}</p>
-      {spec.source && <p className="muted">Referencia: {spec.source}</p>}
       {!spec.available ? (
-        <p className="inline-note">Exámenes en preparación.</p>
+        <p>Todavía no hay preguntas disponibles.</p>
       ) : !questions.length ? (
-        <>
-          <p>
-            {spec.count} preguntas disponibles por intento. La corrección
-            incluye explicaciones y referencias.
-          </p>
-          <button className="button" onClick={start}>
-            Comenzar práctica
-          </button>
-        </>
+        <p>Cargando preguntas…</p>
       ) : (
         <>
-          <p className="muted">
-            Este intento no modifica los bloques superados ni se guarda al salir
-            o recargar.
-          </p>
+          <p className="exam-label">Preguntas de práctica</p>
+          <details className="exam-instructions">
+            <summary>Instrucciones</summary>
+            <p>
+              {spec.penalized
+                ? "Marca una respuesta por pregunta. Cada acierto suma 0,5 puntos; cada error resta 0,25. Puedes dejar preguntas en blanco."
+                : "Marca una respuesta por pregunta y pulsa Terminar y corregir para revisar el resultado."}
+            </p>
+          </details>
           {deadline && !submitted && (
             <p
               role="timer"
