@@ -1,6 +1,6 @@
 # Aprendizaje guiado: decisiones del usuario
 
-Actualizado: 25 de octubre de 2026. Civil I.1, Procesal y Fundamentos tienen bloques de estudio disponibles. Historia tiene 17 exámenes recibidos y procesados; faltan programa y materiales de estudio. Teoría del Derecho y Teoría del Estado Constitucional siguen pendientes de materiales. Las secciones de primera revisión siguientes conservan el estado histórico de cada lote; el estado actual se precisa al final.
+Actualizado: 25 de octubre de 2026. El estado vigente se recoge en la sección final «Preparación por temas del primer cuatrimestre». Las primeras revisiones se conservan como historial; sus pendientes antiguos no deben usarse para solicitar documentos ya recibidos.
 
 ## Alcance acordado
 
@@ -101,3 +101,22 @@ Teoría ofrece intentos de 20 preguntas del banco original, 60 minutos, +0,5 por
 Se conserva el progreso por identificador sin modificar los bloques antiguos ni migrar datos. La prueba de tres conceptos sigue siendo necesaria para completar cada bloque. Colores y tamaño de letra siguen el diseño existente. Las fuentes bibliográficas se actualizan sin informes de recepción en las pantallas de lecciones y exámenes.
 
 Durante esta activación se recibieron seis archivos de Teoría del Estado Constitucional: tres descargados (28 páginas de repaso, 24 de Parlamento y 61 escaneadas) y tres bloqueados por superar 32 MiB (recopilatorio, infografías y libro de 7.ª edición). Se registra el material en `/workspace/estado-constitucional-materiales/`; no se confunde recepción con revisión ni se activa esta tercera asignatura por la petición dirigida a Historia y Teoría del Derecho.
+
+
+## Preparación por temas del primer cuatrimestre
+
+Ámbito vigente: únicamente Historia del Derecho, Teoría del Derecho, Teoría del Estado Constitucional, Introducción al Derecho Procesal, Fundamentos Clásicos y Civil I.1. El segundo cuatrimestre permanece aplazado y con candado. El usuario confirmó un único manual de Fundamentos y excluyó Multinivel para su preparación en Canarias: no solicitar un segundo libro ni incorporar Multinivel como fuente requerida.
+
+Se actualiza el corpus privado mediante OCR español de 1.124 páginas de 20 fragmentos de manuales y apoyos; el texto de los índices deteriorados de Fundamentos se reconstruye además por OCR. Se conserva referencia al original y a la página. La extracción automática no equivale a verificación visual completa ni a validación de solucionarios. Las fuentes y su índice de búsqueda se mantienen fuera del repositorio: `/workspace/study-knowledge/`. La base privada de búsqueda usa páginas individuales, por asignatura, archivo y huella SHA-256. Su catálogo y estado deben consultarse antes de volver a pedir un documento.
+
+Se registran las guías 2026/27 de Historia, Teoría del Derecho, TEC y Procesal, los programas y concordancias de Civil y los capítulos del único manual de Fundamentos. No se presenta este último índice como un programa oficial 2026/27 confirmado. Los seis recorridos contienen 114 temas o capítulos: Historia 18; Teoría del Derecho 14; TEC 20; Procesal 28; Fundamentos 20 capítulos; Civil I.1 14.
+
+La app incorpora 119 bloques introductorios, 72 nuevos, con 357 preguntas de conceptos. Distribución de bloques: Historia 20, Teoría 14, TEC 20, Procesal 29, Fundamentos 21 y Civil 15. Cubrir cada número del índice con un bloque inicial no acredita cobertura exhaustiva de todos los epígrafes ni dominio completo del tema. Los bloques contienen explicación original, esquema de repaso, ejemplo, recuperación y tres preguntas. Los identificadores previos y sus soluciones se conservan: se actualizan agrupación, referencias y orden sin borrar el progreso. El porcentaje sigue midiendo bloques disponibles superados; no páginas leídas ni todo el temario dominado.
+
+TEC sigue la cuota y fuentes indicadas por el usuario; su práctica ofrece 20 preguntas originales con cuatro opciones, 120 minutos y un desarrollo a elegir entre dos. Se aplica al test el baremo de la página 27 de la guía: 13 aciertos=5; 18=8; 19=9; 20=10; errores sin penalización. La nota del desarrollo y la nota global no se inventan: solo el test recibe corrección automática. Se informa en instrucciones de que la evaluación oficial promedia ambas partes y que un cero en cualquiera impide superar el examen. El desarrollo se puede escribir o dictar.
+
+Procesal incorpora dos prácticas originales con dos preguntas teóricas y un caso obligatorios, 120 minutos, escritura/dictado y pautas para revisar el caso. No se asigna nota automática. El formato se verifica en la guía, página PDF 18. Teoría del Derecho conserva el test de 20 preguntas/60 minutos/+0,5/−0,1, ahora confirmado con la guía, página 22. Historia conserva sus nueve prácticas escritas y se organiza por las 18 lecciones oficiales. Fundamentos usa ejercicios de conceptos sobre su manual sin atribuir nota, tiempo ni penalización oficiales no verificados. Civil conserva su formato histórico y las lecciones previas.
+
+Durante la preparación llegaron siete fragmentos del Código de Leyes Procesales, 4.ª edición, actualizado a 1 de abril de 2025: 700 páginas PDF. Su índice incluye secciones posteriores, de modo que solo se da por recibido el tramo 1–700; faltan los tramos posteriores hasta el final. No confundir esta edición editorial con el código BOE de 1.949 páginas mencionado en el historial. Este documento es una fuente fechada, no una afirmación de vigencia íntegra de toda la legislación a 2026. El manual de Procesal de 2025 sí está recibido en nueve partes (441 páginas).
+
+Los originales, el texto OCR, las bases de búsqueda y los apuntes del usuario no se publican ni se incluyen en `public/`, Git ni el artefacto estático. La web recibe exclusivamente resúmenes y ejercicios originales, metadatos del temario y referencias. Las pantallas de estudio no muestran informes internos de transferencia, OCR o preparación.

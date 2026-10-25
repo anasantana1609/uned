@@ -8,6 +8,9 @@ export function lessonSpeechText(lesson: Lesson): string {
     `Conceptos: ${lesson.concepts.join(", ")}.`,
     "Comprende.",
     ...lesson.explanation,
+    ...(lesson.outline?.length
+      ? ["Esquema para repasar.", ...lesson.outline]
+      : []),
     "Un ejemplo.",
     lesson.example,
     "Practica sin mirar.",

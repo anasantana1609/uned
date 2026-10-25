@@ -2,6 +2,7 @@ import { PageHeading } from "@/components/ui";
 import { lessonsFor } from "@/lib/learning";
 import { firstYearCatalog } from "@/lib/subject-catalog";
 import { historyExamPreparation } from "@/lib/history-exams";
+import { curriculumFor } from "@/lib/course-curricula";
 
 export default function Sources() {
   return (
@@ -12,9 +13,12 @@ export default function Sources() {
       />
       {firstYearCatalog.map((subject) => {
         const references = [
-          ...new Set(
-            lessonsFor(subject.code).flatMap((lesson) => lesson.sources),
-          ),
+          ...new Set([
+            ...(curriculumFor(subject.code)?.sources ?? []),
+            ...lessonsFor(subject.code).flatMap((lesson) =>
+              lesson.sources.map((source) => source.split(" · ")[0]),
+            ),
+          ]),
         ];
         if (subject.code === "021015")
           references.push(
@@ -53,7 +57,7 @@ export default function Sources() {
           >
             <h2>{subject.title}</h2>
             <ul>
-              {references.map((reference) => (
+              {[...new Set(references)].map((reference) => (
                 <li key={reference}>{reference}</li>
               ))}
             </ul>

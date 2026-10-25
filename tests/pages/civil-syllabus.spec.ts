@@ -31,6 +31,6 @@ test("Procesal opens its lessons without material preparation reports", async ({
     .getByRole("button", { name: /^Introducción al Derecho Procesal/ })
     .click();
   await page.getByRole("button", { name: /Hacer lecciones/ }).click();
-  await expect(page.locator(".lesson-choice")).toHaveCount(3);
+  await expect(page.locator(".lesson-choice")).toHaveCount(29);
   await expect(page.getByText(/fragmento de 37 páginas/)).toHaveCount(0);
 });

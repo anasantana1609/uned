@@ -1,5 +1,7 @@
 "use client";
 import { HistoryExamPractice } from "./history-exam-practice";
+import { ProceduralExamPractice } from "./procedural-exam-practice";
+import { DictatedAnswer } from "./dictated-answer";
 import { subjectTheme } from "@/lib/subject-theme";
 import { useEffect, useState } from "react";
 import {
@@ -12,6 +14,8 @@ import {
 export function ExamPractice({ code }: { code: string }) {
   return code === "021015" ? (
     <HistoryExamPractice />
+  ) : code === "021044" ? (
+    <ProceduralExamPractice />
   ) : (
     <TestExamPractice code={code} />
   );
@@ -23,6 +27,10 @@ function TestExamPractice({ code }: { code: string }) {
   const [submitted, setSubmitted] = useState(false);
   const [deadline, setDeadline] = useState<number | null>(null);
   const [remaining, setRemaining] = useState(0);
+  const [developmentIndex, setDevelopmentIndex] = useState(0);
+  const [developmentAnswers, setDevelopmentAnswers] = useState<
+    Record<number, string>
+  >({});
   useEffect(() => {
     if (!deadline || submitted) return;
     const tick = () => {
@@ -45,10 +53,15 @@ function TestExamPractice({ code }: { code: string }) {
     spec.penalized,
     spec.incorrectPenalty,
   );
+  const score = spec.scoreScale
+    ? spec.scoreScale[result.correct]
+    : result.score;
   function start() {
     setQuestions(shuffledQuestions(spec.bank, spec.count));
     setAnswers({});
     setSubmitted(false);
+    setDevelopmentIndex(0);
+    setDevelopmentAnswers({});
     setRemaining((spec.minutes ?? 0) * 60);
     setDeadline(spec.minutes ? Date.now() + spec.minutes * 60_000 : null);
   }
@@ -65,7 +78,11 @@ function TestExamPractice({ code }: { code: string }) {
         <p>Cargando preguntas…</p>
       ) : (
         <>
-          <p className="exam-label">Preguntas de práctica</p>
+          <p className="exam-label">
+            {spec.developmentPrompts
+              ? "Test y desarrollo de práctica"
+              : "Preguntas de práctica"}
+          </p>
           <details className="exam-instructions">
             <summary>Instrucciones</summary>
             <p>
@@ -74,6 +91,7 @@ function TestExamPractice({ code }: { code: string }) {
                 : "Marca una respuesta por pregunta y pulsa Terminar y corregir para revisar el resultado."}
             </p>
             <p>{spec.description}</p>
+            <small>{spec.source}</small>
           </details>
           {deadline && !submitted && (
             <p
@@ -92,13 +110,21 @@ function TestExamPractice({ code }: { code: string }) {
                 {result.correct} aciertos · {result.incorrect} errores ·{" "}
                 {result.blank} en blanco
               </p>
-              {result.score !== null && (
+              {score !== null && score !== undefined && (
                 <p>
-                  Puntuación de práctica: {result.score.toLocaleString("es-ES")}{" "}
-                  / 10
+                  {spec.scoreScale
+                    ? "Puntuación del test"
+                    : "Puntuación de práctica"}
+                  : {score.toLocaleString("es-ES")} / 10
                 </p>
               )}
               <p>No es una calificación oficial.</p>
+              {spec.developmentPrompts && (
+                <p>
+                  Revisa el desarrollo por separado. No se calcula una nota
+                  global automática.
+                </p>
+              )}
             </div>
           )}
           <form
@@ -165,6 +191,48 @@ function TestExamPractice({ code }: { code: string }) {
                 )}
               </fieldset>
             ))}
+            {spec.developmentPrompts && (
+              <section aria-label="Desarrollo de TEC">
+                <h3>Desarrollo: elige una pregunta</h3>
+                <div
+                  role="radiogroup"
+                  aria-label="Pregunta de desarrollo elegida"
+                >
+                  {spec.developmentPrompts.map((prompt, index) => (
+                    <label key={prompt} className="lesson-question">
+                      <input
+                        type="radio"
+                        name={`development-${code}`}
+                        checked={developmentIndex === index}
+                        disabled={submitted}
+                        onChange={() => setDevelopmentIndex(index)}
+                      />
+                      {prompt}
+                    </label>
+                  ))}
+                </div>
+                <DictatedAnswer
+                  key={developmentIndex}
+                  id={`development-${code}-${developmentIndex}`}
+                  label="Tu respuesta de desarrollo"
+                  value={developmentAnswers[developmentIndex] ?? ""}
+                  disabled={submitted}
+                  onChange={(text) =>
+                    setDevelopmentAnswers((old) => ({
+                      ...old,
+                      [developmentIndex]: text,
+                    }))
+                  }
+                />
+                {submitted && (
+                  <p>
+                    Comprueba que defines las instituciones, distingues sus
+                    elementos y respondes a todos los apartados. La respuesta
+                    escrita no recibe nota automática.
+                  </p>
+                )}
+              </section>
+            )}
             {!submitted && (
               <button className="button" type="submit">
                 Terminar y corregir

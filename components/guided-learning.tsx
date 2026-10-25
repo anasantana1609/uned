@@ -7,10 +7,12 @@ import { subjectTheme } from "@/lib/subject-theme";
 import { LessonAudio } from "./lesson-audio";
 import { lessonSpeechText } from "@/lib/lesson-speech";
 import { DictatedAnswer } from "./dictated-answer";
+import { curriculumFor } from "@/lib/course-curricula";
 
 export function GuidedLearning({ code }: { code: string }) {
   const { learningProgress, learningReady } = useStudy();
   const available = lessonsFor(code);
+  const curriculum = curriculumFor(code);
   const [selected, setSelected] = useState<Lesson | null>(null);
   const [topic, setTopic] = useState("");
   const summary = learningSummary(code, learningProgress);
@@ -38,6 +40,17 @@ export function GuidedLearning({ code }: { code: string }) {
       <h3>
         <BookOpen size={20} /> Lecciones
       </h3>
+      {curriculum && (
+        <details className="course-outline">
+          <summary>Ver temario de la asignatura</summary>
+          <p>{curriculum.basis}</p>
+          <ol>
+            {curriculum.topics.map((item) => (
+              <li key={item.number}>{item.title}</li>
+            ))}
+          </ol>
+        </details>
+      )}
       <div className="learning-summary">
         <strong>{summary.percent}% de lecciones completadas</strong>
         <span>
@@ -57,6 +70,11 @@ export function GuidedLearning({ code }: { code: string }) {
             {[...new Set(available.map((l) => l.topic))].map((t) => (
               <option key={t} value={t}>
                 {t}
+                {curriculum?.topics.find(
+                  (item) => item.number === Number(t.match(/\d+/)?.[0]),
+                )
+                  ? ` · ${curriculum.topics.find((item) => item.number === Number(t.match(/\d+/)?.[0]))!.title}`
+                  : ""}
               </option>
             ))}
           </select>
@@ -203,6 +221,16 @@ function LessonReader({
       {lesson.explanation.map((p) => (
         <p key={p}>{p}</p>
       ))}
+      {!!lesson.outline?.length && (
+        <div className="lesson-example">
+          <h4>Esquema para repasar</h4>
+          <ol>
+            {lesson.outline.map((point) => (
+              <li key={point}>{point}</li>
+            ))}
+          </ol>
+        </div>
+      )}
       <div className="lesson-example">
         <h4>Un ejemplo</h4>
         <p>{lesson.example}</p>

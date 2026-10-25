@@ -3,6 +3,10 @@ import { catalogEntry } from "./subject-catalog";
 import { civilTopicLessons } from "./civil-learning";
 import { historyLessons } from "./history-learning";
 import { theoryLessons } from "./theory-learning";
+import { constitutionalLessons } from "./constitutional-learning";
+import { proceduralLessons } from "./procedural-learning";
+import { foundationsLessons } from "./foundations-learning";
+import { historyTopicLessons } from "./history-topic-learning";
 
 export type Question = {
   prompt: string;
@@ -20,6 +24,7 @@ export type Lesson = {
   objective: string;
   concepts: string[];
   explanation: string[];
+  outline?: string[];
   example: string;
   practice: string;
   sources: string[];
@@ -41,7 +46,7 @@ const q = (
   difficulty: Question["difficulty"] = "media",
 ): Question => ({ prompt, options, answer, explanation, difficulty });
 // Original teaching summaries and exercises. Source documents and transcripts are never bundled.
-export const lessons: Lesson[] = [
+const baseLessons: Lesson[] = [
   {
     id: "civil-ambito-v1",
     code: "021096",
@@ -539,9 +544,61 @@ export const lessons: Lesson[] = [
   ...civilTopicLessons,
   ...historyLessons,
   ...theoryLessons,
+  ...constitutionalLessons,
+  ...proceduralLessons,
+  ...foundationsLessons,
+  ...historyTopicLessons,
 ];
+const historyNumbers: Record<string, number> = {
+  "historia-historiografia-v1": 1,
+  "historia-prerromana-v1": 2,
+  "historia-romanizacion-v1": 3,
+  "historia-provincia-v1": 4,
+  "historia-visigodo-fuentes-v1": 6,
+  "historia-visigodo-gobierno-v1": 7,
+  "historia-fueros-v1": 10,
+  "historia-fazanas-v1": 10,
+  "historia-ius-commune-v1": 11,
+  "historia-alfonso-x-v1": 12,
+  "historia-alcala-v1": 12,
+  "historia-cortes-v1": 15,
+};
+export const lessons: Lesson[] = baseLessons.map((lesson) => {
+  const number = historyNumbers[lesson.id];
+  const topic = number
+    ? `Lección ${number}`
+    : lesson.code === "901012" && lesson.topic.startsWith("Tema")
+      ? `Capítulo ${Number(lesson.topic.match(/\d+/)?.[0])}`
+      : lesson.topic;
+  const guide =
+    lesson.code === "021021"
+      ? "66021021_2027.pdf · programa en páginas PDF 11–17; evaluación en página 22"
+      : lesson.code === "021015"
+        ? "66021015_2027.pdf · programa en páginas PDF 9–11; evaluación en páginas 12–15"
+        : lesson.code === "021044"
+          ? "66021044_2027.pdf · evaluación en página PDF 18"
+          : "";
+  const outline =
+    lesson.outline ??
+    lesson.explanation.map(
+      (paragraph) =>
+        paragraph.match(/^.*?[.!?](?:\s|$)/)?.[0]?.trim() || paragraph,
+    );
+  return {
+    ...lesson,
+    topic,
+    outline,
+    sources: [...new Set([...lesson.sources, ...(guide ? [guide] : [])])],
+  };
+});
 export function lessonsFor(code: string | undefined) {
-  return lessons.filter((l) => l.code === code);
+  return lessons
+    .filter((l) => l.code === code)
+    .sort(
+      (a, b) =>
+        Number(a.topic.match(/\d+/)?.[0] ?? 0) -
+        Number(b.topic.match(/\d+/)?.[0] ?? 0),
+    );
 }
 export function passedLesson(lesson: Lesson, answers: number[]) {
   return (

@@ -27,7 +27,7 @@ test("Civil practice scores correct, wrong and blank responses separately and ne
   });
 });
 test("unverified models stay unavailable and initial Fundamentos practice has no invented official score", () => {
-  for (const code of ["021015", "021044", "021038"])
+  for (const code of ["021015", "021044"])
     assert.equal(examPracticeFor(code).available, false);
   const spec = examPracticeFor("901012");
   assert.equal(spec.available, true);
