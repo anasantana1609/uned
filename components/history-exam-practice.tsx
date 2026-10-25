@@ -1,6 +1,7 @@
 "use client";
 import { useId, useState } from "react";
 import { historyPracticeModels } from "@/lib/history-practice";
+import { DictatedAnswer } from "./dictated-answer";
 import { subjectTheme } from "@/lib/subject-theme";
 
 export function HistoryExamPractice() {
@@ -70,17 +71,13 @@ export function HistoryExamPractice() {
             </label>
             {chosen.includes(index) && (
               <>
-                <label htmlFor={`${id}-answer-${index}`}>
-                  Tu respuesta a la pregunta {index + 1}
-                </label>
-                <textarea
+                <DictatedAnswer
                   id={`${id}-answer-${index}`}
-                  rows={7}
-                  required
-                  readOnly={finished}
+                  label={`Tu respuesta a la pregunta ${index + 1}`}
                   value={answers[index] ?? ""}
-                  onChange={(e) =>
-                    setAnswers((old) => ({ ...old, [index]: e.target.value }))
+                  disabled={finished}
+                  onChange={(text) =>
+                    setAnswers((old) => ({ ...old, [index]: text }))
                   }
                 />
               </>
@@ -92,14 +89,14 @@ export function HistoryExamPractice() {
           <blockquote>{model.excerpt}</blockquote>
           <small>{model.attribution}</small>
           <p>{model.commentary}</p>
-          <label htmlFor={`${id}-comment`}>Tu comentario</label>
-          <textarea
+          <DictatedAnswer
+            key={model.id}
             id={`${id}-comment`}
-            rows={9}
-            required
-            readOnly={finished}
+            label="Tu comentario"
             value={comment}
-            onChange={(e) => setComment(e.target.value)}
+            disabled={finished}
+            onChange={setComment}
+            rows={9}
           />
         </fieldset>
         <p className="muted">

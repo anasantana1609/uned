@@ -104,3 +104,6 @@ Civil ofrece intentos aleatorios de 20 ejercicios originales del banco didáctic
 
 
 Las pantallas de estudio muestran directamente las lecciones y su progreso individual o las preguntas del intento. Los informes internos de recepción y preparación se conservan en la documentación del proyecto. Mis fuentes reúne las referencias bibliográficas por asignatura.
+
+
+Las respuestas de desarrollo y el comentario permiten dictado en español mediante «Responder por audio». El navegador solicita el permiso de micrófono al activarlo y transcribe en el campo; al detenerlo puedes corregir el texto. Solo hay un dictado activo y se detiene al cambiar de modelo, finalizar o salir. Depende del reconocimiento de voz del navegador y puede requerir conexión; si no está disponible se conserva la escritura manual. La app no guarda archivos de audio ni cambia la evaluación de la respuesta.

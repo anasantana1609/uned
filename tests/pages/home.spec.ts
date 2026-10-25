@@ -125,10 +125,10 @@ test("History shows written questions directly and accepts two developments plus
   await practice.getByRole("checkbox").nth(1).check();
   await expect(practice.getByRole("checkbox").nth(2)).toBeDisabled();
   await practice
-    .getByLabel("Tu respuesta a la pregunta 1")
+    .getByLabel("Tu respuesta a la pregunta 1", { exact: true })
     .fill("Respuesta personal a la primera pregunta.");
   await practice
-    .getByLabel("Tu respuesta a la pregunta 2")
+    .getByLabel("Tu respuesta a la pregunta 2", { exact: true })
     .fill("Respuesta personal a la segunda pregunta.");
   await practice
     .getByLabel("Tu comentario", { exact: true })

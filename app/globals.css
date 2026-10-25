@@ -4525,3 +4525,24 @@ textarea,
 .study-references li {
   margin: 12px 0;
 }
+
+.dictated-answer {
+  margin-top: 16px;
+}
+.dictated-answer > label {
+  display: block;
+  margin-bottom: 8px;
+}
+.dictated-answer > .button {
+  margin: 4px 0 8px;
+}
+.dictated-answer .muted {
+  margin-top: 8px;
+  font-size: 16px;
+}
+.dictated-answer textarea[readonly] {
+  background: #f4f5f2;
+}
+.dictated-answer [role="alert"] {
+  color: #8a2830;
+}
