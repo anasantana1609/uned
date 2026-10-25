@@ -56,8 +56,12 @@ test("Civil exam practice scores an attempt with blanks, explains corrections an
   await expect(groups).toHaveCount(20);
   const bank = examPracticeFor("021096").bank;
   for (let i = 0; i < 2; i++) {
-    const prompt = await groups.nth(i).locator("legend").textContent();
-    const question = bank.find((q) => prompt?.endsWith(q.prompt))!;
+    const questionId = await groups
+      .nth(i)
+      .locator("input")
+      .first()
+      .getAttribute("name");
+    const question = bank.find((q) => q.id === questionId)!;
     await groups
       .nth(i)
       .getByRole("radio")
