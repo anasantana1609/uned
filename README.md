@@ -17,6 +17,8 @@ Rutas: `/dashboard`, `/asignaturas`, `/calendario`, `/progreso`, `/fuentes`, `/a
 
 ## Funciones disponibles
 
+Cada lección guiada incluye «Escuchar lección»: lee el objetivo, los conceptos, la explicación, el ejemplo y la práctica, sin revelar las respuestas de la prueba. Permite pausar, reanudar, detener, repetir y elegir voz en español y velocidad (0,75×–2×). Al salir de la lección se detiene el audio. Usa las voces del navegador y del dispositivo; algunas necesitan Internet. No requiere una API de audio de pago ni modifica el avance académico.
+
 - Panel con objetivo diario, racha y tareas del día.
 - Catálogo de once asignaturas del primer curso con nombres completos, códigos y créditos; búsqueda por nombre o código. Seis del primer cuatrimestre pendientes de materiales y cinco bloqueadas hasta preparar su contenido. «Empezar a estudiar» abre la elección de asignatura. El estudio libre sigue disponible para las seis primeras; el progreso actual mide minutos registrados, no evaluación académica. Los bloqueos también se comprueban antes de iniciar el temporizador.
 - Crear, completar y eliminar tareas; calendario navegable.

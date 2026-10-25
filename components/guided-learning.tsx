@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import { BookOpen, Check, Play, Pause, ArrowLeft } from "lucide-react";
 import { lessonsFor, learningSummary, type Lesson } from "@/lib/learning";
 import { useStudy } from "./study-provider";
+import { LessonAudio } from "./lesson-audio";
+import { lessonSpeechText } from "@/lib/lesson-speech";
 
 export function GuidedLearning({ code }: { code: string }) {
   const { learningProgress, learningReady } = useStudy();
@@ -136,6 +138,7 @@ function LessonReader({
       <p>
         <strong>Al terminar:</strong> {lesson.objective}
       </p>
+      <LessonAudio text={lessonSpeechText(lesson)} />
       <div className="lesson-timer">
         <output
           role="timer"

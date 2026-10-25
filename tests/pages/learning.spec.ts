@@ -109,7 +109,7 @@ test("a correct quiz does not claim saved progress when browser storage fails", 
     };
   });
   await reader.getByRole("button", { name: "Comprobar prueba" }).click();
-  await expect(reader.getByRole("status")).toContainText(
+  await expect(reader.locator("form").getByRole("status")).toContainText(
     "No se pudo guardar el avance",
   );
   expect(
