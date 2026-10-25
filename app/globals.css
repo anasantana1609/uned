@@ -4091,7 +4091,7 @@ td {
 }
 .subject-home-heading {
   margin: 0 0 24px;
-  font-size: clamp(24px, 3vw, 34px);
+  font-size: clamp(32px, 3vw, 42px);
 }
 .subject-home-list {
   display: flex;
@@ -4116,17 +4116,17 @@ td {
   border: 0;
   padding: 23px 24px;
   background: transparent;
-  color: #26352c;
+  color: #ffffff;
   cursor: pointer;
   font: inherit;
 }
 .subject-home-toggle:disabled {
   opacity: 1;
   cursor: not-allowed;
-  color: #39443d;
+  color: #ffffff;
 }
 .subject-home-icon {
-  color: var(--subject-accent);
+  color: #ffffff;
   display: flex;
   flex-shrink: 0;
 }
@@ -4137,13 +4137,13 @@ td {
   gap: 6px;
 }
 .subject-home-name strong {
-  font-size: 17px;
+  font-size: 24px;
   line-height: 1.5;
   overflow-wrap: anywhere;
 }
 .subject-home-name small {
-  font-size: 12px;
-  color: #4c5b51;
+  font-size: 16px;
+  color: #ffffff;
 }
 .rotate-chevron {
   transform: rotate(180deg);
@@ -4161,7 +4161,7 @@ td {
   align-items: center;
   padding: 18px;
   text-align: left;
-  background: #ffffffd9;
+  background: #ffffff;
   border: 1px solid #ffffff;
   border-radius: 12px;
   cursor: pointer;
@@ -4172,14 +4172,21 @@ td {
   display: grid;
   gap: 5px;
 }
+.subject-home-options button strong {
+  font-size: 20px;
+}
 .subject-home-options button small {
+  font-size: 16px;
   color: #536057;
   line-height: 1.5;
 }
 .subject-home-toggle:focus-visible,
 .subject-home-options button:focus-visible {
-  outline: 3px solid var(--subject-accent);
+  outline: 3px solid #ffffff;
   outline-offset: -4px;
+}
+.subject-home-options button:focus-visible {
+  outline-color: #26352c;
 }
 .subject-workspace {
   outline: none;
@@ -4231,7 +4238,7 @@ td {
     gap: 12px;
   }
   .subject-home-name strong {
-    font-size: 15px;
+    font-size: 21px;
   }
   .subject-home-options {
     padding: 0 15px 15px;

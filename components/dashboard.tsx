@@ -21,31 +21,19 @@ import { HistoryPreparation } from "./history-preparation";
 import { lessonsFor } from "@/lib/learning";
 
 const colors = [
-  "#dfe9ff",
-  "#d9f0e3",
-  "#ffe9d1",
-  "#eee2ff",
-  "#f9dce7",
-  "#d7f1f2",
-  "#f5edc8",
-  "#e2e8f4",
-  "#eadfcf",
-  "#e4edce",
-  "#f3dfe0",
+  "#235fc4",
+  "#16724d",
+  "#ab510b",
+  "#7740b3",
+  "#b52d68",
+  "#087880",
+  "#896800",
+  "#394fb2",
+  "#865331",
+  "#53751b",
+  "#a4323b",
 ];
-const accents = [
-  "#3861a0",
-  "#35714e",
-  "#98602e",
-  "#79529f",
-  "#a0446b",
-  "#2c7880",
-  "#8a741e",
-  "#526b93",
-  "#806044",
-  "#607b2c",
-  "#954e53",
-];
+const accents = colors;
 export function Dashboard() {
   const { data, ready } = useStudy();
   const [expanded, setExpanded] = useState<string | null>(null);
