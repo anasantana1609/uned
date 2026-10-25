@@ -52,8 +52,9 @@ test("History shows a clean lesson state and its sources remain available", asyn
     .click();
   await page.getByRole("button", { name: /Hacer lecciones/ }).click();
   await expect(
-    page.getByRole("heading", { name: "Todavía no hay lecciones disponibles" }),
+    page.getByRole("region", { name: "Contenido de estudio disponible" }),
   ).toBeVisible();
+  await expect(page.locator(".lesson-choice")).toHaveCount(12);
   await expect(page.getByText(/Identificadas 51/)).toHaveCount(0);
   await page.goto("/uned/fuentes/");
   await expect(

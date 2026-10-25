@@ -17,6 +17,11 @@ test("every available lesson reads its teaching content without revealing its qu
     for (const question of lesson.questions) {
       assert.ok(!text.includes(question.prompt));
     }
+    if (lesson.writtenPractice) {
+      assert.ok(text.includes(lesson.writtenPractice.prompt));
+      for (const answer of lesson.writtenPractice.modelAnswer)
+        assert.ok(!text.includes(answer));
+    }
     assert.equal(lessonSpeechText({ ...lesson, questions: [] }), text);
   }
 });

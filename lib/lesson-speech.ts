@@ -12,6 +12,9 @@ export function lessonSpeechText(lesson: Lesson): string {
     lesson.example,
     "Practica sin mirar.",
     lesson.practice,
+    ...(lesson.writtenPractice
+      ? [lesson.writtenPractice.kind, lesson.writtenPractice.prompt]
+      : []),
   ].join("\n\n");
 }
 

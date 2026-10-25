@@ -6,6 +6,7 @@ import { useStudy } from "./study-provider";
 import { subjectTheme } from "@/lib/subject-theme";
 import { LessonAudio } from "./lesson-audio";
 import { lessonSpeechText } from "@/lib/lesson-speech";
+import { DictatedAnswer } from "./dictated-answer";
 
 export function GuidedLearning({ code }: { code: string }) {
   const { learningProgress, learningReady } = useStudy();
@@ -120,6 +121,7 @@ function LessonReader({
   const [checked, setChecked] = useState(false);
   const [saved, setSaved] = useState(false);
   const [saveError, setSaveError] = useState(false);
+  const [writtenAnswer, setWrittenAnswer] = useState("");
   useEffect(() => {
     if (!running || remaining === 0) return;
     const end = Date.now() + remaining * 1000;
@@ -207,6 +209,33 @@ function LessonReader({
       </div>
       <h4>Practica sin mirar</h4>
       <p>{lesson.practice}</p>
+      {lesson.writtenPractice && (
+        <section aria-label="Desarrollo guiado">
+          <h4>{lesson.writtenPractice.kind}</h4>
+          <p>{lesson.writtenPractice.prompt}</p>
+          <DictatedAnswer
+            id={`${lesson.id}-written`}
+            label="Tu respuesta de desarrollo"
+            value={writtenAnswer}
+            onChange={setWrittenAnswer}
+          />
+          <details>
+            <summary>Ver orientación y revisar mi respuesta</summary>
+            {lesson.writtenPractice.modelAnswer.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
+            <ul>
+              {lesson.writtenPractice.checklist.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+            <p>
+              Utiliza estas pautas para revisar tu desarrollo. No se asigna una
+              nota automática.
+            </p>
+          </details>
+        </section>
+      )}
       <details>
         <summary>Fuentes de este bloque</summary>
         <ul>

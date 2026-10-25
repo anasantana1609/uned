@@ -39,7 +39,12 @@ function TestExamPractice({ code }: { code: string }) {
     // Starting an activity creates one attempt; later renders keep its questions.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [code]);
-  const result = examResult(questions, answers, spec.penalized);
+  const result = examResult(
+    questions,
+    answers,
+    spec.penalized,
+    spec.incorrectPenalty,
+  );
   function start() {
     setQuestions(shuffledQuestions(spec.bank, spec.count));
     setAnswers({});
@@ -65,9 +70,10 @@ function TestExamPractice({ code }: { code: string }) {
             <summary>Instrucciones</summary>
             <p>
               {spec.penalized
-                ? "Marca una respuesta por pregunta. Cada acierto suma 0,5 puntos; cada error resta 0,25. Puedes dejar preguntas en blanco."
+                ? `Marca una respuesta por pregunta. Cada acierto suma 0,5 puntos; cada error resta ${spec.incorrectPenalty.toLocaleString("es-ES")}. Puedes dejar preguntas en blanco.`
                 : "Marca una respuesta por pregunta y pulsa Terminar y corregir para revisar el resultado."}
             </p>
+            <p>{spec.description}</p>
           </details>
           {deadline && !submitted && (
             <p
