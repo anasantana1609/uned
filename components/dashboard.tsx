@@ -6,6 +6,7 @@ import {
   ClipboardList,
   ChevronDown,
   LockKeyhole,
+  MoreHorizontal,
 } from "lucide-react";
 import { useStudy } from "./study-provider";
 import {
@@ -49,27 +50,45 @@ export function Dashboard() {
         style={subjectTheme(subject.code)}
         aria-label={`${subject.title}: ${selection.mode === "lessons" ? "lecciones" : "exámenes"}`}
       >
-        <button className="text-link" onClick={() => setSelection(null)}>
-          <ArrowLeft size={17} />
-          Volver a mis asignaturas
-        </button>
-        <h1>{subject.title}</h1>
-        <div className="course-tabs" aria-label="Actividad de la asignatura">
+        <header className="subject-study-header">
           <button
-            className={`button ${selection.mode === "lessons" ? "" : "secondary"}`}
-            aria-pressed={selection.mode === "lessons"}
-            onClick={() => setSelection({ ...selection, mode: "lessons" })}
+            type="button"
+            className="study-back"
+            aria-label="Volver a mis asignaturas"
+            title="Volver a mis asignaturas"
+            onClick={() => setSelection(null)}
           >
-            Hacer lecciones
+            <ArrowLeft size={24} aria-hidden="true" />
           </button>
-          <button
-            className={`button ${selection.mode === "exams" ? "" : "secondary"}`}
-            aria-pressed={selection.mode === "exams"}
-            onClick={() => setSelection({ ...selection, mode: "exams" })}
-          >
-            Hacer exámenes
-          </button>
-        </div>
+          <div className="study-subject-name">
+            <h1 title={subject.title}>{subject.title}</h1>
+            <span>
+              {selection.mode === "lessons" ? "Lecciones" : "Exámenes"}
+            </span>
+          </div>
+          <details className="study-activity-menu">
+            <summary aria-label="Cambiar actividad" title="Cambiar actividad">
+              <MoreHorizontal size={26} aria-hidden="true" />
+            </summary>
+            <div>
+              <label htmlFor="study-activity">Actividad de la asignatura</label>
+              <select
+                id="study-activity"
+                value={selection.mode}
+                onChange={(event) => {
+                  setSelection({
+                    ...selection,
+                    mode: event.target.value as "lessons" | "exams",
+                  });
+                  event.target.closest("details")?.removeAttribute("open");
+                }}
+              >
+                <option value="lessons">Lecciones</option>
+                <option value="exams">Exámenes</option>
+              </select>
+            </div>
+          </details>
+        </header>
         {selection.mode === "exams" ? (
           <ExamPractice key={subject.code} code={subject.code} />
         ) : (

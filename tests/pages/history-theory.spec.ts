@@ -65,9 +65,10 @@ for (const [code, name] of [
         .click();
       await expect(written).toContainText("No se asigna una nota automática");
     }
+    await page.getByLabel("Cambiar actividad", { exact: true }).click();
     await page
-      .getByRole("button", { name: "Hacer exámenes", exact: true })
-      .click();
+      .getByLabel("Actividad de la asignatura", { exact: true })
+      .selectOption("exams");
     const practice = page.getByRole("region", { name: "Práctica de examen" });
     await expect(
       practice.getByText("Todavía no hay preguntas disponibles."),
