@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-test("Civil filters the new topics and grades a sourced representation block", async ({
+test("Civil lists lessons without filters and grades a sourced representation block", async ({
   page,
 }) => {
   await page.goto("/uned/asignaturas/");
@@ -9,8 +9,8 @@ test("Civil filters the new topics and grades a sourced representation block", a
     name: "Contenido de estudio disponible",
   });
   await expect(course.locator(".lesson-choice")).toHaveCount(15);
-  await course.getByLabel("Filtrar por tema").selectOption("Tema 14");
-  await expect(course.locator(".lesson-choice")).toHaveCount(1);
+  await expect(course.getByLabel("Filtrar por tema")).toHaveCount(0);
+  await expect(course.getByText("Ver temario de la asignatura")).toHaveCount(0);
   await course
     .getByRole("button", { name: /Actuar en nombre propio o en nombre ajeno/ })
     .click();

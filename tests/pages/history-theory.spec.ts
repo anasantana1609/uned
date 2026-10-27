@@ -40,6 +40,7 @@ for (const [code, name] of [
     await page.reload();
     await page.getByRole("button", { name: new RegExp(`^${name}`) }).click();
     await page.getByRole("button", { name: /Hacer lecciones/ }).click();
+    await list.locator(".completed-lessons summary").click();
     await expect(
       list.getByRole("progressbar", {
         name: `Progreso de la lección: ${lesson.title}`,

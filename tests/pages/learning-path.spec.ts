@@ -37,18 +37,28 @@ test("journey unlocks the next lesson only after a pass and preserves progress o
     "Bloque superado",
   );
   await reader.getByRole("button", { name: "Volver al recorrido" }).click();
-  await expect(path.getByRole("button").nth(0)).toHaveAccessibleName(
-    /Completada/,
+  await expect(path.getByRole("button").first()).toHaveAccessibleName(
+    new RegExp(lessons[1].title),
   );
-  await expect(path.getByRole("button").nth(1)).toBeEnabled();
-  await expect(path.getByRole("button").nth(2)).toBeDisabled();
+  await expect(path.getByRole("button").first()).toBeEnabled();
+  await expect(path.getByRole("button").nth(1)).toBeDisabled();
+  const archive = page.locator(".completed-lessons");
+  await expect(archive).not.toHaveAttribute("open", "");
+  await expect(
+    archive.getByRole("button", { includeHidden: true }),
+  ).toHaveCount(1);
+  await archive.locator("summary").click();
+  await expect(archive.getByRole("button")).toHaveAccessibleName(/Completada/);
+  await archive.getByRole("button").click();
+  await reader.getByRole("button", { name: "Volver al recorrido" }).click();
+  await expect(archive).not.toHaveAttribute("open", "");
   path = await openPath(page);
-  await expect(path.getByRole("button").nth(1)).toHaveAttribute(
+  await expect(path.getByRole("button").first()).toHaveAttribute(
     "aria-current",
     "step",
   );
   await page.getByRole("button", { name: "Ir a mi lección" }).click();
-  await expect(path.getByRole("button").nth(1)).toBeFocused();
+  await expect(path.getByRole("button").first()).toBeFocused();
   const result = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
     .analyze();
@@ -76,7 +86,11 @@ test("journey preserves previously completed later lessons and celebrates comple
   let path = await openPath(page);
   await expect(path.getByRole("button").nth(0)).toBeEnabled();
   await expect(path.getByRole("button").nth(1)).toBeDisabled();
-  await expect(path.getByRole("button").nth(2)).toBeEnabled();
+  await expect(path.getByRole("button")).toHaveCount(lessons.length - 1);
+  await expect(page.locator(".completed-lessons")).not.toHaveAttribute(
+    "open",
+    "",
+  );
   await page.evaluate(
     (ids) =>
       localStorage.setItem(
@@ -92,10 +106,15 @@ test("journey preserves previously completed later lessons and celebrates comple
     page.getByText("¡Recorrido completado!", { exact: true }),
   ).toBeVisible();
   await expect(path.locator("button:disabled")).toHaveCount(0);
+  await expect(path.getByRole("button")).toHaveCount(0);
   await page.getByRole("tab", { name: "Recorrido", exact: true }).focus();
   await page.keyboard.press("ArrowLeft");
   await expect(
     page.getByRole("tab", { name: "Listado", exact: true }),
   ).toHaveAttribute("aria-selected", "true");
-  await expect(page.locator(".lesson-choice")).toHaveCount(lessons.length);
+  await expect(page.locator(".lesson-choice:visible")).toHaveCount(0);
+  await page.locator(".completed-lessons summary").click();
+  await expect(page.locator(".lesson-choice:visible")).toHaveCount(
+    lessons.length,
+  );
 });

@@ -20,7 +20,6 @@ for (const [code, title] of [
       name: "Contenido de estudio disponible",
     });
     await expect(course.locator(".lesson-choice")).toHaveCount(lessons.length);
-    await course.getByLabel("Filtrar por tema").selectOption(lesson.topic);
     await course
       .getByRole("button", {
         name: new RegExp(lesson.title.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")),

@@ -54,6 +54,14 @@ test("guided block grades answers, persists only a pass, and countdown cannot co
   await expect(course).toContainText(
     `1 de ${lessonsFor("021096").length} lecciones completadas`,
   );
+  await expect(course.locator(".lesson-choice:visible").first()).toContainText(
+    lessonsFor("021096")[1].title,
+  );
+  await expect(course.locator(".completed-lessons")).not.toHaveAttribute(
+    "open",
+    "",
+  );
+  await course.locator(".completed-lessons summary").click();
   await expect(
     course.getByRole("progressbar", {
       name: "Progreso de la lección: Qué estudia el Derecho civil",

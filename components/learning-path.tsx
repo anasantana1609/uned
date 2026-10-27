@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { BookOpen, Check, Flag, LockKeyhole, Star, Trophy } from "lucide-react";
+import { BookOpen, Flag, LockKeyhole, Star, Trophy } from "lucide-react";
 import type { Lesson, LearningProgress } from "@/lib/learning";
 
 export function LearningPath({
@@ -56,51 +56,53 @@ export function LearningPath({
         Completa las tres preguntas de cada lección para abrir la siguiente.
       </p>
       <ol className="path-stops" aria-label="Recorrido de lecciones">
-        {lessons.map((lesson, index) => {
-          const passed = Boolean(progress[lesson.id]);
-          const current = index === nextIndex;
-          const locked = !passed && !current;
-          const state = passed
-            ? "Completada · repasar"
-            : current
-              ? "Disponible · empezar"
-              : "Bloqueada";
-          const Icon = passed ? Check : locked ? LockKeyhole : Star;
-          const newTopic =
-            index === 0 || lessons[index - 1].topic !== lesson.topic;
-          return (
-            <li
-              key={lesson.id}
-              className={`path-stop ${passed ? "passed" : current ? "current" : "locked"}`}
-            >
-              {newTopic && (
-                <h4 className="path-topic">
-                  <BookOpen size={22} aria-hidden="true" />
-                  {lesson.topic}
-                </h4>
-              )}
-              <div className="path-node-wrap" data-position={index % 4}>
-                <button
-                  type="button"
-                  className="path-node"
-                  ref={current ? nextRef : undefined}
-                  disabled={!ready || locked}
-                  aria-current={current ? "step" : undefined}
-                  aria-label={`Lección ${index + 1}: ${lesson.title}. ${state}`}
-                  onClick={() => onSelect(lesson)}
+        {lessons
+          .map((lesson, index) => ({ lesson, index }))
+          .filter(({ lesson }) => !progress[lesson.id])
+          .map(({ lesson, index }, pendingIndex, pending) => {
+            const current = index === nextIndex;
+            const locked = !current;
+            const state = current ? "Disponible · empezar" : "Bloqueada";
+            const Icon = locked ? LockKeyhole : Star;
+            const newTopic =
+              pendingIndex === 0 ||
+              pending[pendingIndex - 1].lesson.topic !== lesson.topic;
+            return (
+              <li
+                key={lesson.id}
+                className={`path-stop ${current ? "current" : "locked"}`}
+              >
+                {newTopic && (
+                  <h4 className="path-topic">
+                    <BookOpen size={22} aria-hidden="true" />
+                    {lesson.topic}
+                  </h4>
+                )}
+                <div
+                  className="path-node-wrap"
+                  data-position={pendingIndex % 4}
                 >
-                  <Icon size={34} aria-hidden="true" />
-                </button>
-                <span className="path-caption">
-                  <strong>
-                    {index + 1}. {lesson.title}
-                  </strong>
-                  <small>{state}</small>
-                </span>
-              </div>
-            </li>
-          );
-        })}
+                  <button
+                    type="button"
+                    className="path-node"
+                    ref={current ? nextRef : undefined}
+                    disabled={!ready || locked}
+                    aria-current={current ? "step" : undefined}
+                    aria-label={`Lección ${index + 1}: ${lesson.title}. ${state}`}
+                    onClick={() => onSelect(lesson)}
+                  >
+                    <Icon size={34} aria-hidden="true" />
+                  </button>
+                  <span className="path-caption">
+                    <strong>
+                      {index + 1}. {lesson.title}
+                    </strong>
+                    <small>{state}</small>
+                  </span>
+                </div>
+              </li>
+            );
+          })}
       </ol>
       <div className="path-finish">
         <Trophy size={36} aria-hidden="true" />

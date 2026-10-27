@@ -7,15 +7,12 @@ import { subjectTheme } from "@/lib/subject-theme";
 import { LessonAudio } from "./lesson-audio";
 import { lessonSpeechText } from "@/lib/lesson-speech";
 import { DictatedAnswer } from "./dictated-answer";
-import { curriculumFor } from "@/lib/course-curricula";
 import { LearningPath } from "./learning-path";
 
 export function GuidedLearning({ code }: { code: string }) {
   const { learningProgress, learningReady } = useStudy();
   const available = lessonsFor(code);
-  const curriculum = curriculumFor(code);
   const [selected, setSelected] = useState<Lesson | null>(null);
-  const [topic, setTopic] = useState("");
   const [view, setView] = useState<"list" | "path">("list");
   const viewId = useId();
   const summary = learningSummary(code, learningProgress);
@@ -43,17 +40,6 @@ export function GuidedLearning({ code }: { code: string }) {
       <h3>
         <BookOpen size={20} /> Lecciones
       </h3>
-      {curriculum && (
-        <details className="course-outline">
-          <summary>Ver temario de la asignatura</summary>
-          <p>{curriculum.basis}</p>
-          <ol>
-            {curriculum.topics.map((item) => (
-              <li key={item.number}>{item.title}</li>
-            ))}
-          </ol>
-        </details>
-      )}
       <div className="learning-summary">
         <strong>{summary.percent}% de lecciones completadas</strong>
         <span>
@@ -121,24 +107,8 @@ export function GuidedLearning({ code }: { code: string }) {
           />
         ) : (
           <div className="lesson-list">
-            <label className="lesson-topic-filter">
-              Filtrar por tema
-              <select value={topic} onChange={(e) => setTopic(e.target.value)}>
-                <option value="">Todos los temas</option>
-                {[...new Set(available.map((l) => l.topic))].map((t) => (
-                  <option key={t} value={t}>
-                    {t}
-                    {curriculum?.topics.find(
-                      (item) => item.number === Number(t.match(/\d+/)?.[0]),
-                    )
-                      ? ` · ${curriculum.topics.find((item) => item.number === Number(t.match(/\d+/)?.[0]))!.title}`
-                      : ""}
-                  </option>
-                ))}
-              </select>
-            </label>
             {available
-              .filter((l) => !topic || l.topic === topic)
+              .filter((l) => !learningProgress[l.id])
               .map((lesson) => (
                 <button
                   type="button"
@@ -153,30 +123,57 @@ export function GuidedLearning({ code }: { code: string }) {
                     <span className="lesson-item-progress">
                       <progress
                         aria-label={`Progreso de la lección: ${lesson.title}`}
-                        value={learningProgress[lesson.id] ? 100 : 0}
+                        value={0}
                         max={100}
                       />
-                      <small>
-                        {learningProgress[lesson.id] ? "100%" : "0%"}
-                      </small>
+                      <small>0%</small>
                     </span>
                   </span>
                   <span>
-                    {learningProgress[lesson.id] ? (
-                      <>
-                        <Check size={16} /> Superado · repasar
-                      </>
-                    ) : (
-                      <>
-                        <Play size={16} /> Estudiar
-                      </>
-                    )}
+                    <Play size={16} /> Estudiar
                   </span>
                 </button>
               ))}
           </div>
         )}
       </div>
+      {summary.passed > 0 && (
+        <details className="completed-lessons">
+          <summary>Lecciones completadas ({summary.passed}) · Repasar</summary>
+          <div className="lesson-list">
+            {available
+              .filter((lesson) => learningProgress[lesson.id])
+              .map((lesson) => (
+                <button
+                  type="button"
+                  className="lesson-choice"
+                  key={lesson.id}
+                  disabled={!learningReady}
+                  onClick={() => setSelected(lesson)}
+                >
+                  <span className="lesson-item-main">
+                    <small>{lesson.topic} · 5 min</small>
+                    <strong>{lesson.title}</strong>
+                    <progress
+                      aria-label={`Progreso de la lección: ${lesson.title}`}
+                      value={100}
+                      max={100}
+                    />
+                  </span>
+                  <span>
+                    <Check size={16} /> Completada · repasar
+                  </span>
+                </button>
+              ))}
+          </div>
+        </details>
+      )}
+      {view === "list" && summary.passed === summary.total && (
+        <p role="status">
+          ¡Todas las lecciones completadas! Puedes abrir el archivo para
+          repasar.
+        </p>
+      )}
     </section>
   );
 }

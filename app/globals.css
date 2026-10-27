@@ -4710,3 +4710,19 @@ textarea,
     transform: translateX(-7%);
   }
 }
+
+.completed-lessons {
+  margin-top: 24px;
+  padding: 16px;
+  border: 1px solid var(--subject-line);
+  border-radius: 14px;
+  background: white;
+}
+.completed-lessons > summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--subject-color);
+}
+.completed-lessons[open] > summary {
+  margin-bottom: 16px;
+}
