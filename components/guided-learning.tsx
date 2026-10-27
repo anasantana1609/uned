@@ -1,6 +1,13 @@
 "use client";
 import { useEffect, useId, useRef, useState } from "react";
-import { BookOpen, Check, Play, ArrowLeft } from "lucide-react";
+import {
+  BookOpen,
+  Check,
+  Play,
+  ArrowLeft,
+  Lightbulb,
+  PencilLine,
+} from "lucide-react";
 import { lessonsFor, learningSummary, type Lesson } from "@/lib/learning";
 import { useStudy } from "./study-provider";
 import { subjectTheme } from "@/lib/subject-theme";
@@ -221,20 +228,45 @@ function LessonReader({
         <ArrowLeft size={16} /> Volver al recorrido
       </button>
       <p className="eyebrow">{lesson.topic}</p>
-      <h3>{lesson.title}</h3>
-      <p>
-        <strong>Al terminar:</strong> {lesson.objective}
-      </p>
-      <LessonAudio text={lessonSpeechText(lesson)} />
+      <div className="lesson-heading-row">
+        <h3>{lesson.title}</h3>
+        <LessonAudio text={lessonSpeechText(lesson)} />
+      </div>
       <div className="concept-chips">
         {lesson.concepts.map((c) => (
           <span key={c}>{c}</span>
         ))}
       </div>
       <h4>Comprende</h4>
-      {lesson.explanation.map((p) => (
-        <p key={p}>{p}</p>
-      ))}
+      <div className="lesson-idea-cards">
+        {lesson.explanation.map((paragraph, index) => {
+          const sentenceEnd = paragraph.search(/[.!?](?:\s|$)/);
+          const split = sentenceEnd >= 0 && sentenceEnd < paragraph.length - 1;
+          const heading = split
+            ? paragraph.slice(0, sentenceEnd + 1)
+            : paragraph;
+          return (
+            <details
+              key={paragraph}
+              className="lesson-idea-card"
+              open={index === 0}
+            >
+              <summary>
+                <span className="idea-number" aria-hidden="true">
+                  {index + 1}
+                </span>
+                <span>{heading}</span>
+              </summary>
+              {split && <p>{paragraph.slice(sentenceEnd + 1).trim()}</p>}
+              {!split && (
+                <p className="muted">
+                  Piensa cómo explicarías esta idea con tus propias palabras.
+                </p>
+              )}
+            </details>
+          );
+        })}
+      </div>
       {!!lesson.outline?.length && (
         <div className="lesson-example">
           <h4>Esquema para repasar</h4>
@@ -245,12 +277,18 @@ function LessonReader({
           </ol>
         </div>
       )}
-      <div className="lesson-example">
-        <h4>Un ejemplo</h4>
+      <div className="lesson-example lesson-example-visual">
+        <h4>
+          <Lightbulb size={24} aria-hidden="true" /> Un ejemplo
+        </h4>
         <p>{lesson.example}</p>
       </div>
-      <h4>Practica sin mirar</h4>
-      <p>{lesson.practice}</p>
+      <div className="lesson-practice-card">
+        <h4>
+          <PencilLine size={24} aria-hidden="true" /> Practica sin mirar
+        </h4>
+        <p>{lesson.practice}</p>
+      </div>
       {lesson.writtenPractice && (
         <section aria-label="Desarrollo guiado">
           <h4>{lesson.writtenPractice.kind}</h4>
@@ -328,7 +366,7 @@ function LessonReader({
                     setSaveError(false);
                   }}
                 />
-                {o}
+                <span>{o}</span>
               </label>
             ))}
             {checked && (

@@ -45,7 +45,10 @@ test("lesson reader speaks content and supports pause, resume, stop and cleanup"
     .getByRole("button", { name: /Qué estudia el Derecho civil/ })
     .click();
   const dialog = page.getByRole("region", { name: "Lectura en voz alta" });
-  await dialog.getByLabel("Velocidad").selectOption("1.25");
+  await expect(dialog.locator("select")).toHaveCount(0);
+  await expect(page.getByText("Al terminar:", { exact: true })).toHaveCount(0);
+  await expect(dialog.getByRole("button")).toHaveCount(1);
+  await expect(dialog.getByRole("button").first()).toHaveText("");
   await dialog
     .getByRole("button", { name: "Escuchar lección", exact: true })
     .click();
@@ -57,7 +60,7 @@ test("lesson reader speaks content and supports pause, resume, stop and cleanup"
     )
     .toEqual(
       expect.arrayContaining([
-        expect.stringMatching(/^es-ES:1\.25:Qué estudia el Derecho civil/),
+        expect.stringMatching(/^es-ES:1:Qué estudia el Derecho civil/),
       ]),
     );
   await dialog.getByRole("button", { name: "Pausar lectura" }).click();

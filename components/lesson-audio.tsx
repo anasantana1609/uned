@@ -1,17 +1,14 @@
 "use client";
 
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Volume2, Pause, Play, Square } from "lucide-react";
 import { speechChunks } from "@/lib/lesson-speech";
 
 type Status = "idle" | "reading" | "paused" | "finished";
 
 export function LessonAudio({ text }: { text: string }) {
-  const id = useId();
   const [supported, setSupported] = useState<boolean | null>(null);
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
-  const [voiceURI, setVoiceURI] = useState("");
-  const [rate, setRate] = useState("1");
   const [status, setStatus] = useState<Status>("idle");
   const [part, setPart] = useState(0);
   const [total, setTotal] = useState(0);
@@ -63,10 +60,7 @@ export function LessonAudio({ text }: { text: string }) {
     setError("");
     setTotal(chunks.length);
     setStatus("reading");
-    const voice =
-      voices.find((v) => v.voiceURI === voiceURI) ??
-      voices.find((v) => v.lang === "es-ES") ??
-      voices[0];
+    const voice = voices.find((v) => v.lang === "es-ES") ?? voices[0];
     function speak(index: number) {
       if (token !== generation.current) return;
       if (index === chunks.length) {
@@ -78,7 +72,7 @@ export function LessonAudio({ text }: { text: string }) {
       utterance.current = item;
       item.lang = voice?.lang ?? "es-ES";
       if (voice) item.voice = voice;
-      item.rate = Number(rate);
+      item.rate = 1;
       item.onend = () => speak(index + 1);
       item.onerror = () => {
         if (token !== generation.current) return;
@@ -100,99 +94,69 @@ export function LessonAudio({ text }: { text: string }) {
     speak(0);
   }
 
+  const label =
+    status === "reading"
+      ? "Pausar lectura"
+      : status === "paused"
+        ? "Reanudar lectura"
+        : status === "finished"
+          ? "Volver a escuchar"
+          : "Escuchar lección";
   return (
-    <section className="lesson-audio" aria-labelledby={`${id}-heading`}>
-      <h3 id={`${id}-heading`}>
-        <Volume2 size={18} aria-hidden="true" /> Lectura en voz alta
-      </h3>
-      <p className="muted">
-        Escucha la explicación, el ejemplo y la práctica de esta lección.
-      </p>
-      <div className="lesson-options">
-        <label htmlFor={`${id}-voice`}>
-          Voz en español
-          <select
-            id={`${id}-voice`}
-            value={voiceURI}
-            disabled={running || !supported}
-            onChange={(e) => setVoiceURI(e.target.value)}
-          >
-            <option value="">Automática (español)</option>
-            {voices.map((v) => (
-              <option key={v.voiceURI} value={v.voiceURI}>
-                {v.name} ({v.lang})
-              </option>
-            ))}
-          </select>
-        </label>
-        <label htmlFor={`${id}-rate`}>
-          Velocidad
-          <select
-            id={`${id}-rate`}
-            value={rate}
-            disabled={running || !supported}
-            onChange={(e) => setRate(e.target.value)}
-          >
-            {["0.75", "1", "1.25", "1.5", "2"].map((r) => (
-              <option key={r} value={r}>
-                {r.replace(".", ",")}×
-              </option>
-            ))}
-          </select>
-        </label>
-      </div>
-      <div className="detail-actions">
-        {!running ? (
-          <button
-            className="button"
-            disabled={!supported || !text.trim()}
-            onClick={read}
-          >
-            <Volume2 size={16} aria-hidden="true" />
-            {status === "finished" ? "Volver a escuchar" : "Escuchar lección"}
-          </button>
+    <section className="lesson-audio-compact" aria-label="Lectura en voz alta">
+      <button
+        type="button"
+        className="lesson-audio-icon"
+        aria-label={label}
+        title={
+          supported === false
+            ? "Lectura en voz alta no disponible en este navegador"
+            : label
+        }
+        disabled={!supported || !text.trim()}
+        onClick={() => {
+          if (status === "reading") {
+            window.speechSynthesis.pause();
+            setStatus("paused");
+          } else if (status === "paused") {
+            window.speechSynthesis.resume();
+            setStatus("reading");
+          } else read();
+        }}
+      >
+        {status === "reading" ? (
+          <Pause size={24} aria-hidden="true" />
+        ) : status === "paused" ? (
+          <Play size={24} aria-hidden="true" />
         ) : (
-          <>
-            <button
-              className="button"
-              onClick={() => {
-                if (status === "paused") {
-                  window.speechSynthesis.resume();
-                  setStatus("reading");
-                } else {
-                  window.speechSynthesis.pause();
-                  setStatus("paused");
-                }
-              }}
-            >
-              {status === "paused" ? (
-                <Play size={16} aria-hidden="true" />
-              ) : (
-                <Pause size={16} aria-hidden="true" />
-              )}
-              {status === "paused" ? "Reanudar lectura" : "Pausar lectura"}
-            </button>
-            <button className="button secondary" onClick={stop}>
-              <Square size={16} aria-hidden="true" />
-              Detener lectura
-            </button>
-          </>
+          <Volume2 size={26} aria-hidden="true" />
         )}
-      </div>
-      <p role="status" className="muted">
+      </button>
+      {running && (
+        <button
+          type="button"
+          className="lesson-audio-icon"
+          aria-label="Detener lectura"
+          title="Detener lectura"
+          onClick={stop}
+        >
+          <Square size={20} aria-hidden="true" />
+        </button>
+      )}
+      <span role="status" className="visually-hidden">
         {supported === false
           ? "Este navegador no permite leer en voz alta. Prueba con una versión reciente de Chrome, Edge o Safari."
           : status === "finished"
             ? "Lectura finalizada."
             : running
               ? `${status === "paused" ? "En pausa" : "Leyendo"} · Fragmento ${part} de ${total}`
-              : "La lectura comienza cuando pulses Escuchar lección."}
-      </p>
-      {error && <p role="alert">{error}</p>}
-      <p className="footnote">
-        Las voces dependen del navegador y del dispositivo. Algunas necesitan
-        conexión a Internet.
-      </p>
+              : "Lectura en voz alta disponible."}
+      </span>
+      {error && (
+        <span className="audio-inline-error" role="alert">
+          {error}
+        </span>
+      )}
     </section>
   );
 }
