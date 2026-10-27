@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { BookOpen, Check, Play, Pause, ArrowLeft } from "lucide-react";
 import { lessonsFor, learningSummary, type Lesson } from "@/lib/learning";
 import { useStudy } from "./study-provider";
@@ -8,6 +8,7 @@ import { LessonAudio } from "./lesson-audio";
 import { lessonSpeechText } from "@/lib/lesson-speech";
 import { DictatedAnswer } from "./dictated-answer";
 import { curriculumFor } from "@/lib/course-curricula";
+import { LearningPath } from "./learning-path";
 
 export function GuidedLearning({ code }: { code: string }) {
   const { learningProgress, learningReady } = useStudy();
@@ -15,6 +16,8 @@ export function GuidedLearning({ code }: { code: string }) {
   const curriculum = curriculumFor(code);
   const [selected, setSelected] = useState<Lesson | null>(null);
   const [topic, setTopic] = useState("");
+  const [view, setView] = useState<"list" | "path">("list");
+  const viewId = useId();
   const summary = learningSummary(code, learningProgress);
   if (!available.length) return null;
   if (selected)
@@ -62,58 +65,117 @@ export function GuidedLearning({ code }: { code: string }) {
         value={summary.passed}
         max={summary.total}
       />
-      <div className="lesson-list">
-        <label className="lesson-topic-filter">
-          Filtrar por tema
-          <select value={topic} onChange={(e) => setTopic(e.target.value)}>
-            <option value="">Todos los temas</option>
-            {[...new Set(available.map((l) => l.topic))].map((t) => (
-              <option key={t} value={t}>
-                {t}
-                {curriculum?.topics.find(
-                  (item) => item.number === Number(t.match(/\d+/)?.[0]),
-                )
-                  ? ` · ${curriculum.topics.find((item) => item.number === Number(t.match(/\d+/)?.[0]))!.title}`
-                  : ""}
-              </option>
-            ))}
-          </select>
-        </label>
-        {available
-          .filter((l) => !topic || l.topic === topic)
-          .map((lesson) => (
-            <button
-              type="button"
-              className="lesson-choice"
-              key={lesson.id}
-              onClick={() => setSelected(lesson)}
-              disabled={!learningReady}
-            >
-              <span className="lesson-item-main">
-                <small>{lesson.topic} · 5 min</small>
-                <strong>{lesson.title}</strong>
-                <span className="lesson-item-progress">
-                  <progress
-                    aria-label={`Progreso de la lección: ${lesson.title}`}
-                    value={learningProgress[lesson.id] ? 100 : 0}
-                    max={100}
-                  />
-                  <small>{learningProgress[lesson.id] ? "100%" : "0%"}</small>
-                </span>
-              </span>
-              <span>
-                {learningProgress[lesson.id] ? (
-                  <>
-                    <Check size={16} /> Superado · repasar
-                  </>
-                ) : (
-                  <>
-                    <Play size={16} /> Estudiar
-                  </>
-                )}
-              </span>
-            </button>
-          ))}
+      <div
+        className="learning-view-tabs"
+        role="tablist"
+        aria-label="Vista de las lecciones"
+      >
+        {(
+          [
+            ["list", "Listado"],
+            ["path", "Recorrido"],
+          ] as const
+        ).map(([value, label]) => (
+          <button
+            key={value}
+            type="button"
+            role="tab"
+            id={`${viewId}-${value}`}
+            aria-selected={view === value}
+            aria-controls={`${viewId}-panel`}
+            tabIndex={view === value ? 0 : -1}
+            onClick={() => setView(value)}
+            onKeyDown={(event) => {
+              if (
+                !["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)
+              )
+                return;
+              event.preventDefault();
+              const next =
+                event.key === "Home"
+                  ? "list"
+                  : event.key === "End"
+                    ? "path"
+                    : view === "list"
+                      ? "path"
+                      : "list";
+              setView(next);
+              document.getElementById(`${viewId}-${next}`)?.focus();
+            }}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+      <div
+        role="tabpanel"
+        id={`${viewId}-panel`}
+        aria-labelledby={`${viewId}-${view}`}
+      >
+        {view === "path" ? (
+          <LearningPath
+            lessons={available}
+            progress={learningProgress}
+            ready={learningReady}
+            onSelect={setSelected}
+          />
+        ) : (
+          <div className="lesson-list">
+            <label className="lesson-topic-filter">
+              Filtrar por tema
+              <select value={topic} onChange={(e) => setTopic(e.target.value)}>
+                <option value="">Todos los temas</option>
+                {[...new Set(available.map((l) => l.topic))].map((t) => (
+                  <option key={t} value={t}>
+                    {t}
+                    {curriculum?.topics.find(
+                      (item) => item.number === Number(t.match(/\d+/)?.[0]),
+                    )
+                      ? ` · ${curriculum.topics.find((item) => item.number === Number(t.match(/\d+/)?.[0]))!.title}`
+                      : ""}
+                  </option>
+                ))}
+              </select>
+            </label>
+            {available
+              .filter((l) => !topic || l.topic === topic)
+              .map((lesson) => (
+                <button
+                  type="button"
+                  className="lesson-choice"
+                  key={lesson.id}
+                  onClick={() => setSelected(lesson)}
+                  disabled={!learningReady}
+                >
+                  <span className="lesson-item-main">
+                    <small>{lesson.topic} · 5 min</small>
+                    <strong>{lesson.title}</strong>
+                    <span className="lesson-item-progress">
+                      <progress
+                        aria-label={`Progreso de la lección: ${lesson.title}`}
+                        value={learningProgress[lesson.id] ? 100 : 0}
+                        max={100}
+                      />
+                      <small>
+                        {learningProgress[lesson.id] ? "100%" : "0%"}
+                      </small>
+                    </span>
+                  </span>
+                  <span>
+                    {learningProgress[lesson.id] ? (
+                      <>
+                        <Check size={16} /> Superado · repasar
+                      </>
+                    ) : (
+                      <>
+                        <Play size={16} /> Estudiar
+                      </>
+                    )}
+                  </span>
+                </button>
+              ))}
+          </div>
+        )}
       </div>
     </section>
   );
