@@ -29,16 +29,15 @@ export function ExamPages({
   return (
     <div className="exam-pages" ref={root}>
       <div className="exam-page-heading">
-        <strong>
-          Pregunta {current + 1} de {count}
-        </strong>
         <details className="exam-answer-summary">
-          <summary>
-            Resumen · {completed} respondidas · {count - completed} sin
-            responder
+          <summary
+            aria-label={`${completed} de ${count} preguntas respondidas. Ver preguntas`}
+            title="Ver preguntas"
+          >
+            {completed}/{count}
           </summary>
           <nav
-            aria-label="Resumen de respuestas"
+            aria-label="Navegar por las preguntas"
             className="exam-question-grid"
           >
             {children.map((_, index) => (
@@ -56,6 +55,9 @@ export function ExamPages({
             ))}
           </nav>
         </details>
+        <strong>
+          Pregunta {current + 1} de {count}
+        </strong>
       </div>
       <div
         className="exam-page-content"

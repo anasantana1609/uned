@@ -5410,3 +5410,53 @@ textarea {
     font-size: 12px;
   }
 }
+
+/* Compact answered count beside the current question. */
+.exam-page-heading {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.exam-page-heading > strong {
+  flex: 1;
+  min-width: 0;
+}
+.exam-answer-summary {
+  flex: 0 0 auto;
+}
+.exam-answer-summary > summary {
+  display: grid;
+  place-items: center;
+  min-width: 62px;
+  min-height: 44px;
+  padding: 6px 10px;
+  border: 1px solid var(--subject-line);
+  border-radius: 10px;
+  color: var(--subject-color);
+  background: white;
+  font-size: 1rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  list-style: none;
+}
+.exam-answer-summary > summary::-webkit-details-marker {
+  display: none;
+}
+.exam-answer-summary > summary:focus-visible {
+  outline: 3px solid var(--subject-color);
+  outline-offset: 3px;
+}
+.exam-answer-summary .exam-question-grid {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  top: calc(100% + 6px);
+  z-index: 25;
+  margin: 0;
+  padding: 12px;
+  background: white;
+  border: 1px solid var(--subject-line);
+  border-radius: 14px;
+  box-shadow: 0 8px 24px #003f3920;
+}

@@ -18,10 +18,19 @@ test("exam shows one question, retains answers and exposes a numbered answer sum
     name: "Pregunta siguiente",
     exact: true,
   });
+  await expect(practice.locator(".exam-answer-summary summary")).toHaveText(
+    "0/20",
+  );
   await expect(previous).toBeDisabled();
   await expect(next).toBeInViewport();
   await practice.locator("fieldset:visible").getByRole("radio").nth(1).check();
+  await expect(practice.locator(".exam-answer-summary summary")).toHaveText(
+    "1/20",
+  );
   await next.click();
+  await expect(practice.locator(".exam-answer-summary summary")).toHaveText(
+    "1/20",
+  );
   await expect(practice.locator(".exam-page-heading > strong")).toHaveText(
     "Pregunta 2 de 20",
   );
@@ -47,8 +56,8 @@ test("exam shows one question, retains answers and exposes a numbered answer sum
   await practice
     .getByRole("button", { name: "Dejar en blanco", exact: true })
     .click();
-  await expect(practice.locator(".exam-answer-summary summary")).toContainText(
-    "0 respondidas",
+  await expect(practice.locator(".exam-answer-summary summary")).toHaveText(
+    "0/20",
   );
   await goToExamQuestion(page, 20);
   await expect(next).toBeDisabled();
