@@ -1,3 +1,4 @@
+import { goToExamQuestion } from "./exam-navigation";
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import { lessonsFor } from "../../lib/learning";
@@ -64,6 +65,7 @@ test("TEC combines twenty tests with a dictated or typed development and grades 
   await expect(groups).toHaveCount(20);
   const bank = examPracticeFor("021038").bank;
   for (let n = 0; n < 20; n++) {
+    await goToExamQuestion(page, n + 1);
     const id = await groups
       .nth(n)
       .locator("input")
@@ -77,6 +79,7 @@ test("TEC combines twenty tests with a dictated or typed development and grades 
       .nth(n < 13 ? q.answer : (q.answer + 1) % 4)
       .check();
   }
+  await goToExamQuestion(page, 21);
   await practice
     .getByLabel("Tu respuesta de desarrollo", { exact: true })
     .fill(
@@ -116,11 +119,13 @@ test("Procesal offers two developments and a practical case, with review and a f
     .fill(
       "La jurisdicción ejerce la potestad y el proceso organiza la tutela.",
     );
+  await goToExamQuestion(page, 2);
   await practice
     .getByLabel("Tu respuesta a la pregunta 2", { exact: true })
     .fill(
       "La imparcialidad atiende a la posición del juez frente al objeto y las partes.",
     );
+  await goToExamQuestion(page, 3);
   await practice
     .getByLabel("Tu respuesta al caso práctico", { exact: true })
     .fill(

@@ -4887,3 +4887,117 @@ textarea,
     height: 28px;
   }
 }
+
+.exam-pages {
+  display: flex;
+  flex-direction: column;
+  height: calc(100dvh - 90px);
+  min-height: 330px;
+  max-height: 850px;
+  scroll-margin-top: 16px;
+  background: white;
+  border: 1px solid var(--subject-line);
+  border-radius: 18px;
+  overflow: hidden;
+}
+.exam-page-heading {
+  flex-shrink: 0;
+  padding: 14px 16px;
+  background: var(--subject-tint);
+  border-bottom: 1px solid var(--subject-line);
+}
+.exam-page-heading > strong {
+  color: var(--subject-color);
+}
+.exam-answer-summary > summary {
+  cursor: pointer;
+  font-size: 0.85rem;
+  padding: 6px 0;
+}
+.exam-question-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(48px, 1fr));
+  gap: 8px;
+  max-height: 28dvh;
+  overflow: auto;
+  padding: 8px 2px;
+}
+.exam-question-grid button {
+  position: relative;
+  display: flex;
+  gap: 2px;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 6px;
+  border: 1px solid var(--subject-line);
+  border-radius: 10px;
+  background: white;
+  font: inherit;
+  color: #33443d;
+  cursor: pointer;
+}
+.exam-question-grid button.answered {
+  color: var(--subject-color);
+  background: var(--subject-tint);
+}
+.exam-question-grid button[aria-current="step"] {
+  outline: 3px solid var(--subject-color);
+  outline-offset: -3px;
+}
+.exam-page-content {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 14px;
+}
+.exam-page-content:focus-visible {
+  outline: 2px solid var(--subject-color);
+  outline-offset: -2px;
+}
+.exam-single-page[hidden] {
+  display: none !important;
+}
+.exam-page-content .lesson-question {
+  margin: 0;
+}
+.exam-page-content textarea {
+  min-height: 130px;
+}
+.exam-page-footer {
+  flex-shrink: 0;
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  background: white;
+  border-top: 1px solid var(--subject-line);
+}
+.exam-page-arrows {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+.exam-page-arrows .button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex: 1;
+  padding: 8px;
+}
+.exam-page-footer > .button {
+  width: 100%;
+  padding: 8px;
+}
+@media (max-width: 400px) {
+  .exam-page-heading {
+    padding: 10px;
+  }
+  .exam-page-content {
+    padding: 10px;
+  }
+  .exam-page-arrows .button {
+    font-size: 0.9rem;
+  }
+}

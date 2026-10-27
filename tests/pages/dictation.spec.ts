@@ -1,3 +1,4 @@
+import { goToExamQuestion } from "./exam-navigation";
 import { test, expect, type Page } from "@playwright/test";
 
 type Engine = {
@@ -79,6 +80,7 @@ test("dictation appends editable Spanish text and repeated interim results do no
     exact: true,
   });
   await answer.fill("Idea escrita.");
+  await goToExamQuestion(page, 1);
   await page
     .getByRole("button", {
       name: "Responder por audio: Tu respuesta a la pregunta 1",
@@ -115,6 +117,7 @@ test("only one answer dictates at a time and changing model stops audio and igno
 }) => {
   await mockRecognition(page);
   await history(page);
+  await goToExamQuestion(page, 1);
   await page
     .getByRole("button", {
       name: "Responder por audio: Tu respuesta a la pregunta 1",
@@ -122,6 +125,7 @@ test("only one answer dictates at a time and changing model stops audio and igno
     })
     .click();
   await transcript(page, 0, ["Primera respuesta"]);
+  await goToExamQuestion(page, 4);
   await page
     .getByRole("button", {
       name: "Responder por audio: Tu comentario",
@@ -216,16 +220,21 @@ test("finishing an attempt closes the microphone and late results cannot modify 
 }) => {
   await mockRecognition(page);
   await history(page);
-  await page.getByRole("checkbox").nth(1).check();
+  await goToExamQuestion(page, 2);
+  await page.getByRole("checkbox").check();
+  await goToExamQuestion(page, 1);
   await page
     .getByLabel("Tu respuesta a la pregunta 1", { exact: true })
     .fill("Primera respuesta.");
+  await goToExamQuestion(page, 2);
   await page
     .getByLabel("Tu respuesta a la pregunta 2", { exact: true })
     .fill("Segunda respuesta.");
+  await goToExamQuestion(page, 4);
   await page
     .getByLabel("Tu comentario", { exact: true })
     .fill("Comentario terminado.");
+  await goToExamQuestion(page, 1);
   await page
     .getByRole("button", {
       name: "Responder por audio: Tu respuesta a la pregunta 1",

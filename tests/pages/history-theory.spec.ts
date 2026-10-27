@@ -1,3 +1,4 @@
+import { goToExamQuestion } from "./exam-navigation";
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import { lessonsFor } from "../../lib/learning";
@@ -103,6 +104,7 @@ test("Theory practice grades with -0.1 per error and a new attempt resets respon
   await expect(groups).toHaveCount(20);
   const bank = examPracticeFor("021021").bank;
   for (let i = 0; i < 2; i++) {
+    await goToExamQuestion(page, i + 1);
     const id = await groups
       .nth(i)
       .locator("input")

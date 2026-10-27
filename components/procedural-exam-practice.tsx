@@ -1,4 +1,5 @@
 "use client";
+import { ExamPages } from "./exam-pages";
 import { useEffect, useId, useState } from "react";
 import { proceduralPracticeModels } from "@/lib/procedural-practice";
 import { subjectTheme } from "@/lib/subject-theme";
@@ -67,47 +68,65 @@ export function ProceduralExamPractice() {
         </p>
       )}
       <form
+        noValidate
         onSubmit={(e) => {
           e.preventDefault();
           setFinished(true);
         }}
       >
-        {model.questions.map((prompt, index) => (
-          <fieldset
-            className="lesson-question"
-            key={`${attempt}-${modelIndex}-${index}`}
-          >
-            <legend>Pregunta teórica {index + 1}</legend>
-            <p>{prompt}</p>
-            <DictatedAnswer
-              id={`${id}-${index}`}
-              label={`Tu respuesta a la pregunta ${index + 1}`}
-              value={answers[index] ?? ""}
-              onChange={(text) =>
-                setAnswers((old) => ({ ...old, [index]: text }))
-              }
-              disabled={finished}
-            />
-          </fieldset>
-        ))}
-        <fieldset className="lesson-question">
-          <legend>Caso práctico</legend>
-          <p>{model.scenario}</p>
-          <p>{model.task}</p>
-          <DictatedAnswer
-            key={`${attempt}-${modelIndex}`}
-            id={`${id}-case`}
-            label="Tu respuesta al caso práctico"
-            value={answers[2] ?? ""}
-            onChange={(text) => setAnswers((old) => ({ ...old, 2: text }))}
-            disabled={finished}
-          />
-        </fieldset>
-        {!finished && (
-          <button className="button" type="submit">
-            Finalizar práctica
-          </button>
-        )}
+        <ExamPages
+          key={`${modelIndex}-${attempt}`}
+          answered={[0, 1, 2].map((index) => Boolean(answers[index]?.trim()))}
+          actions={
+            !finished ? (
+              <button className="button" type="submit">
+                Finalizar práctica
+              </button>
+            ) : (
+              <button
+                type="button"
+                className="button secondary"
+                onClick={() => reset()}
+              >
+                Nuevo intento
+              </button>
+            )
+          }
+        >
+          {[
+            ...model.questions.map((prompt, index) => (
+              <fieldset
+                className="lesson-question"
+                key={`${attempt}-${modelIndex}-${index}`}
+              >
+                <legend>Pregunta teórica {index + 1}</legend>
+                <p>{prompt}</p>
+                <DictatedAnswer
+                  id={`${id}-${index}`}
+                  label={`Tu respuesta a la pregunta ${index + 1}`}
+                  value={answers[index] ?? ""}
+                  onChange={(text) =>
+                    setAnswers((old) => ({ ...old, [index]: text }))
+                  }
+                  disabled={finished}
+                />
+              </fieldset>
+            )),
+            <fieldset key="case" className="lesson-question">
+              <legend>Caso práctico</legend>
+              <p>{model.scenario}</p>
+              <p>{model.task}</p>
+              <DictatedAnswer
+                key={`${attempt}-${modelIndex}`}
+                id={`${id}-case`}
+                label="Tu respuesta al caso práctico"
+                value={answers[2] ?? ""}
+                onChange={(text) => setAnswers((old) => ({ ...old, 2: text }))}
+                disabled={finished}
+              />
+            </fieldset>,
+          ]}
+        </ExamPages>
       </form>
       <small>
         El borrador se conserva solo durante este intento. {model.sources}
@@ -126,9 +145,6 @@ export function ProceduralExamPractice() {
               ))}
             </ul>
           </details>
-          <button className="button secondary" onClick={() => reset()}>
-            Nuevo intento
-          </button>
         </>
       )}
     </section>

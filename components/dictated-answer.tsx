@@ -73,6 +73,9 @@ export function DictatedAnswer({
       setListening(false);
       setMessage("Dictado detenido. Puedes revisar el texto.");
     };
+    const pageChanged = () => {
+      if (recognition.current) stop();
+    };
     const otherStarted = (event: Event) => {
       if (
         (event as CustomEvent<string>).detail !== owner &&
@@ -82,9 +85,11 @@ export function DictatedAnswer({
     };
     window.addEventListener(dictationStarted, otherStarted);
     window.addEventListener("pagehide", stop);
+    window.addEventListener("uned-exam-page-change", pageChanged);
     return () => {
       window.removeEventListener(dictationStarted, otherStarted);
       window.removeEventListener("pagehide", stop);
+      window.removeEventListener("uned-exam-page-change", pageChanged);
       release();
     };
   }, [owner]);

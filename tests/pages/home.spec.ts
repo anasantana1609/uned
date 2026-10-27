@@ -1,3 +1,4 @@
+import { goToExamQuestion } from "./exam-navigation";
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import { examPracticeFor } from "../../lib/exam-practice";
@@ -55,6 +56,7 @@ test("Civil exam practice scores an attempt with blanks, explains corrections an
   await expect(groups).toHaveCount(20);
   const bank = examPracticeFor("021096").bank;
   for (let i = 0; i < 2; i++) {
+    await goToExamQuestion(page, i + 1);
     const questionId = await groups
       .nth(i)
       .locator("input")
@@ -103,6 +105,7 @@ test("Civil practice ends at the time limit and History offers written questions
   await expect(
     page.getByRole("region", { name: "Práctica de examen" }),
   ).toContainText("Comentario de texto");
+  await goToExamQuestion(page, 4);
   await expect(
     page.getByRole("textbox", { name: "Tu comentario" }),
   ).toBeVisible();
@@ -117,19 +120,24 @@ test("History shows written questions directly and accepts two developments plus
     .click();
   await page.getByRole("button", { name: /Hacer exámenes/ }).click();
   const practice = page.getByRole("region", { name: "Práctica de examen" });
-  await expect(practice.getByRole("group")).toHaveCount(4);
+  await expect(practice.locator("fieldset")).toHaveCount(4);
   await expect(
     practice.getByRole("button", { name: "Finalizar práctica" }),
   ).toBeDisabled();
   await practice.getByRole("checkbox").nth(0).check();
-  await practice.getByRole("checkbox").nth(1).check();
-  await expect(practice.getByRole("checkbox").nth(2)).toBeDisabled();
+  await goToExamQuestion(page, 2);
+  await practice.getByRole("checkbox").check();
+  await goToExamQuestion(page, 3);
+  await expect(practice.getByRole("checkbox")).toBeDisabled();
+  await goToExamQuestion(page, 1);
   await practice
     .getByLabel("Tu respuesta a la pregunta 1", { exact: true })
     .fill("Respuesta personal a la primera pregunta.");
+  await goToExamQuestion(page, 2);
   await practice
     .getByLabel("Tu respuesta a la pregunta 2", { exact: true })
     .fill("Respuesta personal a la segunda pregunta.");
+  await goToExamQuestion(page, 4);
   await practice
     .getByLabel("Tu comentario", { exact: true })
     .fill("Comentario personal del fragmento adaptado.");

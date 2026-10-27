@@ -1,4 +1,5 @@
 "use client";
+import { ExamPages } from "./exam-pages";
 import { HistoryExamPractice } from "./history-exam-practice";
 import { ProceduralExamPractice } from "./procedural-exam-practice";
 import { DictatedAnswer } from "./dictated-answer";
@@ -24,6 +25,7 @@ function TestExamPractice({ code }: { code: string }) {
   const spec = examPracticeFor(code);
   const [questions, setQuestions] = useState<PracticeQuestion[]>([]);
   const [answers, setAnswers] = useState<Record<string, number>>({});
+  const [attempt, setAttempt] = useState(0);
   const [submitted, setSubmitted] = useState(false);
   const [deadline, setDeadline] = useState<number | null>(null);
   const [remaining, setRemaining] = useState(0);
@@ -57,6 +59,7 @@ function TestExamPractice({ code }: { code: string }) {
     ? spec.scoreScale[result.correct]
     : result.score;
   function start() {
+    setAttempt((n) => n + 1);
     setQuestions(shuffledQuestions(spec.bank, spec.count));
     setAnswers({});
     setSubmitted(false);
@@ -128,122 +131,142 @@ function TestExamPractice({ code }: { code: string }) {
             </div>
           )}
           <form
+            noValidate
             onSubmit={(e) => {
               e.preventDefault();
               setSubmitted(true);
             }}
           >
-            {questions.map((q, i) => (
-              <fieldset
-                key={q.id}
-                className="lesson-question"
-                disabled={submitted}
-              >
-                <legend>
-                  {i + 1}. {q.prompt}
-                </legend>
-                {q.options.map((option, index) => (
-                  <label key={index}>
-                    <input
-                      type="radio"
-                      name={q.id}
-                      checked={answers[q.id] === index}
-                      onChange={() =>
-                        setAnswers((old) => ({ ...old, [q.id]: index }))
-                      }
-                    />
-                    {option}
-                  </label>
-                ))}
-                {!submitted && answers[q.id] !== undefined && (
-                  <button
-                    className="text-link"
-                    type="button"
-                    onClick={() =>
-                      setAnswers((old) => {
-                        const next = { ...old };
-                        delete next[q.id];
-                        return next;
-                      })
-                    }
-                  >
-                    Dejar en blanco
+            <ExamPages
+              key={attempt}
+              answered={[
+                ...questions.map((q) => answers[q.id] !== undefined),
+                ...(spec.developmentPrompts
+                  ? [Boolean(developmentAnswers[developmentIndex]?.trim())]
+                  : []),
+              ]}
+              actions={
+                !submitted ? (
+                  <button className="button" type="submit">
+                    Terminar y corregir
                   </button>
-                )}
-                {submitted && (
-                  <div className="exam-correction">
-                    <p>
-                      <strong>
-                        {answers[q.id] === undefined
-                          ? "En blanco"
-                          : answers[q.id] === q.answer
-                            ? "Correcta"
-                            : "Incorrecta"}
-                        .
-                      </strong>{" "}
-                      Respuesta: {q.options[q.answer]}
-                    </p>
-                    <p>{q.explanation}</p>
-                    <small>
-                      {q.topic} · {q.sources.join("; ")}
-                    </small>
-                  </div>
-                )}
-              </fieldset>
-            ))}
-            {spec.developmentPrompts && (
-              <section aria-label="Desarrollo de TEC">
-                <h3>Desarrollo: elige una pregunta</h3>
-                <div
-                  role="radiogroup"
-                  aria-label="Pregunta de desarrollo elegida"
-                >
-                  {spec.developmentPrompts.map((prompt, index) => (
-                    <label key={prompt} className="lesson-question">
-                      <input
-                        type="radio"
-                        name={`development-${code}`}
-                        checked={developmentIndex === index}
-                        disabled={submitted}
-                        onChange={() => setDevelopmentIndex(index)}
-                      />
-                      {prompt}
-                    </label>
-                  ))}
-                </div>
-                <DictatedAnswer
-                  key={developmentIndex}
-                  id={`development-${code}-${developmentIndex}`}
-                  label="Tu respuesta de desarrollo"
-                  value={developmentAnswers[developmentIndex] ?? ""}
-                  disabled={submitted}
-                  onChange={(text) =>
-                    setDevelopmentAnswers((old) => ({
-                      ...old,
-                      [developmentIndex]: text,
-                    }))
-                  }
-                />
-                {submitted && (
-                  <p>
-                    Comprueba que defines las instituciones, distingues sus
-                    elementos y respondes a todos los apartados. La respuesta
-                    escrita no recibe nota automática.
-                  </p>
-                )}
-              </section>
-            )}
-            {!submitted && (
-              <button className="button" type="submit">
-                Terminar y corregir
-              </button>
-            )}
+                ) : (
+                  <button
+                    className="button secondary"
+                    type="button"
+                    onClick={start}
+                  >
+                    Nueva práctica
+                  </button>
+                )
+              }
+            >
+              {[
+                ...questions.map((q, i) => (
+                  <fieldset
+                    key={q.id}
+                    className="lesson-question"
+                    disabled={submitted}
+                  >
+                    <legend>
+                      {i + 1}. {q.prompt}
+                    </legend>
+                    {q.options.map((option, index) => (
+                      <label key={index}>
+                        <input
+                          type="radio"
+                          name={q.id}
+                          checked={answers[q.id] === index}
+                          onChange={() =>
+                            setAnswers((old) => ({ ...old, [q.id]: index }))
+                          }
+                        />
+                        <span>{option}</span>
+                      </label>
+                    ))}
+                    {!submitted && answers[q.id] !== undefined && (
+                      <button
+                        className="text-link"
+                        type="button"
+                        onClick={() =>
+                          setAnswers((old) => {
+                            const next = { ...old };
+                            delete next[q.id];
+                            return next;
+                          })
+                        }
+                      >
+                        Dejar en blanco
+                      </button>
+                    )}
+                    {submitted && (
+                      <div className="exam-correction">
+                        <p>
+                          <strong>
+                            {answers[q.id] === undefined
+                              ? "En blanco"
+                              : answers[q.id] === q.answer
+                                ? "Correcta"
+                                : "Incorrecta"}
+                            .
+                          </strong>{" "}
+                          Respuesta: {q.options[q.answer]}
+                        </p>
+                        <p>{q.explanation}</p>
+                        <small>
+                          {q.topic} · {q.sources.join("; ")}
+                        </small>
+                      </div>
+                    )}
+                  </fieldset>
+                )),
+                ...(spec.developmentPrompts
+                  ? [
+                      <section key="development" aria-label="Desarrollo de TEC">
+                        <h3>Desarrollo: elige una pregunta</h3>
+                        <div
+                          role="radiogroup"
+                          aria-label="Pregunta de desarrollo elegida"
+                        >
+                          {spec.developmentPrompts.map((prompt, index) => (
+                            <label key={prompt} className="lesson-question">
+                              <input
+                                type="radio"
+                                name={`development-${code}`}
+                                checked={developmentIndex === index}
+                                disabled={submitted}
+                                onChange={() => setDevelopmentIndex(index)}
+                              />
+                              {prompt}
+                            </label>
+                          ))}
+                        </div>
+                        <DictatedAnswer
+                          key={developmentIndex}
+                          id={`development-${code}-${developmentIndex}`}
+                          label="Tu respuesta de desarrollo"
+                          value={developmentAnswers[developmentIndex] ?? ""}
+                          disabled={submitted}
+                          onChange={(text) =>
+                            setDevelopmentAnswers((old) => ({
+                              ...old,
+                              [developmentIndex]: text,
+                            }))
+                          }
+                        />
+                        {submitted && (
+                          <p>
+                            Comprueba que defines las instituciones, distingues
+                            sus elementos y respondes a todos los apartados. La
+                            respuesta escrita no recibe nota automática.
+                          </p>
+                        )}
+                      </section>,
+                    ]
+                  : []),
+              ]}
+            </ExamPages>
           </form>
-          {submitted && (
-            <button className="button secondary" onClick={start}>
-              Nueva práctica
-            </button>
-          )}
         </>
       )}
     </section>

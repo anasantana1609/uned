@@ -1,4 +1,5 @@
 "use client";
+import { ExamPages } from "./exam-pages";
 import { useId, useState } from "react";
 import { historyPracticeModels } from "@/lib/history-practice";
 import { DictatedAnswer } from "./dictated-answer";
@@ -42,92 +43,111 @@ export function HistoryExamPractice() {
       </p>
       <small>Preguntas adaptadas para practicar · {model.source}</small>
       <form
+        noValidate
         onSubmit={(e) => {
           e.preventDefault();
           setFinished(true);
         }}
       >
-        <h3>Preguntas de desarrollo</h3>
-        {model.questions.map((prompt, index) => (
-          <fieldset key={`${model.id}-${index}`} className="lesson-question">
-            <legend>Pregunta {index + 1}</legend>
-            <p>{prompt}</p>
-            <label>
-              <input
-                type="checkbox"
-                checked={chosen.includes(index)}
+        <ExamPages
+          key={modelIndex}
+          answered={[
+            ...model.questions.map(
+              (_, index) =>
+                chosen.includes(index) && Boolean(answers[index]?.trim()),
+            ),
+            Boolean(comment.trim()),
+          ]}
+          actions={
+            finished ? (
+              <button
+                type="button"
+                className="button secondary"
+                onClick={() => setFinished(false)}
+              >
+                Seguir escribiendo
+              </button>
+            ) : (
+              <button
+                className="button"
+                type="submit"
                 disabled={
-                  finished || (!chosen.includes(index) && chosen.length === 2)
+                  chosen.length !== 2 ||
+                  chosen.some((n) => !answers[n]?.trim()) ||
+                  !comment.trim()
                 }
-                onChange={(e) =>
-                  setChosen((old) =>
-                    e.target.checked
-                      ? [...old, index]
-                      : old.filter((n) => n !== index),
-                  )
-                }
+              >
+                Finalizar práctica
+              </button>
+            )
+          }
+        >
+          {[
+            ...model.questions.map((prompt, index) => (
+              <fieldset
+                key={`${model.id}-${index}`}
+                className="lesson-question"
+              >
+                <legend>Pregunta {index + 1}</legend>
+                <p>{prompt}</p>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={chosen.includes(index)}
+                    disabled={
+                      finished ||
+                      (!chosen.includes(index) && chosen.length === 2)
+                    }
+                    onChange={(e) =>
+                      setChosen((old) =>
+                        e.target.checked
+                          ? [...old, index]
+                          : old.filter((n) => n !== index),
+                      )
+                    }
+                  />
+                  Responder esta pregunta
+                </label>
+                {chosen.includes(index) && (
+                  <>
+                    <DictatedAnswer
+                      id={`${id}-answer-${index}`}
+                      label={`Tu respuesta a la pregunta ${index + 1}`}
+                      value={answers[index] ?? ""}
+                      disabled={finished}
+                      onChange={(text) =>
+                        setAnswers((old) => ({ ...old, [index]: text }))
+                      }
+                    />
+                  </>
+                )}
+              </fieldset>
+            )),
+            <fieldset key="commentary" className="lesson-question">
+              <legend>Comentario de texto</legend>
+              <blockquote>{model.excerpt}</blockquote>
+              <small>{model.attribution}</small>
+              <p>{model.commentary}</p>
+              <DictatedAnswer
+                key={model.id}
+                id={`${id}-comment`}
+                label="Tu comentario"
+                value={comment}
+                disabled={finished}
+                onChange={setComment}
+                rows={9}
               />
-              Responder esta pregunta
-            </label>
-            {chosen.includes(index) && (
-              <>
-                <DictatedAnswer
-                  id={`${id}-answer-${index}`}
-                  label={`Tu respuesta a la pregunta ${index + 1}`}
-                  value={answers[index] ?? ""}
-                  disabled={finished}
-                  onChange={(text) =>
-                    setAnswers((old) => ({ ...old, [index]: text }))
-                  }
-                />
-              </>
-            )}
-          </fieldset>
-        ))}
-        <fieldset className="lesson-question">
-          <legend>Comentario de texto</legend>
-          <blockquote>{model.excerpt}</blockquote>
-          <small>{model.attribution}</small>
-          <p>{model.commentary}</p>
-          <DictatedAnswer
-            key={model.id}
-            id={`${id}-comment`}
-            label="Tu comentario"
-            value={comment}
-            disabled={finished}
-            onChange={setComment}
-            rows={9}
-          />
-        </fieldset>
+            </fieldset>,
+          ]}
+        </ExamPages>
         <p className="muted">
           Respuestas escritas sin calificación automática. El borrador se
           conserva solo mientras permanezcas en este intento.
         </p>
-        {finished ? (
-          <>
-            <p role="status">
-              Práctica finalizada. Puedes revisar tus respuestas.
-            </p>
-            <button
-              type="button"
-              className="button secondary"
-              onClick={() => setFinished(false)}
-            >
-              Seguir escribiendo
-            </button>
-          </>
-        ) : (
-          <button
-            className="button"
-            type="submit"
-            disabled={
-              chosen.length !== 2 ||
-              chosen.some((n) => !answers[n]?.trim()) ||
-              !comment.trim()
-            }
-          >
-            Finalizar práctica
-          </button>
+        {finished && (
+          <p role="status">
+            Práctica finalizada. Puedes revisar tus respuestas.
+          </p>
         )}
       </form>
     </section>
