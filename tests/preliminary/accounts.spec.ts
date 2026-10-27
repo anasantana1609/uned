@@ -411,7 +411,9 @@ test("guided progress uses the account browser key and does not import demo or a
   const course = page.getByRole("region", {
     name: "Contenido de estudio disponible",
   });
-  await expect(course).toContainText("0% de lecciones completadas");
+  await expect(course.locator(".lesson-total-progress")).toHaveText(
+    `0% (0/${lessonsFor("021096").length})`,
+  );
   await course
     .getByRole("button", { name: /Qué estudia el Derecho civil/ })
     .click();
@@ -442,7 +444,7 @@ test("guided progress uses the account browser key and does not import demo or a
   expect(stored.other).toEqual(stored.demo);
   await page.reload();
   await page.getByRole("button", { name: /Derecho Civil I.1/ }).click();
-  await expect(course).toContainText(
-    `${Math.round(100 / lessonsFor("021096").length)}% de lecciones completadas`,
+  await expect(course.locator(".lesson-total-progress")).toHaveText(
+    `${Math.round(100 / lessonsFor("021096").length)}% (1/${lessonsFor("021096").length})`,
   );
 });
