@@ -45,16 +45,18 @@ export function GuidedLearning({ code }: { code: string }) {
       style={subjectTheme(code)}
       aria-label="Contenido de estudio disponible"
     >
-      <h3>
-        <BookOpen size={20} /> Lecciones
-      </h3>
-      <div className="learning-summary">
-        <strong>{summary.percent}% de lecciones completadas</strong>
-        <span>
-          {summary.passed} de {summary.total} lecciones completadas
+      <h3 className="lesson-section-heading">
+        <BookOpen size={22} aria-hidden="true" />
+        <span>Lecciones</span>
+        <span
+          className="lesson-total-progress"
+          aria-label={`${summary.percent}% completado: ${summary.passed} de ${summary.total} lecciones`}
+        >
+          {summary.percent}% ({summary.passed}/{summary.total})
         </span>
-      </div>
+      </h3>
       <progress
+        className="course-progress-bar"
         aria-label="Avance de lecciones completadas"
         value={summary.passed}
         max={summary.total}

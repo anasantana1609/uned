@@ -11,7 +11,9 @@ test("guided block grades answers and automatic study time cannot complete it", 
   const course = page.getByRole("region", {
     name: "Contenido de estudio disponible",
   });
-  await expect(course).toContainText("0% de lecciones completadas");
+  await expect(course.locator(".lesson-total-progress")).toHaveText(
+    `0% (0/${lessonsFor("021096").length})`,
+  );
   await course
     .getByRole("button", { name: /Qué estudia el Derecho civil/ })
     .click();
@@ -47,11 +49,8 @@ test("guided block grades answers and automatic study time cannot complete it", 
   );
   await page.reload();
   await page.getByRole("button", { name: /Derecho Civil I.1/ }).click();
-  await expect(course).toContainText(
-    `${Math.round(100 / lessonsFor("021096").length)}% de lecciones completadas`,
-  );
-  await expect(course).toContainText(
-    `1 de ${lessonsFor("021096").length} lecciones completadas`,
+  await expect(course.locator(".lesson-total-progress")).toHaveText(
+    `${Math.round(100 / lessonsFor("021096").length)}% (1/${lessonsFor("021096").length})`,
   );
   await expect(course.locator(".lesson-choice:visible").first()).toContainText(
     lessonsFor("021096")[1].title,

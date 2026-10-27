@@ -40,7 +40,9 @@ test("Civil lists lessons without filters and grades a sourced representation bl
     "Bloque superado",
   );
   await reader.getByRole("button", { name: "Volver al recorrido" }).click();
-  await expect(course).toContainText("1 de 15 lecciones completadas");
+  await expect(course.locator(".lesson-total-progress")).toHaveText(
+    "7% (1/15)",
+  );
 });
 
 test("History shows a clean lesson state and its sources remain available", async ({
