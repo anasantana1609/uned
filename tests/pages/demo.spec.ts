@@ -34,7 +34,6 @@ test("exported demo loads its scripts and supports task persistence under /uned"
 });
 test("all exported deep links load directly and navigation retains the Pages prefix", async ({
   page,
-  isMobile,
 }) => {
   for (const route of [
     "dashboard",
@@ -58,7 +57,6 @@ test("all exported deep links load directly and navigation retains the Pages pre
   await expect(
     page.getByRole("button", { name: /^Derecho Civil I.1/ }),
   ).toBeEnabled();
-  if (isMobile) await page.getByRole("button", { name: "Abrir menú" }).click();
   await page.getByRole("link", { name: "Asignaturas", exact: true }).click();
   await expect(page).toHaveURL(/\/uned\/asignaturas\/?$/);
   await expect(

@@ -1,12 +1,12 @@
 @import "tailwindcss";
 :root {
-  --ink: #233d35;
-  --text: #263c34;
-  --muted: #7a857e;
-  --green: #34765c;
-  --mint: #e7f1e9;
-  --line: #e8ebe5;
-  --cream: #f7f8f4;
+  --ink: #003f39;
+  --text: #223d37;
+  --muted: #5a6e66;
+  --green: #00594f;
+  --mint: #e5f1ed;
+  --line: #dbe5e0;
+  --cream: #f4f7f6;
   --lavender: #eeebf8;
   --peach: #f9eee4;
   --blue: #e8eff7;
@@ -5119,5 +5119,294 @@ textarea,
   .subject-workspace .guided-learning,
   .subject-workspace .exam-practice {
     padding: 12px;
+  }
+}
+
+/* Institutional green, quiet surfaces and one navigation system across the app. */
+:root {
+  --institutional-green: #00594f;
+  --institutional-deep: #003f39;
+  --bottom-nav-height: 84px;
+}
+body {
+  background: #f4f7f6;
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--text);
+}
+h1,
+h2,
+h3,
+h4 {
+  letter-spacing: -0.018em;
+}
+.card,
+.settings-card,
+.exam-practice {
+  border-color: #dbe5e0;
+  box-shadow: 0 3px 14px #003f3905;
+}
+.card {
+  border-radius: 16px;
+  background: white;
+}
+.button {
+  border-radius: 10px;
+  font-weight: 600;
+}
+.button:not(.secondary):not(.danger-button) {
+  box-shadow: 0 3px 8px #003f3910;
+}
+input,
+select,
+textarea {
+  border-color: #cbdad3;
+  border-radius: 10px;
+}
+.uned-app .app-body {
+  margin-left: 0;
+  width: 100%;
+  padding-bottom: calc(var(--bottom-nav-height) + env(safe-area-inset-bottom));
+}
+.uned-app .institutional-header {
+  height: 76px;
+  min-height: 76px;
+  padding: 12px clamp(16px, 4vw, 56px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  gap: 16px;
+  border-bottom: 1px solid #dbe5e0;
+  background: white;
+}
+.institutional-brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  color: var(--institutional-green);
+}
+.institutional-mark {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  color: white;
+  background: var(--institutional-green);
+  border-radius: 10px 10px 10px 2px;
+}
+.institutional-brand strong {
+  display: block;
+  font-size: 25px;
+  letter-spacing: 0.025em;
+  line-height: 1;
+}
+.institutional-brand small {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  margin-top: 7px;
+  line-height: 1;
+}
+.institutional-page {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #476259;
+}
+.uned-app .institutional-demo {
+  padding: 8px clamp(16px, 4vw, 56px);
+  background: #eaf2ef;
+  color: #36594b;
+  font-size: 0.75rem;
+  border-bottom: 1px solid #dbe5e0;
+}
+.institutional-demo a {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 600;
+}
+.uned-app .main-content {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px clamp(16px, 4vw, 40px) 40px;
+}
+.uned-app .subject-home-heading {
+  color: var(--institutional-deep);
+  font-size: clamp(30px, 4vw, 42px);
+  font-weight: 600;
+  margin: 0 0 26px;
+}
+.uned-app .subject-home-list {
+  gap: 16px;
+}
+.uned-app .subject-home-row {
+  border-radius: 16px;
+  box-shadow: 0 5px 16px #003f390a;
+}
+.uned-app .subject-home-toggle {
+  padding: 24px;
+}
+.uned-app .subject-home-name strong {
+  font-size: clamp(22px, 2.5vw, 28px);
+  line-height: 1.35;
+}
+.uned-app .subject-home-name small {
+  font-size: 18px;
+}
+.study-chooser-label {
+  margin: -12px 0 24px;
+  color: #4b6055;
+}
+.bottom-navigation {
+  position: fixed;
+  z-index: 50;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 4px;
+  min-height: calc(var(--bottom-nav-height) + env(safe-area-inset-bottom));
+  padding: 7px max(6px, calc((100vw - 1000px) / 2))
+    calc(7px + env(safe-area-inset-bottom));
+  background: white;
+  border-top: 1px solid #cbdad3;
+  box-shadow: 0 -6px 24px #003f390a;
+}
+.bottom-nav-item {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: 70px;
+  font-size: 13px;
+  line-height: 1.2;
+  font-weight: 600;
+  color: #4e665c;
+  border-radius: 12px;
+}
+.bottom-nav-icon {
+  display: grid;
+  place-items: center;
+  height: 36px;
+  width: 52px;
+  border-radius: 12px;
+}
+.bottom-nav-item.active {
+  color: var(--institutional-green);
+}
+.bottom-nav-item.active .bottom-nav-icon {
+  background: #e5f1ed;
+}
+.bottom-nav-item.exam-cta {
+  color: var(--institutional-green);
+  font-weight: 700;
+}
+.bottom-nav-item.exam-cta .bottom-nav-icon {
+  color: white;
+  background: var(--institutional-green);
+  width: 54px;
+  height: 40px;
+  border-radius: 13px;
+  box-shadow: 0 3px 0 #003f39;
+}
+.bottom-nav-item.exam-cta.active .bottom-nav-icon {
+  background: var(--institutional-deep);
+  outline: 2px solid #b9d8cb;
+  outline-offset: 2px;
+}
+.bottom-nav-item:focus-visible {
+  outline: 3px solid var(--institutional-green);
+  outline-offset: -3px;
+}
+.bottom-nav-item:hover {
+  background: #f0f6f3;
+}
+.profile-study-links {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin: 0 0 26px;
+}
+.profile-study-links a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px;
+  border: 1px solid #cbdad3;
+  border-radius: 14px;
+  background: white;
+  font-weight: 600;
+  color: var(--institutional-green);
+}
+.uned-app .app-footer {
+  color: #53695e;
+  border-top: 1px solid #dbe5e0;
+  background: #f4f7f6;
+}
+.uned-app .toast {
+  bottom: calc(var(--bottom-nav-height) + env(safe-area-inset-bottom) + 14px);
+}
+.uned-app .session-bar {
+  bottom: calc(var(--bottom-nav-height) + env(safe-area-inset-bottom) + 14px);
+}
+.uned-app.app-shell:has(.subject-workspace) .main-content {
+  padding: 0 12px 16px;
+  max-width: 1100px;
+}
+.uned-app .subject-study-header {
+  padding: 10px 2px;
+}
+.uned-app .subject-workspace .exam-pages {
+  height: calc(
+    100dvh - 110px - var(--bottom-nav-height) - env(safe-area-inset-bottom)
+  );
+  min-height: 270px;
+}
+@media (max-width: 600px) {
+  .uned-app .institutional-header {
+    height: 68px;
+    min-height: 68px;
+  }
+  .uned-app .main-content {
+    padding: 24px 16px 28px;
+  }
+  .uned-app .institutional-demo {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .uned-app .subject-home-toggle {
+    padding: 22px 18px;
+  }
+  .uned-app .subject-home-name strong {
+    font-size: 22px;
+  }
+  .uned-app .subject-home-name small {
+    font-size: 17px;
+  }
+  .profile-study-links {
+    gap: 8px;
+  }
+  .profile-study-links a {
+    padding: 14px 8px;
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+    font-size: 0.8rem;
+  }
+  .uned-app.app-shell:has(.subject-workspace) .main-content {
+    padding: 0 8px 10px;
+  }
+}
+@media (max-width: 360px) {
+  .bottom-nav-item {
+    font-size: 12px;
   }
 }

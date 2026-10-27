@@ -20,12 +20,14 @@ import { subjectColors, subjectTheme } from "@/lib/subject-theme";
 import { lessonsFor } from "@/lib/learning";
 
 export function Dashboard() {
-  const { data, ready } = useStudy();
+  const {
+    data,
+    ready,
+    studySelection: selection,
+    setStudySelection: setSelection,
+    studyMode,
+  } = useStudy();
   const [expanded, setExpanded] = useState<string | null>(null);
-  const [selection, setSelection] = useState<{
-    code: string;
-    mode: "lessons" | "exams";
-  } | null>(null);
   const focusRef = useRef<HTMLElement>(null);
   const backRef = useRef<HTMLButtonElement | null>(null);
   useEffect(() => {
@@ -106,7 +108,16 @@ export function Dashboard() {
   }
   return (
     <>
-      <h1 className="subject-home-heading">Mis asignaturas</h1>
+      <h1 className="subject-home-heading">
+        {studyMode ? "Elige una asignatura" : "Mis asignaturas"}
+      </h1>
+      {studyMode && (
+        <p className="study-chooser-label">
+          {studyMode === "lessons"
+            ? "Lecciones · Aprende a tu ritmo"
+            : "Examen · Practica lo aprendido"}
+        </p>
+      )}
       <section className="subject-home-list" aria-label="Asignaturas del curso">
         {subjects.map((entry) => {
           const open = expanded === entry.code;
@@ -133,7 +144,9 @@ export function Dashboard() {
                 }
                 onClick={(e) => {
                   backRef.current = e.currentTarget;
-                  setExpanded(open ? null : entry.code);
+                  if (studyMode)
+                    setSelection({ code: entry.code, mode: studyMode });
+                  else setExpanded(open ? null : entry.code);
                 }}
               >
                 <span className="subject-home-icon">

@@ -6,6 +6,8 @@ import {
   useEffect,
   useCallback,
   useRef,
+  type Dispatch,
+  type SetStateAction,
 } from "react";
 import { browserClient } from "@/lib/supabase/client";
 import {
@@ -32,8 +34,14 @@ import {
   readLearningProgress,
   type LearningProgress,
 } from "@/lib/learning";
+export type StudyMode = "lessons" | "exams";
+export type StudySelection = { code: string; mode: StudyMode };
 type User = { id: string; email: string; name: string };
 type StudyContext = {
+  studySelection: StudySelection | null;
+  setStudySelection: Dispatch<SetStateAction<StudySelection | null>>;
+  studyMode: StudyMode | null;
+  setStudyMode: Dispatch<SetStateAction<StudyMode | null>>;
   data: StudyData;
   learningProgress: LearningProgress;
   learningReady: boolean;
@@ -154,6 +162,10 @@ export function StudyProvider({
   children: React.ReactNode;
   user: User | null;
 }) {
+  const [studySelection, setStudySelection] = useState<StudySelection | null>(
+    null,
+  );
+  const [studyMode, setStudyMode] = useState<StudyMode | null>(null);
   const [data, setData] = useState<StudyData>(() =>
     user ? emptyData() : demoData(),
   );
@@ -676,6 +688,10 @@ export function StudyProvider({
   return (
     <Context.Provider
       value={{
+        studySelection,
+        setStudySelection,
+        studyMode,
+        setStudyMode,
         data,
         learningProgress,
         learningReady,

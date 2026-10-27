@@ -1,51 +1,34 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import {
   BookOpen,
   LayoutDashboard,
-  CalendarDays,
-  ChartNoAxesCombined,
-  FolderOpen,
-  Settings2,
+  LibraryBig,
+  ClipboardCheck,
+  UserRound,
+  GraduationCap,
   ArrowUpRight,
-  ChevronRight,
-  Menu,
-  X,
-  Sparkles,
   Pause,
   Play,
   Square,
-  GraduationCap,
-  CircleHelp,
+  X,
   CheckCircle2,
   AlertCircle,
 } from "lucide-react";
-import { useStudy } from "./study-provider";
-import { Modal } from "./ui";
-import { SignOutButton } from "./sign-out-button";
-const links = [
-  { href: "/dashboard", label: "Inicio", icon: LayoutDashboard },
-  { href: "/asignaturas", label: "Asignaturas", icon: BookOpen },
-  { href: "/calendario", label: "Plan de estudio", icon: CalendarDays },
-  { href: "/progreso", label: "Mi progreso", icon: ChartNoAxesCombined },
-];
+import { useStudy, type StudyMode } from "./study-provider";
+
 const titles: Record<string, string> = {
-  "/dashboard": "Inicio",
+  "/dashboard": "Panel",
   "/asignaturas": "Asignaturas",
   "/calendario": "Plan de estudio",
   "/progreso": "Mi progreso",
   "/fuentes": "Mis documentos",
-  "/ajustes": "Ajustes",
+  "/ajustes": "Perfil",
 };
 export function Shell({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
-  const path = pathname.replace(/\/$/, "") || "/dashboard";
-  const [open, setOpen] = useState(false);
-  const [mobile, setMobile] = useState(false);
-  const sidebarRef = useRef<HTMLElement>(null);
-  const [help, setHelp] = useState(false);
+  const path = usePathname().replace(/\/$/, "") || "/dashboard";
   const {
     data,
     user,
@@ -58,59 +41,32 @@ export function Shell({ children }: { children: React.ReactNode }) {
     pauseSession,
     finishSession,
     busy,
+    studySelection,
+    setStudySelection,
+    studyMode,
+    setStudyMode,
   } = useStudy();
   const [now, setNow] = useState(0);
-  useEffect(() => {
-    const m = window.matchMedia("(max-width:700px)");
-    const change = () => setMobile(m.matches);
-    change();
-    m.addEventListener("change", change);
-    return () => m.removeEventListener("change", change);
-  }, []);
-  useEffect(() => {
-    if (!mobile || !open) return;
-    const previous = document.activeElement as HTMLElement;
-    const overflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    const el = sidebarRef.current;
-    el?.querySelector<HTMLElement>(".mobile-close")?.focus();
-    const key = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
-      if (e.key === "Tab") {
-        const items = Array.from(
-          el?.querySelectorAll<HTMLElement>("a[href],button") ?? [],
-        ).filter((x) => x.offsetParent !== null);
-        const first = items[0],
-          last = items.at(-1);
-        if (e.shiftKey && document.activeElement === first) {
-          e.preventDefault();
-          last?.focus();
-        } else if (!e.shiftKey && document.activeElement === last) {
-          e.preventDefault();
-          first?.focus();
-        }
-      }
-    };
-    document.addEventListener("keydown", key);
-    return () => {
-      document.body.style.overflow = overflow;
-      document.removeEventListener("keydown", key);
-      previous?.focus();
-    };
-  }, [open, mobile]);
   useEffect(() => {
     if (!activeSession) return;
     const id = setInterval(() => setNow(Date.now()), 1000);
     return () => clearInterval(id);
   }, [activeSession]);
   useEffect(() => {
-    setOpen(false);
-  }, [path]);
-  useEffect(() => {
     if (!notice) return;
     const id = setTimeout(dismiss, 6000);
     return () => clearTimeout(id);
   }, [notice, dismiss]);
+  function panel() {
+    setStudySelection(null);
+    setStudyMode(null);
+  }
+  function activity(mode: StudyMode) {
+    setStudyMode(mode);
+    setStudySelection((previous) => (previous ? { ...previous, mode } : null));
+  }
+  const activeMode =
+    path === "/dashboard" ? (studySelection?.mode ?? studyMode) : null;
   const elapsed = activeSession
     ? Math.max(
         0,
@@ -122,160 +78,73 @@ export function Shell({ children }: { children: React.ReactNode }) {
         ),
       )
     : 0;
+  const items = [
+    {
+      label: "Panel",
+      href: "/dashboard",
+      icon: LayoutDashboard,
+      active: path === "/dashboard" && !activeMode,
+      onClick: panel,
+    },
+    {
+      label: "Asignaturas",
+      href: "/asignaturas",
+      icon: LibraryBig,
+      active: path === "/asignaturas",
+    },
+    {
+      label: "Lecciones",
+      href: "/dashboard",
+      icon: BookOpen,
+      active: activeMode === "lessons",
+      onClick: () => activity("lessons"),
+    },
+    {
+      label: "Examen",
+      href: "/dashboard",
+      icon: ClipboardCheck,
+      active: activeMode === "exams",
+      onClick: () => activity("exams"),
+      cta: true,
+    },
+    {
+      label: "Perfil",
+      href: "/ajustes",
+      icon: UserRound,
+      active: path === "/ajustes",
+    },
+  ];
   return (
-    <div className="app-shell">
+    <div className="app-shell uned-app">
       <a href="#main" className="skip-link">
         Saltar al contenido
       </a>
-      {open && (
-        <button
-          className="sidebar-backdrop"
-          aria-label="Cerrar menú"
-          onClick={() => setOpen(false)}
-        />
-      )}
-      <aside
-        ref={sidebarRef}
-        id="navigation-sidebar"
-        inert={mobile && !open}
-        aria-hidden={mobile && !open}
-        className={`sidebar ${open ? "open" : ""}`}
-      >
-        <Link href="/dashboard" className="brand">
-          <span className="brand-mark">
-            <BookOpen size={23} />
-          </span>
-          <span>
-            uned<span className="brand-dot">.</span>
-            <small>STUDY AI</small>
-          </span>
-        </Link>
-        <button
-          className="icon-button mobile-close"
-          aria-label="Cerrar menú"
-          onClick={() => setOpen(false)}
-        >
-          <X />
-        </button>
-        <div className="workspace-label">TU ESPACIO DE ESTUDIO</div>
-        <nav aria-label="Navegación principal">
-          {links.map(({ href, label, icon: Icon }) => (
-            <Link
-              key={href}
-              href={href}
-              className={`nav-item ${path === href ? "active" : ""}`}
-            >
-              <Icon size={19} />
-              {label}
-              {path === href && <span className="nav-dot" />}
-            </Link>
-          ))}
-        </nav>
-        <div className="workspace-label library-label">TU BIBLIOTECA</div>
-        <nav aria-label="Biblioteca">
-          <Link
-            className={`nav-item ${path === "/fuentes" ? "active" : ""}`}
-            href="/fuentes"
-          >
-            <FolderOpen size={19} />
-            Mis documentos<span className="small-soon">PRONTO</span>
-          </Link>
-        </nav>
-        <div className="sidebar-bottom">
-          <div className="sidebar-note">
-            <span className="little-spark">
-              <Sparkles size={18} />
-            </span>
-            <h3>
-              Un poco cada día.
-              <br />
-              Un gran paso para ti.
-            </h3>
-            <p>
-              Tu constancia construye
-              <br />
-              tu próximo logro.
-            </p>
-            <Link href="/calendario">
-              Organizar mi semana <ArrowUpRight size={15} />
-            </Link>
-            <span className="note-orbit" />
-          </div>
-          <Link
-            className={`nav-item ${path === "/ajustes" ? "active" : ""}`}
-            href="/ajustes"
-          >
-            <Settings2 size={19} />
-            Ajustes
-          </Link>
-          <button
-            className="nav-item help-button"
-            onClick={() => setHelp(true)}
-          >
-            <CircleHelp size={19} />
-            Cómo funciona
-          </button>
-          <div className="sidebar-profile">
-            <span className="avatar">
-              {user ? (user.name || user.email).slice(0, 1).toUpperCase() : "E"}
-            </span>
-            <div>
-              <strong>
-                {user ? user.name || "Mi cuenta" : "Estudiante UNED"}
-              </strong>
-              <small>
-                {user ? "Cuenta personal" : "Espacio de demostración"}
-              </small>
-            </div>
-            {user ? (
-              <SignOutButton iconOnly />
-            ) : (
-              <Link href="/login" aria-label="Acceder a mi cuenta">
-                <ChevronRight size={18} />
-              </Link>
-            )}
-          </div>
-        </div>
-      </aside>
       <div className="app-body">
-        <header className="topbar">
-          <div className="breadcrumb">
-            <button
-              className="icon-button mobile-menu"
-              onClick={() => setOpen(true)}
-              aria-label="Abrir menú"
-              aria-expanded={open}
-              aria-controls="navigation-sidebar"
-            >
-              <Menu size={22} />
-            </button>
-            <span>Mi espacio</span>
-            <ChevronRight size={14} />
-            <strong>{titles[path] ?? "UNED Study AI"}</strong>
-          </div>
-          <div className="topbar-right">
-            <span className="private-label">
-              <span className="status-dot" />
-              {user ? "Espacio privado" : "Modo demo"}
+        <header className="topbar institutional-header">
+          <Link
+            href="/dashboard"
+            className="institutional-brand"
+            onClick={panel}
+            aria-label="UNED Study AI · Panel"
+          >
+            <span className="institutional-mark">
+              <BookOpen size={25} aria-hidden="true" />
             </span>
-            <span className="topbar-divider" />
-            <span className="topbar-avatar">
-              <GraduationCap size={19} />
+            <span>
+              <strong>UNED</strong>
+              <small>STUDY AI</small>
             </span>
+          </Link>
+          <div className="institutional-page">
+            <span>{titles[path] ?? "Mi estudio"}</span>
+            <GraduationCap size={23} aria-hidden="true" />
           </div>
         </header>
         {!user && (
-          <div className="demo-banner">
-            <span>
-              <Sparkles size={14} />
-              <strong>Estás explorando la demo.</strong>
-              <span>
-                {" "}
-                Los datos de ejemplo se guardan solo en este navegador.
-              </span>
-            </span>
+          <div className="demo-banner institutional-demo">
+            <span>Espacio de demostración</span>
             <Link href="/login">
-              Conectar mi cuenta <ArrowUpRight size={14} />
+              Acceder a mi cuenta <ArrowUpRight size={15} aria-hidden="true" />
             </Link>
           </div>
         )}
@@ -299,13 +168,26 @@ export function Shell({ children }: { children: React.ReactNode }) {
           {ready ? children : null}
         </main>
         <footer className="app-footer">
-          <span>Hecho para aprender, a tu ritmo.</span>
-          <span>
-            UNED Study AI <span className="footer-dot">·</span> Proyecto
-            independiente, no oficial
-          </span>
+          <span>UNED Study AI</span>
+          <span>Proyecto independiente, no oficial</span>
         </footer>
       </div>
+      <nav className="bottom-navigation" aria-label="Navegación principal">
+        {items.map(({ label, href, icon: Icon, active, onClick, cta }) => (
+          <Link
+            key={label}
+            href={href}
+            onClick={onClick}
+            aria-current={active ? "page" : undefined}
+            className={`bottom-nav-item ${active ? "active" : ""} ${cta ? "exam-cta" : ""}`}
+          >
+            <span className="bottom-nav-icon">
+              <Icon size={25} aria-hidden="true" />
+            </span>
+            <span>{label}</span>
+          </Link>
+        ))}
+      </nav>
       {(error || notice) && (
         <div
           className={`toast ${error ? "error" : ""}`}
@@ -360,23 +242,6 @@ export function Shell({ children }: { children: React.ReactNode }) {
             Terminar
           </button>
         </div>
-      )}
-      {help && (
-        <Modal title="Tu estudio, paso a paso" onClose={() => setHelp(false)}>
-          <ol className="help-list">
-            <li>Organiza tus tareas por asignatura y fecha.</li>
-            <li>Inicia una sesión para registrar tiempo real de estudio.</li>
-            <li>Consulta tus avances y confirma tus fechas de examen.</li>
-          </ol>
-          <p className="muted">
-            Las asignaturas y contenidos de la demo son ejemplos pendientes de
-            validación académica. Drive, el tutor IA y las notificaciones reales
-            estarán disponibles en próximas entregas.
-          </p>
-          <button className="button" onClick={() => setHelp(false)}>
-            Entendido
-          </button>
-        </Modal>
       )}
     </div>
   );

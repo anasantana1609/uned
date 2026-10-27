@@ -12,6 +12,9 @@ import {
   ArrowUpRight,
   Mail,
   Globe2,
+  CalendarDays,
+  ChartNoAxesCombined,
+  FolderOpen,
 } from "lucide-react";
 import { SignOutButton } from "@/components/sign-out-button";
 import { useStudy } from "@/components/study-provider";
@@ -27,9 +30,23 @@ export default function Settings() {
     <>
       <PageHeading
         eyebrow="UN ESPACIO A TU MEDIDA"
-        title="Tu estudio. Tus preferencias."
-        description="Ajusta tus objetivos y decide cómo quieres organizarte."
+        title="Mi perfil"
+        description="Tu cuenta, tus preferencias y tu progreso."
       />
+      <nav className="profile-study-links" aria-label="Organizar mi estudio">
+        <Link href="/progreso">
+          <ChartNoAxesCombined size={24} aria-hidden="true" />
+          <span>Mi progreso</span>
+        </Link>
+        <Link href="/calendario">
+          <CalendarDays size={24} aria-hidden="true" />
+          <span>Plan de estudio</span>
+        </Link>
+        <Link href="/fuentes">
+          <FolderOpen size={24} aria-hidden="true" />
+          <span>Mis documentos</span>
+        </Link>
+      </nav>
       <div className="settings-layout">
         <div>
           <form
