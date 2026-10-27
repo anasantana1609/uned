@@ -5,7 +5,6 @@ import { lessonsFor } from "../../lib/learning";
 async function openPath(page: import("@playwright/test").Page) {
   await page.goto("/uned/asignaturas/");
   await page.getByRole("button", { name: /Derecho Civil I.1/ }).click();
-  await page.getByRole("tab", { name: "Recorrido", exact: true }).click();
   return page.getByRole("list", { name: "Recorrido de lecciones" });
 }
 
@@ -20,8 +19,11 @@ test("journey unlocks the next lesson only after a pass and preserves progress o
   const reader = page.locator(".lesson-reader");
   await reader.getByRole("button", { name: "Volver al recorrido" }).click();
   await expect(
-    page.getByRole("tab", { name: "Recorrido", exact: true }),
-  ).toHaveAttribute("aria-selected", "true");
+    page.getByRole("tablist", { name: "Vista de las lecciones" }),
+  ).toHaveCount(0);
+  await expect(
+    page.getByText("Tu próxima lección", { exact: true }),
+  ).toHaveCount(0);
   await expect(path.getByRole("button").nth(1)).toBeDisabled();
   await path.getByRole("button").nth(0).click();
   for (const [i, question] of lessons[0].questions.entries()) {
@@ -57,8 +59,11 @@ test("journey unlocks the next lesson only after a pass and preserves progress o
     "aria-current",
     "step",
   );
-  await page.getByRole("button", { name: "Ir a mi lección" }).click();
-  await expect(path.getByRole("button").first()).toBeFocused();
+  await expect(path.getByRole("button").first()).toBeInViewport();
+  await expect(
+    path.getByRole("heading", { name: "Tema 1", exact: true }),
+  ).toHaveCount(0);
+  await expect(path.getByRole("heading").first()).toHaveText("Tema 2");
   const result = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
     .analyze();
@@ -102,19 +107,45 @@ test("journey preserves previously completed later lessons and celebrates comple
     lessons.map((lesson) => lesson.id),
   );
   path = await openPath(page);
-  await expect(
-    page.getByText("¡Recorrido completado!", { exact: true }),
-  ).toBeVisible();
+  await expect(page.getByRole("status")).toBeVisible();
   await expect(path.locator("button:disabled")).toHaveCount(0);
   await expect(path.getByRole("button")).toHaveCount(0);
-  await page.getByRole("tab", { name: "Recorrido", exact: true }).focus();
-  await page.keyboard.press("ArrowLeft");
-  await expect(
-    page.getByRole("tab", { name: "Listado", exact: true }),
-  ).toHaveAttribute("aria-selected", "true");
   await expect(page.locator(".lesson-choice:visible")).toHaveCount(0);
   await page.locator(".completed-lessons summary").click();
   await expect(page.locator(".lesson-choice:visible")).toHaveCount(
     lessons.length,
+  );
+});
+
+test("Theory opens directly at topic two when topic one was already completed", async ({
+  page,
+}) => {
+  const lessons = lessonsFor("021021");
+  await page.goto("/uned/dashboard/");
+  await page.evaluate(
+    (id) =>
+      localStorage.setItem(
+        "uned-learning-v1:demo",
+        JSON.stringify({ [id]: new Date().toISOString() }),
+      ),
+    lessons[0].id,
+  );
+  await page.reload();
+  await page.getByRole("button", { name: /^Teoría del Derecho/ }).click();
+  await page.getByRole("button", { name: /Hacer lecciones/ }).click();
+  const path = page.getByRole("list", { name: "Recorrido de lecciones" });
+  await expect(path.getByRole("heading").first()).toHaveText("Tema 2");
+  await expect(
+    path.getByRole("heading", { name: "Tema 1", exact: true }),
+  ).toHaveCount(0);
+  await expect(path.getByRole("button").first()).toBeEnabled();
+  await expect(path.getByRole("button").first()).toBeInViewport();
+  await expect(page.locator(".lesson-total-progress")).toHaveText("7% (1/14)");
+  await expect(page.locator(".learning-view-tabs, .path-banner")).toHaveCount(
+    0,
+  );
+  await expect(page.locator(".completed-lessons")).not.toHaveAttribute(
+    "open",
+    "",
   );
 });

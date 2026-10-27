@@ -1,14 +1,18 @@
+import { completePrerequisites } from "./lesson-progress-fixture";
+import { lessonsFor } from "../../lib/learning";
 import { test, expect } from "@playwright/test";
 
-test("Civil lists lessons without filters and grades a sourced representation block", async ({
+test("Civil follows its path without filters and grades a sourced representation block", async ({
   page,
 }) => {
+  const lessons = lessonsFor("021096");
+  await completePrerequisites(page, "021096", lessons[lessons.length - 1].id);
   await page.goto("/uned/asignaturas/");
   await page.getByRole("button", { name: /Derecho Civil I.1/ }).click();
   const course = page.getByRole("region", {
     name: "Contenido de estudio disponible",
   });
-  await expect(course.locator(".lesson-choice")).toHaveCount(15);
+  await expect(course.locator(".path-node")).toHaveCount(1);
   await expect(course.getByLabel("Filtrar por tema")).toHaveCount(0);
   await expect(course.getByText("Ver temario de la asignatura")).toHaveCount(0);
   await course
@@ -41,7 +45,7 @@ test("Civil lists lessons without filters and grades a sourced representation bl
   );
   await reader.getByRole("button", { name: "Volver al recorrido" }).click();
   await expect(course.locator(".lesson-total-progress")).toHaveText(
-    "7% (1/15)",
+    "100% (15/15)",
   );
 });
 
@@ -56,7 +60,7 @@ test("History shows a clean lesson state and its sources remain available", asyn
   await expect(
     page.getByRole("region", { name: "Contenido de estudio disponible" }),
   ).toBeVisible();
-  await expect(page.locator(".lesson-choice")).toHaveCount(20);
+  await expect(page.locator(".path-node")).toHaveCount(20);
   await expect(page.getByText(/Identificadas 51/)).toHaveCount(0);
   await page.goto("/uned/fuentes/");
   await expect(

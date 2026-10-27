@@ -52,8 +52,8 @@ test("guided block grades answers and automatic study time cannot complete it", 
   await expect(course.locator(".lesson-total-progress")).toHaveText(
     `${Math.round(100 / lessonsFor("021096").length)}% (1/${lessonsFor("021096").length})`,
   );
-  await expect(course.locator(".lesson-choice:visible").first()).toContainText(
-    lessonsFor("021096")[1].title,
+  await expect(course.locator(".path-node").first()).toHaveAccessibleName(
+    new RegExp(lessonsFor("021096")[1].title),
   );
   await expect(course.locator(".completed-lessons")).not.toHaveAttribute(
     "open",
@@ -87,7 +87,7 @@ test("home opens lessons and each prepared subject exposes its sources", async (
     const course = page.getByRole("region", {
       name: "Contenido de estudio disponible",
     });
-    await course.locator(".lesson-choice").first().click();
+    await course.locator(".path-node").first().click();
     const reader = page.locator(".lesson-reader");
     await reader.getByText("Fuentes de este bloque", { exact: true }).click();
     expect(await reader.locator("details li").count()).toBeGreaterThan(0);

@@ -1,9 +1,8 @@
 "use client";
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   BookOpen,
   Check,
-  Play,
   ArrowLeft,
   Lightbulb,
   PencilLine,
@@ -21,9 +20,11 @@ export function GuidedLearning({ code }: { code: string }) {
   const { learningProgress, learningReady } = useStudy();
   const available = lessonsFor(code);
   const [selected, setSelected] = useState<Lesson | null>(null);
-  const [view, setView] = useState<"list" | "path">("list");
-  const viewId = useId();
   const summary = learningSummary(code, learningProgress);
+  const overviewRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    if (!selected) overviewRef.current?.scrollIntoView({ block: "start" });
+  }, [selected]);
   if (!available.length) return null;
   if (selected)
     return (
@@ -41,6 +42,7 @@ export function GuidedLearning({ code }: { code: string }) {
     );
   return (
     <section
+      ref={overviewRef}
       className="guided-learning subject-theme"
       style={subjectTheme(code)}
       aria-label="Contenido de estudio disponible"
@@ -61,92 +63,12 @@ export function GuidedLearning({ code }: { code: string }) {
         value={summary.passed}
         max={summary.total}
       />
-      <div
-        className="learning-view-tabs"
-        role="tablist"
-        aria-label="Vista de las lecciones"
-      >
-        {(
-          [
-            ["list", "Listado"],
-            ["path", "Recorrido"],
-          ] as const
-        ).map(([value, label]) => (
-          <button
-            key={value}
-            type="button"
-            role="tab"
-            id={`${viewId}-${value}`}
-            aria-selected={view === value}
-            aria-controls={`${viewId}-panel`}
-            tabIndex={view === value ? 0 : -1}
-            onClick={() => setView(value)}
-            onKeyDown={(event) => {
-              if (
-                !["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)
-              )
-                return;
-              event.preventDefault();
-              const next =
-                event.key === "Home"
-                  ? "list"
-                  : event.key === "End"
-                    ? "path"
-                    : view === "list"
-                      ? "path"
-                      : "list";
-              setView(next);
-              document.getElementById(`${viewId}-${next}`)?.focus();
-            }}
-          >
-            {label}
-          </button>
-        ))}
-      </div>
-      <div
-        role="tabpanel"
-        id={`${viewId}-panel`}
-        aria-labelledby={`${viewId}-${view}`}
-      >
-        {view === "path" ? (
-          <LearningPath
-            lessons={available}
-            progress={learningProgress}
-            ready={learningReady}
-            onSelect={setSelected}
-          />
-        ) : (
-          <div className="lesson-list">
-            {available
-              .filter((l) => !learningProgress[l.id])
-              .map((lesson) => (
-                <button
-                  type="button"
-                  className="lesson-choice"
-                  key={lesson.id}
-                  onClick={() => setSelected(lesson)}
-                  disabled={!learningReady}
-                >
-                  <span className="lesson-item-main">
-                    <small>{lesson.topic}</small>
-                    <strong>{lesson.title}</strong>
-                    <span className="lesson-item-progress">
-                      <progress
-                        aria-label={`Progreso de la lección: ${lesson.title}`}
-                        value={0}
-                        max={100}
-                      />
-                      <small>0%</small>
-                    </span>
-                  </span>
-                  <span>
-                    <Play size={16} /> Estudiar
-                  </span>
-                </button>
-              ))}
-          </div>
-        )}
-      </div>
+      <LearningPath
+        lessons={available}
+        progress={learningProgress}
+        ready={learningReady}
+        onSelect={setSelected}
+      />
       {summary.passed > 0 && (
         <details className="completed-lessons">
           <summary>Lecciones completadas ({summary.passed}) · Repasar</summary>
@@ -177,12 +99,6 @@ export function GuidedLearning({ code }: { code: string }) {
               ))}
           </div>
         </details>
-      )}
-      {view === "list" && summary.passed === summary.total && (
-        <p role="status">
-          ¡Todas las lecciones completadas! Puedes abrir el archivo para
-          repasar.
-        </p>
       )}
     </section>
   );

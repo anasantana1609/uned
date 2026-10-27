@@ -1,3 +1,4 @@
+import { completePrerequisites } from "./lesson-progress-fixture";
 import { goToExamQuestion } from "./exam-navigation";
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
@@ -18,7 +19,7 @@ for (const [code, name] of [
     const list = page.getByRole("region", {
       name: "Contenido de estudio disponible",
     });
-    await expect(list.locator(".lesson-choice")).toHaveCount(
+    await expect(list.locator(".path-node")).toHaveCount(
       lessonsFor(code).length,
     );
     await list.getByRole("button", { name: new RegExp(lesson.title) }).click();
@@ -49,6 +50,13 @@ for (const [code, name] of [
       }),
     ).toHaveAttribute("value", "100");
     if (code === "021015") {
+      const target = lessonsFor(code).find(
+        (item) => item.title === "Liber y fueros: continuidad y diversidad",
+      )!;
+      await completePrerequisites(page, code, target.id);
+      await page.goto("/uned/dashboard/");
+      await page.getByRole("button", { name: new RegExp(`^${name}`) }).click();
+      await page.getByRole("button", { name: /Hacer lecciones/ }).click();
       await list
         .getByRole("button", {
           name: /Liber y fueros: continuidad y diversidad/,

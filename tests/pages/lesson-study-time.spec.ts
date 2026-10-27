@@ -76,11 +76,11 @@ test("lesson time starts on interaction, pauses in background and persists exact
   expect(
     Number(await page.evaluate((key) => localStorage.getItem(key), key)),
   ).toBeGreaterThanOrEqual(120_000);
-  await page
-    .getByRole("button", { name: new RegExp(lessons[1].title) })
-    .click();
+  await page.goto("/uned/asignaturas/");
+  await page.getByRole("button", { name: /Fundamentos Clásicos/ }).click();
+  await page.locator(".path-node").first().click();
   await expect(reader.locator(".lesson-study-time")).toContainText("0 min");
-  await page.reload();
+  await page.goto("/uned/asignaturas/");
   await page.getByRole("button", { name: /Derecho Civil I.1/ }).click();
   await page
     .getByRole("button", { name: /Qué estudia el Derecho civil/ })

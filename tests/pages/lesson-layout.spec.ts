@@ -10,7 +10,7 @@ test("lesson presents interactive idea cards and questions stay inside their car
     .getByRole("button", { name: /^Historia del Derecho Español/ })
     .click();
   await page.getByRole("button", { name: /Hacer lecciones/ }).click();
-  await page.locator(".lesson-choice").first().click();
+  await page.locator(".path-node").first().click();
   const reader = page.locator(".lesson-reader");
   await expect(reader.getByText("Al terminar:", { exact: true })).toHaveCount(
     0,

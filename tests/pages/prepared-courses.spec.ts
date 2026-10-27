@@ -1,3 +1,4 @@
+import { completePrerequisites } from "./lesson-progress-fixture";
 import { goToExamQuestion } from "./exam-navigation";
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
@@ -14,13 +15,14 @@ for (const [code, title] of [
   }) => {
     const lessons = lessonsFor(code);
     const lesson = lessons[lessons.length - 1];
+    await completePrerequisites(page, code, lesson.id);
     await page.goto("/uned/dashboard/");
     await page.getByRole("button", { name: new RegExp(`^${title}`) }).click();
     await page.getByRole("button", { name: /Hacer lecciones/ }).click();
     const course = page.getByRole("region", {
       name: "Contenido de estudio disponible",
     });
-    await expect(course.locator(".lesson-choice")).toHaveCount(lessons.length);
+    await expect(course.locator(".path-node")).toHaveCount(1);
     await course
       .getByRole("button", {
         name: new RegExp(lesson.title.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")),

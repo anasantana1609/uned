@@ -1,7 +1,6 @@
 "use client";
 
-import { useRef } from "react";
-import { BookOpen, Flag, LockKeyhole, Star, Trophy } from "lucide-react";
+import { BookOpen, LockKeyhole, Star, Trophy } from "lucide-react";
 import type { Lesson, LearningProgress } from "@/lib/learning";
 
 export function LearningPath({
@@ -16,45 +15,9 @@ export function LearningPath({
   onSelect: (lesson: Lesson) => void;
 }) {
   const nextIndex = lessons.findIndex((lesson) => !progress[lesson.id]);
-  const nextRef = useRef<HTMLButtonElement>(null);
   const finished = nextIndex === -1;
   return (
     <div className="learning-path">
-      <div className="path-banner">
-        {finished ? (
-          <Trophy size={32} aria-hidden="true" />
-        ) : (
-          <Flag size={32} aria-hidden="true" />
-        )}
-        <div>
-          <strong>
-            {finished ? "¡Recorrido completado!" : "Tu próxima lección"}
-          </strong>
-          <p>
-            {finished
-              ? "Puedes volver a cualquier lección para repasar."
-              : lessons[nextIndex].title}
-          </p>
-        </div>
-        {!finished && (
-          <button
-            className="button"
-            disabled={!ready}
-            onClick={() => {
-              nextRef.current?.scrollIntoView({
-                block: "center",
-                behavior: "smooth",
-              });
-              nextRef.current?.focus({ preventScroll: true });
-            }}
-          >
-            Ir a mi lección
-          </button>
-        )}
-      </div>
-      <p>
-        Completa las tres preguntas de cada lección para abrir la siguiente.
-      </p>
       <ol className="path-stops" aria-label="Recorrido de lecciones">
         {lessons
           .map((lesson, index) => ({ lesson, index }))
@@ -85,7 +48,6 @@ export function LearningPath({
                   <button
                     type="button"
                     className="path-node"
-                    ref={current ? nextRef : undefined}
                     disabled={!ready || locked}
                     aria-current={current ? "step" : undefined}
                     aria-label={`Lección ${index + 1}: ${lesson.title}. ${state}`}
@@ -104,6 +66,12 @@ export function LearningPath({
             );
           })}
       </ol>
+      {finished && (
+        <p role="status">
+          ¡Recorrido completado! Puedes abrir las lecciones completadas para
+          repasar.
+        </p>
+      )}
       <div className="path-finish">
         <Trophy size={36} aria-hidden="true" />
         <strong>

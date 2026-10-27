@@ -9,10 +9,13 @@ test("Civil lessons show progress without development receipts", async ({
   const course = page.getByRole("region", {
     name: "Contenido de estudio disponible",
   });
-  await expect(course.locator(".lesson-choice")).toHaveCount(15);
+  await expect(course.locator(".path-node")).toHaveCount(15);
   await expect(
-    course.getByRole("progressbar", { name: /Progreso de la lección:/ }),
-  ).toHaveCount(15);
+    course.getByRole("progressbar", {
+      name: "Avance de lecciones completadas",
+      exact: true,
+    }),
+  ).toHaveAttribute("max", "15");
   await expect(page.getByText(/documentos distintos descargados/)).toHaveCount(
     0,
   );
@@ -31,6 +34,6 @@ test("Procesal opens its lessons without material preparation reports", async ({
     .getByRole("button", { name: /^Introducción al Derecho Procesal/ })
     .click();
   await page.getByRole("button", { name: /Hacer lecciones/ }).click();
-  await expect(page.locator(".lesson-choice")).toHaveCount(29);
+  await expect(page.locator(".path-node")).toHaveCount(29);
   await expect(page.getByText(/fragmento de 37 páginas/)).toHaveCount(0);
 });

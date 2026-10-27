@@ -5496,3 +5496,10 @@ textarea {
   background: var(--subject-color);
   border-radius: 8px;
 }
+
+.learning-path .path-stops {
+  margin-top: 12px;
+}
+.learning-path .path-stop:first-child .path-topic {
+  margin-top: 0;
+}
