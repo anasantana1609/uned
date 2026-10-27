@@ -3907,8 +3907,7 @@ td {
   width: 100%;
   accent-color: #275c4a;
 }
-.learning-summary,
-.lesson-timer {
+.learning-summary {
   display: flex;
   gap: 12px;
   align-items: center;
@@ -3946,19 +3945,6 @@ td {
 }
 .lesson-choice small {
   color: #53644f;
-}
-.lesson-timer {
-  position: sticky;
-  top: 0;
-  background: #f1f5ed;
-  padding: 12px 0;
-  z-index: 1;
-  border-bottom: 1px solid #d8e2d4;
-}
-.lesson-timer output {
-  font-size: 1.8rem;
-  font-variant-numeric: tabular-nums;
-  font-weight: 600;
 }
 .concept-chips {
   display: flex;
@@ -4038,12 +4024,6 @@ td {
   .lesson-choice {
     align-items: flex-start;
     flex-direction: column;
-  }
-  .lesson-timer {
-    gap: 8px;
-  }
-  .lesson-timer .button {
-    padding: 10px;
   }
 }
 
@@ -4369,10 +4349,6 @@ small,
 .subject-theme .concept-chips span {
   background: var(--subject-color);
   color: white;
-}
-.subject-theme .lesson-timer {
-  background: white;
-  border-color: var(--subject-line);
 }
 .subject-theme .lesson-example {
   border-color: var(--subject-color);
@@ -4725,4 +4701,10 @@ textarea,
 }
 .completed-lessons[open] > summary {
   margin-bottom: 16px;
+}
+
+.guided-learning .lesson-study-time {
+  position: static;
+  font-size: 0.85rem;
+  margin: 20px 0 8px;
 }

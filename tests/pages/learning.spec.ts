@@ -2,9 +2,10 @@ import { test, expect } from "@playwright/test";
 import { lessonsFor } from "../../lib/learning";
 import AxeBuilder from "@axe-core/playwright";
 
-test("guided block grades answers, persists only a pass, and countdown cannot complete it", async ({
+test("guided block grades answers and automatic study time cannot complete it", async ({
   page,
 }) => {
+  await page.clock.install();
   await page.goto("/uned/asignaturas/");
   await page.getByRole("button", { name: /Derecho Civil I.1/ }).click();
   const course = page.getByRole("region", {
@@ -20,12 +21,10 @@ test("guided block grades answers, persists only a pass, and countdown cannot co
   await expect(
     reader.getByRole("button", { name: "Comprobar prueba" }),
   ).toBeDisabled();
-  await page.clock.install();
-  await reader.getByRole("button", { name: "Iniciar concentración" }).click();
+  await expect(reader.getByRole("timer")).toHaveCount(0);
+  await reader.getByRole("heading", { name: "Comprende", exact: true }).click();
   await page.clock.fastForward(300_000);
-  await expect(
-    reader.getByLabel("Tiempo de concentración restante"),
-  ).toHaveText("00:00");
+  await expect(reader.locator(".lesson-study-time")).toContainText("5 min");
   expect(
     await page.evaluate(() => localStorage.getItem("uned-learning-v1:demo")),
   ).toBeNull();

@@ -364,7 +364,7 @@ export function SubjectCard({
               <LockKeyhole size={13} /> Bloqueada · pendiente de contenido
             </>
           ) : learning.total ? (
-            "Contenido inicial disponible · 5 min por bloque"
+            "Contenido disponible · A tu ritmo"
           ) : entry.code === "021015" ? (
             "Exámenes recibidos · lecciones en preparación"
           ) : (

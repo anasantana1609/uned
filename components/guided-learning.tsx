@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useId, useRef, useState } from "react";
-import { BookOpen, Check, Play, Pause, ArrowLeft } from "lucide-react";
+import { BookOpen, Check, Play, ArrowLeft } from "lucide-react";
 import { lessonsFor, learningSummary, type Lesson } from "@/lib/learning";
 import { useStudy } from "./study-provider";
 import { subjectTheme } from "@/lib/subject-theme";
@@ -8,6 +8,7 @@ import { LessonAudio } from "./lesson-audio";
 import { lessonSpeechText } from "@/lib/lesson-speech";
 import { DictatedAnswer } from "./dictated-answer";
 import { LearningPath } from "./learning-path";
+import { useLessonStudyTime } from "./use-lesson-study-time";
 
 export function GuidedLearning({ code }: { code: string }) {
   const { learningProgress, learningReady } = useStudy();
@@ -118,7 +119,7 @@ export function GuidedLearning({ code }: { code: string }) {
                   disabled={!learningReady}
                 >
                   <span className="lesson-item-main">
-                    <small>{lesson.topic} · 5 min</small>
+                    <small>{lesson.topic}</small>
                     <strong>{lesson.title}</strong>
                     <span className="lesson-item-progress">
                       <progress
@@ -152,7 +153,7 @@ export function GuidedLearning({ code }: { code: string }) {
                   onClick={() => setSelected(lesson)}
                 >
                   <span className="lesson-item-main">
-                    <small>{lesson.topic} · 5 min</small>
+                    <small>{lesson.topic}</small>
                     <strong>{lesson.title}</strong>
                     <progress
                       aria-label={`Progreso de la lección: ${lesson.title}`}
@@ -186,30 +187,22 @@ function LessonReader({
   onBack: () => void;
   onNext: () => void;
 }) {
-  const { completeLesson, learningReady, learningProgress } = useStudy();
+  const { completeLesson, learningReady, learningProgress, user } = useStudy();
   const readerRef = useRef<HTMLElement>(null);
+  const studyTime = useLessonStudyTime(
+    readerRef,
+    lesson.id,
+    user?.id ?? "demo",
+  );
   useEffect(() => {
     readerRef.current?.focus({ preventScroll: true });
     readerRef.current?.scrollIntoView({ block: "start" });
   }, []);
-  const [remaining, setRemaining] = useState(300);
-  const [running, setRunning] = useState(false);
   const [answers, setAnswers] = useState<number[]>([]);
   const [checked, setChecked] = useState(false);
   const [saved, setSaved] = useState(false);
   const [saveError, setSaveError] = useState(false);
   const [writtenAnswer, setWrittenAnswer] = useState("");
-  useEffect(() => {
-    if (!running || remaining === 0) return;
-    const end = Date.now() + remaining * 1000;
-    const timer = setInterval(
-      () => setRemaining(Math.max(0, Math.ceil((end - Date.now()) / 1000))),
-      250,
-    );
-    return () => clearInterval(timer);
-    // Recompute the deadline only when starting or pausing, not on each tick.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [running]);
   const correct = lesson.questions.filter(
     (q, i) => answers[i] === q.answer,
   ).length;
@@ -224,53 +217,15 @@ function LessonReader({
       style={subjectTheme(lesson.code)}
       aria-label={`Bloque: ${lesson.title}`}
     >
-      <button className="text-link" onClick={onBack}>
+      <button className="text-link" data-study-time-ignore onClick={onBack}>
         <ArrowLeft size={16} /> Volver al recorrido
       </button>
-      <p className="eyebrow">{lesson.topic} · BLOQUE DE 5 MINUTOS</p>
+      <p className="eyebrow">{lesson.topic}</p>
       <h3>{lesson.title}</h3>
       <p>
         <strong>Al terminar:</strong> {lesson.objective}
       </p>
       <LessonAudio text={lessonSpeechText(lesson)} />
-      <div className="lesson-timer">
-        <output
-          role="timer"
-          aria-live="off"
-          aria-label="Tiempo de concentración restante"
-        >
-          {String(Math.floor(remaining / 60)).padStart(2, "0")}:
-          {String(remaining % 60).padStart(2, "0")}
-        </output>
-        <button
-          className="button secondary"
-          disabled={remaining === 0}
-          onClick={() => setRunning((r) => !r)}
-        >
-          {running && remaining > 0 ? <Pause size={16} /> : <Play size={16} />}{" "}
-          {running && remaining > 0 ? "Pausar" : "Iniciar concentración"}
-        </button>
-        <button
-          className="text-link"
-          onClick={() => {
-            setRunning(false);
-            setRemaining(300);
-          }}
-        >
-          Reiniciar tiempo
-        </button>
-      </div>
-      {remaining === 0 && (
-        <p role="status">
-          Has terminado los cinco minutos. Completa la prueba para superar el
-          bloque.
-        </p>
-      )}
-      <p className="muted">
-        Ritmo sugerido: 2 min para comprender, 1 para el ejemplo, 1 para
-        practicar y 1 para comprobar. El tiempo no aprueba el bloque ni añade
-        minutos al registro de estudio libre.
-      </p>
       <div className="concept-chips">
         {lesson.concepts.map((c) => (
           <span key={c}>{c}</span>
@@ -342,7 +297,6 @@ function LessonReader({
             const ok = completeLesson(lesson.id, answers);
             setSaved(ok);
             setSaveError(!ok);
-            if (ok) setRunning(false);
           }
         }}
       >
@@ -409,6 +363,14 @@ function LessonReader({
           </p>
         )}
       </form>
+      <p className="lesson-study-time muted">
+        Tiempo dedicado a esta lección: {studyTime.minutes} min.
+      </p>
+      {studyTime.saveError && (
+        <p role="status">
+          No se pudo guardar el tiempo de estudio en este navegador.
+        </p>
+      )}
       {(saved || learningProgress[lesson.id]) && (
         <button className="button secondary" onClick={onNext}>
           Continuar recorrido
