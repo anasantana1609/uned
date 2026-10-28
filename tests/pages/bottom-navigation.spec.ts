@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
-test("five bottom destinations remain visible and lessons and exams open the chosen subject", async ({
+test("four bottom destinations remain visible and lessons and exams open the chosen subject", async ({
   page,
 }) => {
   await page.goto("/uned/dashboard/");
@@ -9,11 +9,17 @@ test("five bottom destinations remain visible and lessons and exams open the cho
     name: "Navegación principal",
     exact: true,
   });
-  await expect(navigation.getByRole("link")).toHaveCount(5);
-  for (const name of ["Panel", "Asignaturas", "Lecciones", "Examen", "Perfil"])
+  await expect(navigation.getByRole("link")).toHaveCount(4);
+  for (const name of ["Asignaturas", "Lecciones", "Examen", "Perfil"])
     await expect(
       navigation.getByRole("link", { name, exact: true }),
     ).toBeInViewport();
+  await expect(
+    navigation.getByRole("link", { name: "Panel", exact: true }),
+  ).toHaveCount(0);
+  await expect(
+    navigation.getByRole("link", { name: "Asignaturas", exact: true }),
+  ).toHaveAttribute("aria-current", "page");
   await expect(page.locator(".sidebar")).toHaveCount(0);
   await navigation
     .getByRole("link", { name: "Lecciones", exact: true })
@@ -61,7 +67,9 @@ test("five bottom destinations remain visible and lessons and exams open the cho
         .analyze()
     ).violations,
   ).toEqual([]);
-  await navigation.getByRole("link", { name: "Panel", exact: true }).click();
+  await page
+    .getByRole("link", { name: "UNED Study AI · Panel", exact: true })
+    .click();
   await expect(
     page.getByRole("heading", { name: "Mis asignaturas", exact: true }),
   ).toBeVisible();

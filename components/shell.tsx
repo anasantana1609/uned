@@ -4,7 +4,6 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
   BookOpen,
-  LayoutDashboard,
   LibraryBig,
   ClipboardCheck,
   UserRound,
@@ -80,17 +79,10 @@ export function Shell({ children }: { children: React.ReactNode }) {
     : 0;
   const items = [
     {
-      label: "Panel",
-      href: "/dashboard",
-      icon: LayoutDashboard,
-      active: path === "/dashboard" && !activeMode,
-      onClick: panel,
-    },
-    {
       label: "Asignaturas",
       href: "/asignaturas",
       icon: LibraryBig,
-      active: path === "/asignaturas",
+      active: path === "/asignaturas" || (path === "/dashboard" && !activeMode),
     },
     {
       label: "Lecciones",
