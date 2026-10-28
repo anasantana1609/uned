@@ -1,5 +1,5 @@
 import { completePrerequisites } from "./lesson-progress-fixture";
-import { goToExamQuestion } from "./exam-navigation";
+import { goToExamQuestion, startExam } from "./exam-navigation";
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import { lessonsFor } from "../../lib/learning";
@@ -62,6 +62,7 @@ test("TEC combines twenty tests with a dictated or typed development and grades 
     .getByRole("button", { name: /^Teoría del Estado Constitucional/ })
     .click();
   await page.getByRole("button", { name: /Hacer exámenes/ }).click();
+  await startExam(page);
   const practice = page.getByRole("region", { name: "Práctica de examen" });
   const groups = practice.locator("fieldset");
   await expect(groups).toHaveCount(20);
@@ -114,6 +115,7 @@ test("Procesal offers two developments and a practical case, with review and a f
     .getByRole("button", { name: /^Introducción al Derecho Procesal/ })
     .click();
   await page.getByRole("button", { name: /Hacer exámenes/ }).click();
+  await startExam(page);
   const practice = page.getByRole("region", { name: "Práctica de examen" });
   await expect(practice.locator("fieldset")).toHaveCount(3);
   await practice

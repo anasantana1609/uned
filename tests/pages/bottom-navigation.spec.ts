@@ -1,3 +1,4 @@
+import { startExam } from "./exam-navigation";
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
@@ -38,6 +39,7 @@ test("four bottom destinations remain visible and lessons and exams open the cho
     navigation.getByRole("link", { name: "Lecciones", exact: true }),
   ).toHaveAttribute("aria-current", "page");
   await navigation.getByRole("link", { name: "Examen", exact: true }).click();
+  await startExam(page);
   await expect(page.locator(".subject-workspace h1")).toHaveText(
     "Teoría del Derecho",
   );

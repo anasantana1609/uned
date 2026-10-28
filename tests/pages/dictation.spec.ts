@@ -1,4 +1,4 @@
-import { goToExamQuestion } from "./exam-navigation";
+import { goToExamQuestion, startExam } from "./exam-navigation";
 import { test, expect, type Page } from "@playwright/test";
 
 type Engine = {
@@ -52,6 +52,7 @@ async function history(page: Page) {
     .getByRole("button", { name: /^Historia del Derecho Español/ })
     .click();
   await page.getByRole("button", { name: /Hacer exámenes/ }).click();
+  await startExam(page);
   await page.getByRole("checkbox").nth(0).check();
 }
 async function transcript(page: Page, engineIndex: number, texts: string[]) {

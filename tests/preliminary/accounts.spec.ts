@@ -1,3 +1,9 @@
+import { startExam } from "../pages/exam-navigation";
+import {
+  examStorageKey,
+  examModelsFor,
+  newExamAttempt,
+} from "../../lib/exam-attempts";
 import { test, expect, type Page } from "@playwright/test";
 import { lessonsFor } from "../../lib/learning";
 const host = "https://preliminary-test.supabase.co";
@@ -447,4 +453,62 @@ test("guided progress uses the account browser key and does not import demo or a
   await expect(course.locator(".lesson-total-progress")).toHaveText(
     `${Math.round(100 / lessonsFor("021096").length)}% (1/${lessonsFor("021096").length})`,
   );
+});
+
+test("exam drafts resume under the signed-in account without importing demo or another user", async ({
+  page,
+}) => {
+  await mockSupabase(page, "Teoría del Derecho");
+  const foreign = newExamAttempt(
+    "021021",
+    examModelsFor("021021")[0],
+    "foreign-attempt",
+  );
+  await page.addInitScript(
+    ({ foreign, demoKey, otherKey }) => {
+      localStorage.setItem(demoKey, JSON.stringify([foreign]));
+      localStorage.setItem(otherKey, JSON.stringify([foreign]));
+    },
+    {
+      foreign,
+      demoKey: examStorageKey("demo"),
+      otherKey: examStorageKey("other-account"),
+    },
+  );
+  await login(page);
+  await page.goto("/uned/dashboard/");
+  await page.getByRole("button", { name: /^Teoría del Derecho/ }).click();
+  await page.getByRole("button", { name: /Hacer exámenes/ }).click();
+  await expect(page.getByRole("button", { name: /^En curso/ })).toContainText(
+    "(0)",
+  );
+  await startExam(page);
+  await page.locator("fieldset:visible").getByRole("radio").nth(1).check();
+  await page
+    .getByRole("button", { name: "Pregunta siguiente", exact: true })
+    .click();
+  await page.reload();
+  await page.getByRole("button", { name: /^Teoría del Derecho/ }).click();
+  await page.getByRole("button", { name: /Hacer exámenes/ }).click();
+  await page.getByRole("button", { name: /^Continuar:/ }).click();
+  await expect(page.locator(".exam-page-heading > strong")).toHaveText(
+    "Pregunta 2 de 20",
+  );
+  const stored = await page.evaluate(
+    ({ account, demo, other }) => ({
+      account: JSON.parse(localStorage.getItem(account)!),
+      demo: JSON.parse(localStorage.getItem(demo)!),
+      other: JSON.parse(localStorage.getItem(other)!),
+    }),
+    {
+      account: examStorageKey(userId),
+      demo: examStorageKey("demo"),
+      other: examStorageKey("other-account"),
+    },
+  );
+  expect(stored.account).toHaveLength(1);
+  expect(Object.values(stored.account[0].data.answers)).toEqual([1]);
+  expect(stored.account[0].id).not.toBe(foreign.id);
+  expect(stored.demo).toEqual([foreign]);
+  expect(stored.other).toEqual([foreign]);
 });

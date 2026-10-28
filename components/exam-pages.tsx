@@ -6,12 +6,18 @@ export function ExamPages({
   children,
   answered,
   actions,
+  initialPage = 0,
+  onPageChange,
+  onExit,
 }: {
   children: ReactNode[];
   answered: boolean[];
   actions: ReactNode;
+  initialPage?: number;
+  onPageChange?: (page: number) => void;
+  onExit?: () => void;
 }) {
-  const [current, setCurrent] = useState(0);
+  const [current, setCurrent] = useState(initialPage);
   const root = useRef<HTMLDivElement>(null);
   const content = useRef<HTMLDivElement>(null);
   const count = children.length;
@@ -22,6 +28,7 @@ export function ExamPages({
   function go(index: number) {
     window.dispatchEvent(new Event("uned-exam-page-change"));
     setCurrent(index);
+    onPageChange?.(index);
     root.current?.querySelector("details")?.removeAttribute("open");
     if (content.current) content.current.scrollTop = 0;
     content.current?.focus({ preventScroll: true });
@@ -29,6 +36,17 @@ export function ExamPages({
   return (
     <div className="exam-pages" ref={root}>
       <div className="exam-page-heading">
+        {onExit && (
+          <button
+            type="button"
+            className="exam-exit-button"
+            aria-label="Volver a mis exámenes"
+            title="Mis exámenes"
+            onClick={onExit}
+          >
+            <ArrowLeft size={22} aria-hidden="true" />
+          </button>
+        )}
         <details className="exam-answer-summary">
           <summary
             aria-label={`${completed} de ${count} preguntas respondidas. Ver preguntas`}

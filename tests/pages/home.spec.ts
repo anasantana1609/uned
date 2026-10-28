@@ -1,4 +1,4 @@
-import { goToExamQuestion } from "./exam-navigation";
+import { goToExamQuestion, startExam } from "./exam-navigation";
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import { examPracticeFor } from "../../lib/exam-practice";
@@ -51,6 +51,7 @@ test("Civil exam practice scores an attempt with blanks, explains corrections an
   await page.goto("/uned/dashboard/");
   await page.getByRole("button", { name: /^Derecho Civil I.1/ }).click();
   await page.getByRole("button", { name: /Hacer exámenes/ }).click();
+  await startExam(page);
   const practice = page.getByRole("region", { name: "Práctica de examen" });
   const groups = practice.locator("fieldset");
   await expect(groups).toHaveCount(20);
@@ -90,6 +91,7 @@ test("Civil practice ends at the time limit and History offers written questions
   await page.goto("/uned/dashboard/");
   await page.getByRole("button", { name: /^Derecho Civil I.1/ }).click();
   await page.getByRole("button", { name: /Hacer exámenes/ }).click();
+  await startExam(page);
   await expect(page.locator(".exam-practice fieldset")).toHaveCount(20);
   await page.clock.fastForward(60 * 60_000);
   await expect(
@@ -102,6 +104,7 @@ test("Civil practice ends at the time limit and History offers written questions
     .getByRole("button", { name: /^Historia del Derecho Español/ })
     .click();
   await page.getByRole("button", { name: /Hacer exámenes/ }).click();
+  await startExam(page);
   await expect(
     page.getByRole("region", { name: "Práctica de examen" }),
   ).toContainText("Comentario de texto");
@@ -119,6 +122,7 @@ test("History shows written questions directly and accepts two developments plus
     .getByRole("button", { name: /^Historia del Derecho Español/ })
     .click();
   await page.getByRole("button", { name: /Hacer exámenes/ }).click();
+  await startExam(page);
   const practice = page.getByRole("region", { name: "Práctica de examen" });
   await expect(practice.locator("fieldset")).toHaveCount(4);
   await expect(

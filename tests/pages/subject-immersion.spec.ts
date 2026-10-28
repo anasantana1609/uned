@@ -1,3 +1,4 @@
+import { startExam } from "./exam-navigation";
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
@@ -7,6 +8,7 @@ test("choosing an activity opens a compact subject workspace and restores home o
   await page.goto("/uned/dashboard/");
   await page.getByRole("button", { name: /^Teoría del Derecho/ }).click();
   await page.getByRole("button", { name: /Hacer exámenes/ }).click();
+  await startExam(page);
   const workspace = page.locator(".subject-workspace");
   await expect(workspace.getByRole("heading", { level: 1 })).toHaveText(
     "Teoría del Derecho",

@@ -231,8 +231,9 @@ export default function Settings() {
               Borrar datos de estudio
             </button>
             <p className="field-help">
-              La exportación incluye tareas, sesiones, fechas, asignaturas y
-              preferencias. El borrado conserva tu cuenta y las asignaturas.
+              La exportación incluye tareas, sesiones, fechas, asignaturas,
+              exámenes guardados y preferencias. El borrado conserva tu cuenta y
+              las asignaturas.
             </p>
           </section>
         </aside>
@@ -243,8 +244,9 @@ export default function Settings() {
           onClose={() => setDeleting(false)}
         >
           <p className="muted">
-            Se borrarán tus tareas, sesiones, fechas y preferencias. Esta acción
-            no se puede deshacer. Puedes exportar tus datos antes de continuar.
+            Se borrarán tus tareas, sesiones, fechas, exámenes guardados y
+            preferencias. Esta acción no se puede deshacer. Puedes exportar tus
+            datos antes de continuar.
           </p>
           <form
             className="form-stack"

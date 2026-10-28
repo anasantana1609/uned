@@ -1,35 +1,38 @@
 "use client";
 import { ExamPages } from "./exam-pages";
-import { useEffect, useId, useState } from "react";
+import { useId, useState } from "react";
 import { proceduralPracticeModels } from "@/lib/procedural-practice";
 import { subjectTheme } from "@/lib/subject-theme";
 import { DictatedAnswer } from "./dictated-answer";
+import type { ExamSessionProps, ProceduralDraft } from "@/lib/exam-attempts";
+import { useExamClock, useSaveExamPayload } from "./use-exam-attempts";
 
-export function ProceduralExamPractice() {
+export function ProceduralExamPractice({
+  attempt,
+  onUpdate,
+  onNew,
+  onExit,
+  onModelChange,
+}: ExamSessionProps) {
   const id = useId();
-  const [modelIndex, setModelIndex] = useState(0);
-  const [attempt, setAttempt] = useState(0);
-  const [answers, setAnswers] = useState<Record<number, string>>({});
-  const [finished, setFinished] = useState(false);
-  const [remaining, setRemaining] = useState(7200);
-  const model = proceduralPracticeModels[modelIndex];
-  useEffect(() => {
-    if (finished) return;
-    const end = Date.now() + 120 * 60_000;
-    const timer = window.setInterval(() => {
-      const seconds = Math.max(0, Math.ceil((end - Date.now()) / 1000));
-      setRemaining(seconds);
-      if (!seconds) setFinished(true);
-    }, 1000);
-    return () => clearInterval(timer);
-  }, [modelIndex, attempt, finished]);
-  function reset(index = modelIndex) {
-    setModelIndex(index);
-    setAnswers({});
-    setFinished(false);
-    setRemaining(7200);
-    setAttempt((n) => n + 1);
-  }
+  const initial = attempt.data as ProceduralDraft;
+  const modelIndex = initial.modelIndex;
+  const [answers, setAnswers] = useState<Record<number, string>>(
+    initial.answers,
+  );
+  const [finished, setFinished] = useState(attempt.status === "completed");
+  const model = initial.model;
+  const remaining = useExamClock(attempt, finished, onUpdate, () =>
+    setFinished(true),
+  );
+  useSaveExamPayload(
+    attempt.id,
+    {
+      data: { ...initial, answers },
+      status: finished ? "completed" : "in-progress",
+    },
+    onUpdate,
+  );
   return (
     <section
       className="exam-practice subject-theme"
@@ -53,7 +56,7 @@ export function ProceduralExamPractice() {
       <select
         id={`${id}-model`}
         value={modelIndex}
-        onChange={(e) => reset(Number(e.target.value))}
+        onChange={(e) => onModelChange(Number(e.target.value))}
       >
         {proceduralPracticeModels.map((m, index) => (
           <option key={m.title} value={index}>
@@ -61,7 +64,7 @@ export function ProceduralExamPractice() {
           </option>
         ))}
       </select>
-      {!finished && (
+      {remaining !== null && !finished && (
         <p role="timer" aria-label="Tiempo de examen restante">
           {String(Math.floor(remaining / 60)).padStart(2, "0")}:
           {String(remaining % 60).padStart(2, "0")}
@@ -75,7 +78,10 @@ export function ProceduralExamPractice() {
         }}
       >
         <ExamPages
-          key={`${modelIndex}-${attempt}`}
+          key={attempt.id}
+          initialPage={attempt.page}
+          onPageChange={(page) => onUpdate({ page })}
+          onExit={onExit}
           answered={[0, 1, 2].map((index) => Boolean(answers[index]?.trim()))}
           actions={
             !finished ? (
@@ -86,7 +92,7 @@ export function ProceduralExamPractice() {
               <button
                 type="button"
                 className="button secondary"
-                onClick={() => reset()}
+                onClick={onNew}
               >
                 Nuevo intento
               </button>
@@ -97,7 +103,7 @@ export function ProceduralExamPractice() {
             ...model.questions.map((prompt, index) => (
               <fieldset
                 className="lesson-question"
-                key={`${attempt}-${modelIndex}-${index}`}
+                key={`${attempt.id}-${modelIndex}-${index}`}
               >
                 <legend>Pregunta teórica {index + 1}</legend>
                 <p>{prompt}</p>
@@ -117,7 +123,7 @@ export function ProceduralExamPractice() {
               <p>{model.scenario}</p>
               <p>{model.task}</p>
               <DictatedAnswer
-                key={`${attempt}-${modelIndex}`}
+                key={`${attempt.id}-${modelIndex}`}
                 id={`${id}-case`}
                 label="Tu respuesta al caso práctico"
                 value={answers[2] ?? ""}
@@ -128,9 +134,7 @@ export function ProceduralExamPractice() {
           ]}
         </ExamPages>
       </form>
-      <small>
-        El borrador se conserva solo durante este intento. {model.sources}
-      </small>
+      <small>Guardado automático en este navegador. {model.sources}</small>
       {finished && (
         <>
           <p role="status">

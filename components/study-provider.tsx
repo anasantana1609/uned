@@ -28,6 +28,7 @@ import {
   type Preferences,
 } from "@/lib/model";
 import { catalogEntry, isSubjectLocked } from "@/lib/subject-catalog";
+import { examStorageKey, readExamAttempts } from "@/lib/exam-attempts";
 import {
   lessons,
   passedLesson,
@@ -595,6 +596,7 @@ export function StudyProvider({
         setData({ ...demoData(), tasks: [], sessions: [], exams: [] });
       }
       localStorage.removeItem(learningKey);
+      localStorage.removeItem(examStorageKey(user?.id ?? "demo"));
       setLearningState({ key: learningKey, progress: {} });
       setActiveSession(null);
       setNotice(
@@ -603,6 +605,17 @@ export function StudyProvider({
     });
   }
   function exportData() {
+    let examAttempts;
+    try {
+      examAttempts = readExamAttempts(
+        localStorage.getItem(examStorageKey(user?.id ?? "demo")) ?? "[]",
+      );
+    } catch {
+      setError(
+        "No se pudieron recuperar los exámenes para exportarlos. Comprueba el almacenamiento del navegador.",
+      );
+      return;
+    }
     const blob = new Blob(
       [
         JSON.stringify(
@@ -611,6 +624,7 @@ export function StudyProvider({
             mode: user ? "account" : "demo",
             ...data,
             learningProgress,
+            examAttempts,
             learningStorage: "local-browser-per-account",
           },
           null,

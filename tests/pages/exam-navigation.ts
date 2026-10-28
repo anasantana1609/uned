@@ -7,3 +7,14 @@ export async function goToExamQuestion(page: Page, number: number) {
     .getByRole("button", { name: new RegExp(`^Pregunta ${number}:`) })
     .click();
 }
+
+export async function startExam(page: Page, index = 0) {
+  const catalog = page.getByRole("region", {
+    name: "Mis exámenes",
+    exact: true,
+  });
+  await catalog
+    .getByRole("button", { name: /^Empezar:/ })
+    .nth(index)
+    .click();
+}

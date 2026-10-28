@@ -1,5 +1,5 @@
 import { completePrerequisites } from "./lesson-progress-fixture";
-import { goToExamQuestion } from "./exam-navigation";
+import { goToExamQuestion, startExam } from "./exam-navigation";
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import { lessonsFor } from "../../lib/learning";
@@ -77,6 +77,7 @@ for (const [code, name] of [
     await page
       .getByLabel("Actividad de la asignatura", { exact: true })
       .selectOption("exams");
+    await startExam(page);
     const practice = page.getByRole("region", { name: "Práctica de examen" });
     await expect(
       practice.getByText("Todavía no hay preguntas disponibles."),
@@ -108,6 +109,7 @@ test("Theory practice grades with -0.1 per error and a new attempt resets respon
   await page.goto("/uned/dashboard/");
   await page.getByRole("button", { name: /^Teoría del Derecho/ }).click();
   await page.getByRole("button", { name: /Hacer exámenes/ }).click();
+  await startExam(page);
   const practice = page.getByRole("region", { name: "Práctica de examen" });
   const groups = practice.locator("fieldset");
   await expect(groups).toHaveCount(20);

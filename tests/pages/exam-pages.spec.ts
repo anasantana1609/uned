@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
-import { goToExamQuestion } from "./exam-navigation";
+import { goToExamQuestion, startExam } from "./exam-navigation";
 
 test("exam shows one question, retains answers and exposes a numbered answer summary", async ({
   page,
@@ -8,6 +8,7 @@ test("exam shows one question, retains answers and exposes a numbered answer sum
   await page.goto("/uned/dashboard/");
   await page.getByRole("button", { name: /^Teoría del Derecho/ }).click();
   await page.getByRole("button", { name: /Hacer exámenes/ }).click();
+  await startExam(page);
   const practice = page.locator(".exam-practice");
   await expect(practice.locator("fieldset:visible")).toHaveCount(1);
   const previous = practice.getByRole("button", {

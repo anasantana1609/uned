@@ -4,15 +4,37 @@ import { useId, useState } from "react";
 import { historyPracticeModels } from "@/lib/history-practice";
 import { DictatedAnswer } from "./dictated-answer";
 import { subjectTheme } from "@/lib/subject-theme";
+import type { ExamSessionProps, HistoryDraft } from "@/lib/exam-attempts";
+import { useExamClock, useSaveExamPayload } from "./use-exam-attempts";
 
-export function HistoryExamPractice() {
+export function HistoryExamPractice({
+  attempt,
+  onUpdate,
+  onNew,
+  onExit,
+  onModelChange,
+}: ExamSessionProps) {
   const id = useId();
-  const [modelIndex, setModelIndex] = useState(0);
-  const [chosen, setChosen] = useState<number[]>([]);
-  const [answers, setAnswers] = useState<Record<number, string>>({});
-  const [comment, setComment] = useState("");
-  const [finished, setFinished] = useState(false);
-  const model = historyPracticeModels[modelIndex];
+  const initial = attempt.data as HistoryDraft;
+  const modelIndex = initial.modelIndex;
+  const [chosen, setChosen] = useState<number[]>(initial.chosen);
+  const [answers, setAnswers] = useState<Record<number, string>>(
+    initial.answers,
+  );
+  const [comment, setComment] = useState(initial.comment);
+  const [finished, setFinished] = useState(attempt.status === "completed");
+  const model = initial.model;
+  const remaining = useExamClock(attempt, finished, onUpdate, () =>
+    setFinished(true),
+  );
+  useSaveExamPayload(
+    attempt.id,
+    {
+      data: { ...initial, chosen, answers, comment },
+      status: finished ? "completed" : "in-progress",
+    },
+    onUpdate,
+  );
   return (
     <section
       className="exam-practice subject-theme"
@@ -24,13 +46,7 @@ export function HistoryExamPractice() {
       <select
         id={`${id}-model`}
         value={modelIndex}
-        onChange={(e) => {
-          setModelIndex(Number(e.target.value));
-          setChosen([]);
-          setAnswers({});
-          setComment("");
-          setFinished(false);
-        }}
+        onChange={(e) => onModelChange(Number(e.target.value))}
       >
         {historyPracticeModels.map((m, index) => (
           <option key={m.id} value={index}>
@@ -42,6 +58,12 @@ export function HistoryExamPractice() {
         Elige dos preguntas de desarrollo y responde al comentario de texto.
       </p>
       <small>Preguntas adaptadas para practicar · {model.source}</small>
+      {remaining !== null && !finished && (
+        <p role="timer" aria-label="Tiempo de examen restante">
+          {String(Math.floor(remaining / 60)).padStart(2, "0")}:
+          {String(remaining % 60).padStart(2, "0")}
+        </p>
+      )}
       <form
         noValidate
         onSubmit={(e) => {
@@ -50,7 +72,10 @@ export function HistoryExamPractice() {
         }}
       >
         <ExamPages
-          key={modelIndex}
+          key={attempt.id}
+          initialPage={attempt.page}
+          onPageChange={(page) => onUpdate({ page })}
+          onExit={onExit}
           answered={[
             ...model.questions.map(
               (_, index) =>
@@ -63,9 +88,9 @@ export function HistoryExamPractice() {
               <button
                 type="button"
                 className="button secondary"
-                onClick={() => setFinished(false)}
+                onClick={onNew}
               >
-                Seguir escribiendo
+                Nuevo intento
               </button>
             ) : (
               <button
@@ -141,8 +166,8 @@ export function HistoryExamPractice() {
           ]}
         </ExamPages>
         <p className="muted">
-          Respuestas escritas sin calificación automática. El borrador se
-          conserva solo mientras permanezcas en este intento.
+          Respuestas escritas sin calificación automática. Guardado automático
+          en este navegador.
         </p>
         {finished && (
           <p role="status">
